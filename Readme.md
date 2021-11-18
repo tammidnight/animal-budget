@@ -78,14 +78,14 @@ Have a track of your finances.
 
   - new Schema ({
 
-    - \_id: ,
-    - kind: {type: String, required: true},
-    - amount: {type: Number, required: true},
-    - category: {type: String, required: true},
-    - date: {type: Date, required: true},
-      })
+        - \_id: ,
+        - kind: {type: String, required: true},
+        - amount: {type: Number, required: true},
+        - category: {type: String, required: true},
+        - date: {type: Date, required: true},
+          })
 
-  <br>
+    <br>
 
 ## Backlog
 
