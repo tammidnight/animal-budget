@@ -23,30 +23,44 @@ Have a track of your finances.
 - **wallet-edit** - As a user I want to edit my wallet easily.
   <br>
 
+## Views
+
+- [ ] layout.hbs
+- [ ] index.hbs
+- [ ] error.hbs
+- [ ] not-found.hbs
+- [ ] userProfile.hbs
+- [ ] user.Settings.hbs
+- [ ] createWallet.hbs
+- [ ] wallet.hbs
+- [ ] editWallet.hbs
+- [ ] walletHistory.hbs
+      <br>
+
 ## API routes (back-end)
 
-- GET /
-- POST /login
-- POST /signup
-- POST /logout
-- GET /profile/:username
-- GET /profile/:username/settings
-- POST /profile/:username/settings
-- POST /profile/:username/delete
-- GET /create
-- POST /create
-- GET /:walletId
-- POST /:walletId
-- GET /:walletId/edit
-- POST /:walletId/edit
-- POST /:walletId/delete
-- GET /:walletId/history
+- [x] GET /
+- [ ] POST /login
+- [ ] POST /signup
+- [ ] POST /logout
+- [ ] GET /profile
+- [ ] GET /profile/settings
+- [ ] POST /profile/settings
+- [ ] POST /profile/delete
+- [x] GET /create
+- [x] POST /create
+- [x] GET /:walletId
+- [ ] POST /:walletId
+- [ ] GET /:walletId/edit
+- [ ] POST /:walletId/edit
+- [ ] POST /:walletId/delete
+- [ ] GET /:walletId/history
 
 <br>
 
 ## Models
 
-- User.model.js
+- [x] User.model.js
 
   - new Schema ({
 
@@ -65,7 +79,7 @@ Have a track of your finances.
 
     <br>
 
-- Wallet.model.js
+- [x] Wallet.model.js
 
   - new Schema ({
 
@@ -74,13 +88,15 @@ Have a track of your finances.
         - currency: {type: String, required: true},
         - startingDate: {type: Date, required: true},
         - savingPlan: {type: String, required: true},
-        - movements: {type: Schema.Types.ObjectId, ref: 'WalletMovement'},
+        - monthlyIncome: Number,
+        - monthlySpending: Number,
+        - movements: [{type: Schema.Types.ObjectId, ref: 'WalletMovement'}],
         - shared: Boolean
           })
 
     <br>
 
-- WalletMovement.model.js
+- [x] WalletMovement.model.js
 
   - new Schema ({
 
