@@ -18,10 +18,14 @@ const walletSchema = new Schema({
     type: String,
     required: true,
   },
-  movements: {
-    type: Schema.Types.ObjectId,
-    ref: "WalletMovement",
-  },
+  monthlyIncome: Number,
+  monthlySpending: Number,
+  movements: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "WalletMovement",
+    },
+  ],
   shared: Boolean,
 });
 
