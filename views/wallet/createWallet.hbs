@@ -1,0 +1,27 @@
+<form method="POST" action="/create">
+  <label>Name of the Wallet</label>
+  <input
+    type="text"
+    name="walletName"
+    placeholder="Please enter a name for your wallet"
+  />
+
+  <label>Starting Date</label>
+  <input
+    type="date"
+    name="startingDate"
+    placeholder="Add the starting date of your wallet"
+  />
+
+  <label>Currency</label>
+  <input type="text" name="currency" placeholder="Add currency" />
+
+  <label>Saving Plan</label>
+  <input type="text" name="savingPlan" placeholder="Add saving Plan" />
+
+  <button>Submit</button>
+</form>
+
+{{#if error}}
+  <p class="error">Message: {{error}}</p>
+{{/if}}
