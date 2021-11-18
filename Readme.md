@@ -12,7 +12,9 @@ Have a track of your finances.
 - **404** - As a user I want to see a unique 404 error page.
 - **500** - As a user I want to see a unique 500 error page.
 - **login-signup** - As a user I want to see a welcome page that has a short introduction about the website and gives me the option to either log in as an existing user, or sign up with a new account.
-- **add-signup** - As a user I want to sign up easily.
+- **signup** - As a user I want to sign up easily.
+- **login** - As a user I want to log in easily.
+- **logout** - As a user I want to be able to log out.
 - **create-wallet** - As a user I want to create easy a new wallet for tracking my finances.
 - **user-profile** - As a user I want to see a short overview about my informations and wallets.
 - **user-settings** - As a user I want easily to edit my informations.
@@ -26,6 +28,7 @@ Have a track of your finances.
 - GET /
 - POST /login
 - POST /signup
+- POST /logout
 - GET /profile/:username
 - GET /profile/:username/settings
 - POST /profile/:username/settings
@@ -51,11 +54,14 @@ Have a track of your finances.
         - username: {type: String, required: true, unique: true},
         - email: {type: String, required: true, unique: true},
         - password: {type: String, required:true},
-        - animalUrl: {type: String, required: true}
+        - animalUrl: {type: String, required: true},
         - firstName: String,
         - lastName: String,
-        - wallet: {type: Schema.Types.ObjectId, ref: 'Wallet},
-          })
+        - wallet: {type: Schema.Types.ObjectId, ref: 'Wallet'},
+          },
+        {
+        - timestamps: true
+        })
 
     <br>
 
@@ -68,7 +74,7 @@ Have a track of your finances.
         - currency: {type: String, required: true},
         - startingDate: {type: Date, required: true},
         - savingPlan: {type: String, required: true},
-        - movements: {type: Schema.Types.ObjectId, ref: 'WalletMovement},
+        - movements: {type: Schema.Types.ObjectId, ref: 'WalletMovement'},
         - shared: Boolean
           })
 
@@ -93,6 +99,7 @@ Have a track of your finances.
 - Shared wallet
 - Reminders
 - Achievments
+- loading Screen
 
 <br>
 
