@@ -42,11 +42,11 @@ Have a track of your finances.
 - [x] GET /
 - [x] POST /login
 - [x] POST /signup
-- [x] POST /logout
-- [ ] GET /profile
-- [ ] GET /profile/settings
-- [ ] POST /profile/settings
-- [ ] POST /profile/delete
+- [x] GET /logout
+- [x] GET /profile
+- [x] GET /profile/settings
+- [x] POST /profile/settings
+- [x] POST /profile/delete
 - [x] GET /create
 - [x] POST /create
 - [x] GET /:walletId
@@ -71,7 +71,6 @@ Have a track of your finances.
         - animalUrl: {type: String, required: true},
         - firstName: String,
         - lastName: String,
-        - wallet: {type: Schema.Types.ObjectId, ref: 'Wallet'},
           },
         {
         - timestamps: true
@@ -91,6 +90,7 @@ Have a track of your finances.
         - monthlyIncome: Number,
         - monthlySpending: Number,
         - shared: Boolean
+        - user: {type: Schema.Types.ObjectId, ref: 'User'},
           })
 
     <br>

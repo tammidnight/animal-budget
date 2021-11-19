@@ -3,7 +3,15 @@ const User = require("../models/User.model");
 const Wallet = require("../models/Wallet.model");
 const WalletMovement = require("../models/WalletMovement.model");
 
-router.get("/create", (req, res, next) => {
+const checkLogIn = (req, res, next) => {
+  if (req.session.myProperty) {
+    next();
+  } else {
+    res.redirect("/");
+  }
+};
+
+router.get("/create", checkLogIn, (req, res, next) => {
   res.render("wallet/createWallet.hbs");
 });
 
@@ -47,13 +55,19 @@ router.post("/create", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.get("/:walletId", (req, res, next) => {
+router.get("/:walletId", checkLogIn, (req, res, next) => {
   const { walletId: _id } = req.params;
 
   WalletMovement.find({ wallet: _id })
     .populate("wallet")
     .then((response) => {
-      res.render("wallet/wallet.hbs", { response });
+      let wallet = response.wallet;
+      let date = new Date();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      date = month + "/" + year;
+
+      res.render("wallet/wallet.hbs", { response, wallet, date });
     })
     .catch((err) => next(err));
 });
@@ -63,19 +77,28 @@ router.post("/:walletId", (req, res, next) => {
   const { walletId: wallet } = req.params;
 
   WalletMovement.create({ kind, amount, category, date, wallet })
-    .then((response) => {
+    .then((movement) => {
       if (kind == "" || amount == "" || category == "" || date == "") {
         res.render("wallet/wallet.hbs", {
           error: "Please enter all mandatory fields",
         });
         return;
       }
-      res.render("wallet/wallet.hbs", { response });
+      return WalletMovement.find({ wallet }).populate("wallet");
+    })
+    .then((response) => {
+      let wallet = response.wallet;
+      let date = new Date();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      date = month + "/" + year;
+
+      res.render("wallet/wallet.hbs", { response, wallet, date });
     })
     .catch((err) => next(err));
 });
 
-router.get("/:walletId/edit", (req, res, next) => {
+router.get("/:walletId/edit", checkLogIn, (req, res, next) => {
   const { walletId: _id } = req.params;
 
   WalletMovement.find({ wallet: _id })
@@ -137,7 +160,7 @@ router.post("/:walletId/delete", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.get("/:walletId/history", (req, res, next) => {
+router.get("/:walletId/history", checkLogIn, (req, res, next) => {
   const { walletId: _id } = req.params;
 
   WalletMovement.find({ wallet: _id })

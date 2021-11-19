@@ -25,8 +25,7 @@ app.use(
       maxAge: 1000 * 24 * 60 * 60,
     },
     store: MongoStore.create({
-      mongoUrl:
-        process.env.MONGODB_URI || "mongodb://localhost/lab-express-basic-auth",
+      mongoUrl: process.env.MONGODB_URI || "mongodb://localhost/animal-budget",
       ttl: 24 * 60 * 60,
     }),
   })

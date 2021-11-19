@@ -9,6 +9,10 @@ button {
   border-radius: 0.5rem;
 }
 
+.delete {
+  background-color: #99122d;
+}
+
 nav,
 footer {
   background-color: #99c0b2;
