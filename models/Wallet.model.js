@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-require("./WalletMovement.model");
 
 const walletSchema = new Schema({
   walletName: {
@@ -20,12 +19,6 @@ const walletSchema = new Schema({
   },
   monthlyIncome: Number,
   monthlySpending: Number,
-  movements: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "WalletMovement",
-    },
-  ],
   shared: Boolean,
 });
 
