@@ -40,9 +40,9 @@ Have a track of your finances.
 ## API routes (back-end)
 
 - [x] GET /
-- [ ] POST /login
-- [ ] POST /signup
-- [ ] POST /logout
+- [x] POST /login
+- [x] POST /signup
+- [x] POST /logout
 - [ ] GET /profile
 - [ ] GET /profile/settings
 - [ ] POST /profile/settings
@@ -50,11 +50,11 @@ Have a track of your finances.
 - [x] GET /create
 - [x] POST /create
 - [x] GET /:walletId
-- [ ] POST /:walletId
-- [ ] GET /:walletId/edit
-- [ ] POST /:walletId/edit
-- [ ] POST /:walletId/delete
-- [ ] GET /:walletId/history
+- [x] POST /:walletId
+- [x] GET /:walletId/edit
+- [x] POST /:walletId/edit
+- [x] POST /:walletId/delete
+- [x] GET /:walletId/history
 
 <br>
 
@@ -90,7 +90,6 @@ Have a track of your finances.
         - savingPlan: {type: String, required: true},
         - monthlyIncome: Number,
         - monthlySpending: Number,
-        - movements: [{type: Schema.Types.ObjectId, ref: 'WalletMovement'}],
         - shared: Boolean
           })
 
@@ -105,6 +104,7 @@ Have a track of your finances.
         - amount: {type: Number, required: true},
         - category: {type: String, required: true},
         - date: {type: Date, required: true},
+        - wallet: {type: Schema.Types.ObjectId, ref: 'Wallet'},
           })
 
     <br>
@@ -116,6 +116,7 @@ Have a track of your finances.
 - Reminders
 - Achievments
 - loading Screen
+- edit the movements
 
 <br>
 
