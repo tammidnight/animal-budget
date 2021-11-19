@@ -1,6 +1,7 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
+require("./Wallet.model");
 
-const waleltMovementSchema = new Schema({
+const walletMovementSchema = new Schema({
   kind: {
     type: String,
     required: true,
@@ -17,8 +18,12 @@ const waleltMovementSchema = new Schema({
     type: Date,
     required: true,
   },
+  wallet: {
+    type: Schema.Types.ObjectId,
+    ref: "Wallet",
+  },
 });
 
-const WalletMovement = model("WalletMovement", waleltMovementSchema);
+const WalletMovement = model("WalletMovement", walletMovementSchema);
 
 module.exports = WalletMovement;
