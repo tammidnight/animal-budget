@@ -88,8 +88,8 @@ router.post("/signup", (req, res, next) => {
     });
 });
 
-//POST logout
-router.post("/logout", (req, res, next) => {
+//GET logout
+router.get("/logout", (req, res, next) => {
   req.session.destroy();
   res.redirect("/");
 });
@@ -105,7 +105,6 @@ router.get("/profile/settings", checkLogIn, (req, res, next) => {
   let myUserInfo = req.session.myProperty  
   let _id = myUserInfo._id
   User.findById({_id})
-  .populate("wallet")
   .then((response) =>{
     res.render("user/userSettings.hbs", {response});
     console.log(response)
@@ -152,14 +151,18 @@ router.post("/profile/settings", (req, res, next) => {
 // POST /profile/delete
 router.post("/profile/delete", (req, res, next) => {
   let myUserInfo = req.session.myProperty 
-  let _id = myUserInfo_id
-  User.findByIdAndRemove({_id})
- .then(()=>{
-   res.redirect('/')
- })
- .catch((err)=>{
-   next(err)
-})
+  let _id = myUserInfo._id
+  User.findByIdAndRemove({ _id })
+  .then(() => {
+    return Wallet.deleteMany({ user: _id });
+  })
+  .then(() => {
+    res.redirect("/");
+  })
+  .catch((err) => {
+    next(err);
+  });
 });
+
 
 module.exports = router;
