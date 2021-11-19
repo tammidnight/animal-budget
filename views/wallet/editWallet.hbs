@@ -1,0 +1,35 @@
+<form method="POST" action="/{{response._id}}/edit">
+  <label>Name of the Wallet</label>
+  <input
+    type="text"
+    name="walletName"
+    value="{{response.walletName}}"
+    placeholder="Please enter a name for your wallet"
+  />
+
+  <label>Starting Date</label>
+  <input
+    type="date"
+    name="startingDate"
+    value="{{response.startingDate}}"
+    placeholder="Add the starting date of your wallet"
+  />
+
+  <label>Currency</label>
+  <input
+    type="text"
+    name="currency"
+    value="{{response.currency}}"
+    placeholder="Add currency"
+  />
+
+  <label>Saving Plan</label>
+  <input
+    type="text"
+    name="savingPlan"
+    value="{{response.savingPlan}}"
+    placeholder="Add saving Plan"
+  />
+
+  <button>Submit</button>
+</form>
