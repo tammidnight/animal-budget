@@ -8,7 +8,7 @@ router.get("/create", (req, res, next) => {
 });
 
 router.post("/create", (req, res, next) => {
-  let {
+  const {
     walletName,
     currency,
     startingDate,
@@ -34,7 +34,7 @@ router.post("/create", (req, res, next) => {
         startingDate == "" ||
         savingPlan == ""
       ) {
-        res.render("createWallet.hbs", {
+        res.render("wallet/createWallet.hbs", {
           error: "Please enter all mandatory fields",
         });
         return;
@@ -45,17 +45,101 @@ router.post("/create", (req, res, next) => {
 });
 
 router.get("/:walletId", (req, res, next) => {
-  let { walletId } = req.params;
-  res.render("wallet/wallet.hbs", { walletId });
+  const { walletId: _id } = req.params;
+
+  WalletMovement.find({ wallet: _id })
+    .populate("wallet")
+    .then((response) => {
+      console.log(response);
+      res.render("wallet/wallet.hbs", { response });
+    })
+    .catch((err) => next(err));
 });
 
 router.post("/:walletId", (req, res, next) => {
-  let { kind, amount, category, date } = req.body;
-  let { walletId } = req.params;
-  WalletMovement.create({ kind, amount, category, date })
+  const { kind, amount, category, date } = req.body;
+  const { walletId: wallet } = req.params;
+  WalletMovement.create({ kind, amount, category, date, wallet })
     .then((response) => {
+      if (kind == "" || amount == "" || category == "" || date == "") {
+        res.render("wallet/wallet.hbs", {
+          error: "Please enter all mandatory fields",
+        });
+        return;
+      }
       res.render("wallet/wallet.hbs", { response });
-      // need to update Wallet with new WalletMovement
+    })
+    .catch((err) => next(err));
+});
+
+router.get("/:walletId/edit", (req, res, next) => {
+  const { walletId: _id } = req.params;
+
+  WalletMovement.find({ wallet: _id })
+    .populate("wallet")
+    .then((response) => {
+      res.render("wallet/editWallet.hbs", { response });
+    })
+    .catch((err) => next(err));
+});
+
+router.post("/:walletId/edit", (req, res, next) => {
+  const {
+    walletName,
+    currency,
+    startingDate,
+    savingPlan,
+    monthlyIncome,
+    monthlySpending,
+    shared,
+  } = req.body;
+  const { walletId: _id } = req.params;
+
+  Wallet.findByIdAndUpdate(
+    { _id },
+    {
+      walletName,
+      currency,
+      startingDate,
+      savingPlan,
+      monthlyIncome,
+      monthlySpending,
+      shared,
+    }
+  )
+    .then((response) => {
+      if (
+        walletName == "" ||
+        currency == "" ||
+        startingDate == "" ||
+        savingPlan == ""
+      ) {
+        res.render("wallet/editWallet.hbs", {
+          error: "Please enter all mandatory fields",
+        });
+        return;
+      }
+      res.redirect(`/${_id}`);
+    })
+    .catch((err) => next(err));
+});
+
+router.post("/:walletId/delete", (req, res, next) => {
+  const { walletId: _id } = req.params;
+  Wallet.findByIdAndRemove({ _id })
+    .then(() => {
+      res.redirect("/profile");
+    })
+    .catch((err) => next(err));
+});
+
+router.get("/:walletId/history", (req, res, next) => {
+  const { walletId: _id } = req.params;
+
+  WalletMovement.find({ wallet: _id })
+    .populate("wallet")
+    .then((response) => {
+      res.render("wallet/walletHistory.hbs", { response });
     })
     .catch((err) => next(err));
 });
