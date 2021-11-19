@@ -17,6 +17,7 @@ nav,
 footer {
   background-color: #99c0b2;
   border: 1px solid #00613e;
+  
 }
 
 a,
@@ -28,8 +29,27 @@ a,
 footer {
   text-align: center;
   font-size: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 footer > p {
   margin: 0;
+}
+
+
+
+.error{  
+  background-image: url(../images/tv.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 850px;
+  width: 1200px;
+  height: 480;
+  text-align: center;
+}
+
+.texterror{
+  
 }

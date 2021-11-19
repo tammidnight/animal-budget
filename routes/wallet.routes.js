@@ -69,7 +69,6 @@ router.get("/:walletId", checkLogIn, (req, res, next) => {
 
       res.render("wallet/wallet.hbs", { response, wallet, date });
     })
-    .catch((err) => next(err));
 });
 
 router.post("/:walletId", (req, res, next) => {
