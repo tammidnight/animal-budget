@@ -1,12 +1,31 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #f5f5f5;
 }
 
-a {
-  color: #00b7ff;
+button {
+  background-color: #00613e;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
 
-h1 {
-  color: 15px;
+nav,
+footer {
+  background-color: #99c0b2;
+  border: 1px solid #00613e;
+}
+
+a,
+.nav-link {
+  text-decoration: none;
+  color: black;
+}
+
+footer {
+  text-align: center;
+  font-size: 10px;
+}
+
+footer > p {
+  margin: 0;
 }
