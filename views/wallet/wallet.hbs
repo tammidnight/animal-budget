@@ -1,4 +1,4 @@
-<form method="POST" action="/create">
+<form method="POST" action="/6196c4e47ba8ac01ec919bad">
   <label>New Movement</label>
   <input
     type="text"
@@ -16,4 +16,8 @@
   <input type="date" name="date" placeholder="Add the date" />
 
   <button>Create new movement</button>
+</form>
+
+<form action="/{{response._id}}/delete" method="POST">
+  <button>Delete</button>
 </form>
