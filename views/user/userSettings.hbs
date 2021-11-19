@@ -1,0 +1,28 @@
+<form action="/profile/settings" method="POST">
+  <label>Name</label>
+  <input name="username" type="text"  placeholder="Enter your username" value="{{response.username}}" >
+
+  <label>First name</label>
+  <input name="firstName" type="text"  placeholder="Choose animal" value="{{response.firstName}}">
+
+  <label>Last name</label>
+  <input name="lastName" type="text"  placeholder="Choose animal" value="{{response.lastName}}"  >
+
+  <label>Email</label>
+  <input name="email" type="email"  placeholder="Enter your email" value="{{response.email}}" >
+
+  <label>Password</label>
+  <input name="password" type="password"  placeholder="Enter your Password" >
+
+  <label> New Password</label>
+  <input name=" newPassword" type="password"  placeholder="Enter your Password" >
+
+  <label>Animal URL</label>
+  <input name="animalUrl" type="text"  placeholder="Choose animal" >
+  <button>Submit</button>
+
+</form>
+
+<form action="/profile/delete" method="POST">
+  <button class="delete">Delete</button>
+</form>

@@ -1,0 +1,36 @@
+
+<figure class="figure">
+  <img src=".../400x300" class="figure-img img-fluid rounded" alt="The user's profile pic">
+  <figcaption class="figure-caption">Looking good! </figcaption>
+</figure>
+
+<p>Hi {{myUserInfo.username}}!<br>
+It's good to see you again!
+</p>
+
+<ul>
+    <li>User: {{myUserInfo.username}}</li>
+    <li>User since: {{myUserInfo.createdAt}}</li>
+    {{#if myUserInfo.firstName}}
+         <li>Fullname: {{myUserInfo.firstName}} {{myUserInfo.lastName}}</li>
+    {{/if}}
+    <li>Email: {{myUserInfo.email}}</li>
+    <li>Animal level: {{myUserInfo.animalUrl}}</li>
+    <li>User since: {{myUserInfo.createdAt}}</li>
+
+</ul
+>
+
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <p class="card-text">Wallet 1.</p>
+  </div>
+</div>
+
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <p class="card-text">Shared wallet.</p>
+  </div>
+</div>

@@ -87,7 +87,7 @@ router.post("/signup", (req, res, next) => {
     });
 });
 
-//POST logout
+//GET logout
 router.get("/logout", (req, res, next) => {
   req.session.destroy();
   res.redirect("/");
