@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+require("./User.model");
 
 const walletSchema = new Schema({
   walletName: {
@@ -20,6 +21,10 @@ const walletSchema = new Schema({
   monthlyIncome: Number,
   monthlySpending: Number,
   shared: Boolean,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const Wallet = model("Wallet", walletSchema);

@@ -18,6 +18,8 @@ router.post("/create", (req, res, next) => {
     shared,
   } = req.body;
 
+  let user = req.session.myProperty._id;
+
   Wallet.create({
     walletName,
     currency,
@@ -26,8 +28,9 @@ router.post("/create", (req, res, next) => {
     monthlyIncome,
     monthlySpending,
     shared,
+    user,
   })
-    .then((response) => {
+    .then(() => {
       if (
         walletName == "" ||
         currency == "" ||
@@ -39,7 +42,7 @@ router.post("/create", (req, res, next) => {
         });
         return;
       }
-      res.redirect("/profile", { response });
+      res.redirect("/profile");
     })
     .catch((err) => next(err));
 });
@@ -50,7 +53,6 @@ router.get("/:walletId", (req, res, next) => {
   WalletMovement.find({ wallet: _id })
     .populate("wallet")
     .then((response) => {
-      console.log(response);
       res.render("wallet/wallet.hbs", { response });
     })
     .catch((err) => next(err));
@@ -59,6 +61,7 @@ router.get("/:walletId", (req, res, next) => {
 router.post("/:walletId", (req, res, next) => {
   const { kind, amount, category, date } = req.body;
   const { walletId: wallet } = req.params;
+
   WalletMovement.create({ kind, amount, category, date, wallet })
     .then((response) => {
       if (kind == "" || amount == "" || category == "" || date == "") {
@@ -126,6 +129,7 @@ router.post("/:walletId/edit", (req, res, next) => {
 
 router.post("/:walletId/delete", (req, res, next) => {
   const { walletId: _id } = req.params;
+
   Wallet.findByIdAndRemove({ _id })
     .then(() => {
       res.redirect("/profile");

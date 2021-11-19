@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-require('./Wallet.model')
 
 const userSchema = new Schema(
   {
@@ -23,10 +22,6 @@ const userSchema = new Schema(
     },
     firstName: String,
     lastName: String,
-    wallet: {
-      type: Schema.Types.ObjectId,
-      ref: "Wallet",
-    },
   },
   {
     timestamps: true,
