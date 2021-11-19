@@ -1,25 +1,45 @@
 {{> navbar}}
 
-<form method="POST" action="/6196c4e47ba8ac01ec919bad">
-  <label>New Movement</label>
-  <input
-    type="text"
-    name="kind"
-    placeholder="Please enter the kind of new Movement"
-  />
+<div id="walletHeader">
+  <h1>{{wallet.walletName}}</h1>
+  <h1>{{date}}</h1>
+</div>
 
-  <label>Amount</label>
-  <input type="Number" name="amount" placeholder="Add the amount" />
+<div id="walletTopics">
+  <div class="chart"><h3>Chart of the month</h3></div>
+  <div id="calendar"><h3>Calendar</h3></div>
+</div>
 
-  <label>Category</label>
-  <input type="text" name="category" placeholder="Add category" />
+<div id="details">
+  <form method="POST" action="/6196c4e47ba8ac01ec919bad" id="newMovement">
+    <label>New Movement</label>
+    <input
+      type="text"
+      name="kind"
+      placeholder="Please enter the kind of new Movement"
+    />
 
-  <label>Date</label>
-  <input type="date" name="date" placeholder="Add the date" />
+    <label>Amount</label>
+    <input type="Number" name="amount" placeholder="Add the amount" />
 
-  <button>Create new movement</button>
+    <label>Category</label>
+    <input type="text" name="category" placeholder="Add category" />
+
+    <label>Date</label>
+    <input type="date" name="date" placeholder="Add the date" />
+
+    <button>Create new movement</button>
+  </form>
+
+  {{#each response}}
+  
+  {{/each}}
+
+</div>
+<form action="/{{wallet._id}}/edit" method="POST">
+  <button>Edit</button>
 </form>
 
-<form action="/{{response._id}}/delete" method="POST">
-  <button>Delete</button>
+<form action="/{{wallet._id}}/delete" method="POST">
+  <button class="delete">Delete</button>
 </form>
