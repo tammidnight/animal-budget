@@ -4,6 +4,16 @@ const Wallet = require("../models/Wallet.model");
 const WalletMovement = require("../models/WalletMovement.model");
 const bcrypt = require("bcryptjs");
 
+const checkLogIn = (req, res, next) => {
+  if (req.session.myProperty ) {
+    //invokes the next available function
+    next()
+  }
+  else {
+    res.redirect('/')
+  }
+}
+
 //POST LOGIN
 router.post("/login", (req, res, next) => {
   const { username, password } = req.body;
@@ -35,7 +45,7 @@ router.post("/login", (req, res, next) => {
 
 //POST SIGNUP
 router.post("/signup", (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password, email, animalUrl} = req.body;
   if (username == "" || email == "" || password == "" || animalUrl == "") {
     // throw error
     res.render("index.hbs", { error: "Please enter all fields" });
@@ -64,7 +74,7 @@ router.post("/signup", (req, res, next) => {
   let salt = bcrypt.genSaltSync(10);
   let hash = bcrypt.hashSync(password, salt);
 
-  UserModel.create({ username, email, password: hash })
+  User.create({ username, email, password: hash, animalUrl })
     .then(() => {
       res.redirect("/create");
     })
@@ -85,27 +95,71 @@ router.post("/logout", (req, res, next) => {
 });
 
 // GET /profile
-router.get("/profile", (req, res, next) => {
-  res.render("user/userProfile.hbs");
-  // MISSSING MISSING COOKIE USER ID SO WE CAN PASS IT AS AN INPUT TO THE RENDER.
+router.get("/profile", checkLogIn, (req, res, next) => {
+  let myUserInfo = req.session.myProperty  
+  res.render("user/userProfile.hbs", {myUserInfo});
 });
 
 // GET /profile/settings
-router.get("/profile/settings", (req, res, next) => {
-  res.render("user/userSettings.hbs");
-  // MISSSING MISSISN COOKIE USER ID SO WE CAN PASS IT AS AN INPUT TO THE RENDER.
+router.get("/profile/settings", checkLogIn, (req, res, next) => {
+  let myUserInfo = req.session.myProperty  
+  let _id = myUserInfo._id
+  User.findById({_id})
+  .populate("wallet")
+  .then((response) =>{
+    res.render("user/userSettings.hbs", {response});
+    console.log(response)
+  })
+  .catch((err) =>{
+    next(err)
+  })
 });
 
 // POST /profile/settings
 router.post("/profile/settings", (req, res, next) => {
-  const { username, lastName, firstName, email, password, newPassword } =
-    req.body;
+  const { username, lastName, firstName, email, password, newPassword } = req.body;
+  let myUserInfo = req.session.myProperty  
+  let profileName = myUserInfo.username
+  User.find({ username: profileName })
+    .then((usernameResponse) => {
+      if (usernameResponse.length) {
+        //bcrypt decryption
+        let userObj = usernameResponse[0];
+        let _id = usernameResponse._id
 
-  res.redirect; // WE HAVE TO CHECK TO CHECK IF THE PASSWORD IS ON THE DATABASE IN ORDER TO CHANGE IT
+        // check if password matches
+        let isMatching = bcrypt.compareSync(password, userObj.password);
+        if (isMatching) {
+          User.findByIdAndUpdate({_id}, {username, lastName, firstName, email, password:newPassword })
+          req.session.myProperty = userObj;
+          res.redirect("/profile");
+        } else {
+          res.render("userSettings.hbs", { error: "Password not matching" });
+          return;
+        }
+    }})
+    .catch((err) => {
+      if (err.code == 11000) {
+        res.render("userSettings.hbs", {
+          error: "Username is taken, please choose another one",
+        });
+      }
+      next(err);
+    });
+  
 });
 
 // POST /profile/delete
-router.post("/profile/delete", (req, res, next) => {});
-//find by ID
+router.post("/profile/delete", (req, res, next) => {
+  let myUserInfo = req.session.myProperty 
+  let _id = myUserInfo_id
+  User.findByIdAndRemove({_id})
+ .then(()=>{
+   res.redirect('/')
+ })
+ .catch((err)=>{
+   next(err)
+})
+});
 
 module.exports = router;

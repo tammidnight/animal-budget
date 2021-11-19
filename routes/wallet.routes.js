@@ -39,7 +39,7 @@ router.post("/create", (req, res, next) => {
         });
         return;
       }
-      res.redirect("/profile", { response });
+      res.redirect("/profile");
     })
     .catch((err) => next(err));
 });

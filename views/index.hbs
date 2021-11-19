@@ -1,2 +1,33 @@
 <h1>{{title}} 🚀</h1>
 <p>Welcome Ironhacker!</p>
+
+<form method="POST" action="/login">
+  <label>Username</label>
+  <input type="text" name="username" placeholder="Enter your username"  >
+
+  <label>Password</label>
+  <input type="password" name="password" placeholder="Enter your Password"  >
+  <button>Sign In</button>
+</form>
+
+{{#if error}}
+
+ <p class="error">Message: {{error}}</p>
+
+{{/if}}
+
+<form action="/signup" method="POST">
+  <label>Name</label>
+  <input name="username" type="text"  placeholder="Enter your username"  >
+
+  <label>Email</label>
+  <input name="email" type="email"  placeholder="Enter your email"  >
+
+  <label>Password</label>
+  <input name="password" type="password"  placeholder="Enter your Password"  >
+
+  <label>Animal URL</label>
+  <input name="animalUrl" type="text"  placeholder="Choose animal"  >
+  <button>Sign Up</button>
+
+</form>
