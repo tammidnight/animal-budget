@@ -43,13 +43,16 @@ footer > p {
 .error{  
   background-image: url(../images/tv.jpg);
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: 850px;
-  width: 1200px;
-  height: 480;
-  text-align: center;
+  background-position: bottom 5px right -165px;
+  background-size: 100% 100%;
+  width: 72%;
+  height: 85%;
+  
+  text-align: left;
+  margin-left: 36px;
+  margin-right: 36px;
 }
 
-.texterror{
+.missing{
   
 }
