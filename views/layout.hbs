@@ -17,15 +17,19 @@
   <body>
 
     {{{body}}}
- /* This is for the nighmode toggle, */
-
     <footer><p>Animal Budget<br />© Tamara & Maria</p>
-    <div>
-      <input type='checkbox' class="checkbox" id="checkbox">
-      <label for="checkbox" class="label">
-        <div class="ball"></div>
-      </label>
-    </div>
+     {{!-- /* This is for the nighmode toggle, */ --}}
+     <div id ="toggle">
+       <i class="indicator"></i>
+     </div>
+     <script>
+       const footer = document.querySelector('footer');
+       const toggle = document.getElementById('toggle');
+       toggle.onclick = function(){
+         toggle.classList.toggle('active');
+         footer.classList.toggle('active')
+       }
+     </script>
     </footer>
 
     <script
