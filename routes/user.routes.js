@@ -3,6 +3,7 @@ const User = require("../models/User.model");
 const Wallet = require("../models/Wallet.model");
 const WalletMovement = require("../models/WalletMovement.model");
 const bcrypt = require("bcryptjs");
+const { response } = require("express");
 
 const checkLogIn = (req, res, next) => {
   if (req.session.myProperty) {
@@ -166,9 +167,17 @@ router.post("/profile/delete", (req, res, next) => {
   let _id = myUserInfo._id;
   User.findByIdAndRemove({ _id })
     .then(() => {
-      return Wallet.deleteMany({ user: _id });
+      return Wallet.find({ user: _id });
+    })
+    .then((response) => {
+      console.log(response._id);
+      let wallet = response._id;
+      return WalletMovement.deleteMany({ wallet });
     })
     .then(() => {
+      return Wallet.deleteMany({ user: _id });
+    })
+    .then((response) => {
       req.session.destroy();
       res.redirect("/");
     })
