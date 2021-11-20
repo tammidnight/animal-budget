@@ -67,11 +67,10 @@ router.get("/:walletId", checkLogIn, (req, res, next) => {
           let month = date.getMonth() + 1;
           let year = date.getFullYear();
           date = month + "/" + year;
-          console.log(wallet);
           res.render("wallet/wallet.hbs", { wallet, date });
         });
       }
-      let wallet = response.wallet;
+      let wallet = response[0].wallet;
       let date = new Date();
       let month = date.getMonth() + 1;
       let year = date.getFullYear();
@@ -97,7 +96,7 @@ router.post("/:walletId", (req, res, next) => {
       return WalletMovement.find({ wallet }).populate("wallet");
     })
     .then((response) => {
-      let wallet = response.wallet;
+      let wallet = response[0].wallet;
       let date = new Date();
       let month = date.getMonth() + 1;
       let year = date.getFullYear();
@@ -180,6 +179,18 @@ router.get("/:walletId/history", checkLogIn, (req, res, next) => {
     .populate("wallet")
     .then((response) => {
       res.render("wallet/walletHistory.hbs", { response });
+    })
+    .catch((err) => next(err));
+});
+
+router.post("/movement/:movementId", (req, res, next) => {
+  const { movementId: _id } = req.params;
+  const { kind, amount, category, date } = req.body;
+
+  WalletMovement.findByIdAndUpdate({ _id }, { kind, amount, category, date })
+    .then((response) => {
+      let walletId = response.wallet;
+      res.redirect(`/${walletId}`);
     })
     .catch((err) => next(err));
 });
