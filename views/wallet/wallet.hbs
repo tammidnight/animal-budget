@@ -11,7 +11,7 @@
 </div>
 
 <div id="details">
-  <form method="POST" action="/6196c4e47ba8ac01ec919bad" id="newMovement">
+  <form method="POST" action="/{{wallet._id}}" id="newMovement">
     <label>New Movement</label>
     <input
       type="text"
@@ -42,4 +42,8 @@
 
 <form action="/{{wallet._id}}/delete" method="POST">
   <button class="delete">Delete</button>
+</form>
+
+<form action="/{{wallet._id}}/history" method="GET">
+  <button>Wallet History</button>
 </form>
