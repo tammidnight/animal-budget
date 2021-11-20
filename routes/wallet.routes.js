@@ -61,6 +61,16 @@ router.get("/:walletId", checkLogIn, (req, res, next) => {
   WalletMovement.find({ wallet: _id })
     .populate("wallet")
     .then((response) => {
+      if (response.length == 0) {
+        return Wallet.findById({ _id }).then((wallet) => {
+          let date = new Date();
+          let month = date.getMonth() + 1;
+          let year = date.getFullYear();
+          date = month + "/" + year;
+          console.log(wallet);
+          res.render("wallet/wallet.hbs", { wallet, date });
+        });
+      }
       let wallet = response.wallet;
       let date = new Date();
       let month = date.getMonth() + 1;
@@ -69,7 +79,7 @@ router.get("/:walletId", checkLogIn, (req, res, next) => {
 
       res.render("wallet/wallet.hbs", { response, wallet, date });
     })
-    .catch((err) => next(err));
+    .catch(() => next());
 });
 
 router.post("/:walletId", (req, res, next) => {
@@ -154,6 +164,9 @@ router.post("/:walletId/delete", (req, res, next) => {
   const { walletId: _id } = req.params;
 
   Wallet.findByIdAndRemove({ _id })
+    .then(() => {
+      return WalletMovement.deleteMany({ wallet: _id });
+    })
     .then(() => {
       res.redirect("/profile");
     })
