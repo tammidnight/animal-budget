@@ -12,15 +12,15 @@
 
 <div id="details">
   <form method="POST" action="/{{wallet._id}}" id="newMovement">
-    <label>New Movement</label>
-    <input
-      type="text"
-      name="kind"
-      placeholder="Please enter the kind of new Movement"
-    />
+    <label for="movement">New Movement</label>
+    <select id="movement" name="kind">
+      <option value="Income">Income</option>
+      <option value="Spending">Spending</option>
+      <option value="Saving">Saving</option>
+    </select>
 
     <label>Amount</label>
-    <input type="Number" name="amount" placeholder="Add the amount" />
+    <input type="number" name="amount" placeholder="Add the amount" />
 
     <label>Category</label>
     <input type="text" name="category" placeholder="Add category" />
@@ -31,9 +31,23 @@
     <button>Create new movement</button>
   </form>
 
+  <table>
+  <tr>
+    <th>Movement</th>
+    <th>Category</th>
+    <th>Date</th>
+    <th>Amount</th>
+  </tr>
+ 
   {{#each response}}
-  
+   <tr class="{{this._id}}">
+    <td class="update kind">{{this.kind}}</td>
+    <td class="update category">{{this.category}}</td>
+    <td class="update date">{{this.date}}</td>
+    <td class="update amount">{{this.amount}}</td>
+  </tr>
   {{/each}}
+</table>
 
 </div>
 <form action="/{{wallet._id}}/edit" method="POST">
