@@ -14,11 +14,15 @@ button {
   background-color: #99122d;
 }
 
+.minus {
+  padding: 0;
+  margin: 0;
+}
+
 nav,
 footer {
   background-color: #99c0b2;
   border: 1px solid #00613e;
-  
 }
 
 .nav-link {
@@ -38,50 +42,67 @@ footer > p {
   margin: 0;
 }
 
-
-.error{  
+.error {
   background-image: url(../images/tv.jpg);
   background-repeat: no-repeat;
-  background-position: bottom 5px right -165px;
+  background-position: bottom 0.3rem right -10.30rem;
   background-size: 100% 100%;
   width: 72%;
   height: 85%;
   text-align: left;
+  margin-top: 36px;
   margin-left: 36px;
   margin-right: 36px;
 }
 
+.notFound{
+  text-align: left;
+  margin-top: 360px;
+  margin-left: 36px;
+  margin-right: 36px;
+}
+
+.pig{
+  position: relative;
+  left: 72rem;
+}
+
+.snake{
+  position: relative;
+  bottom: 20rem;
+  left: 10rem;
+
+}
 /* This is for the nighmode toggle, */
 
-footer.active{
+footer.active {
   background: rgb(82, 79, 82);
 }
 
-#toggle{
+#toggle {
   position: relative;
   margin-left: 20px;
   margin-bottom: 8;
   margin-top: -25;
   border-radius: 50px;
-  display: flex;  height: 26px;
+  display: flex;
+  height: 26px;
   width: 50px;
-  height: 25px;;
+  height: 25px;
   background-color: rgb(97, 151, 100);
   transition: 0.5s;
   cursor: pointer;
   box-shadow: inset 0 8px 60px rgba(0, 0, 0, 1),
-              inset 0 8px 8px rgba(0, 0, 0, 1),
-              inset 0 -4px 4px rgba(0, 0, 0, 1);
+    inset 0 8px 8px rgba(0, 0, 0, 1), inset 0 -4px 4px rgba(0, 0, 0, 1);
 }
 /*toggle styling*/
-#toggle.active{
+#toggle.active {
   background: rgb(22, 61, 7);
   box-shadow: inset 0 2px 60px rgba(0, 0, 0, 1),
-              inset 0 2px 8px rgba(0, 0, 0, 1),
-              inset 0 -4px 4px rgba(0, 0, 0, 10.05);
+    inset 0 2px 8px rgba(0, 0, 0, 1), inset 0 -4px 4px rgba(0, 0, 0, 10.05);
 }
 
-#toggle .indicator{
+#toggle .indicator {
   position: absolute;
   top: 0;
   left: 0;
@@ -91,17 +112,14 @@ footer.active{
   border-radius: 50%;
   transform: scale(0.9);
   box-shadow: inset 0 8px 40px rgba(0, 0, 0, 1),
-              inset 0 4px 4px rgba(0, 0, 0, 1),
-              inset 0 -4px 4px rgba(0, 0, 0, 1);
+    inset 0 4px 4px rgba(0, 0, 0, 1), inset 0 -4px 4px rgba(0, 0, 0, 1);
   transition: 0.5s;
-
-
 }
 
-#toggle.active .indicator{
+#toggle.active .indicator {
   left: 25px;
   background: linear-gradient(to bottom, #eaeaea, #f9f9f9);
   box-shadow: inset 0 8px 40px rgb(253, 251, 251),
-              inset 0 4px 4px rgba(255, 255, 255, 1),
-              inset 0 -4px 4px rgba(255, 255, 255, 1);
+    inset 0 4px 4px rgba(255, 255, 255, 1),
+    inset 0 -4px 4px rgba(255, 255, 255, 1);
 }

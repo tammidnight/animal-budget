@@ -11,6 +11,12 @@ const checkLogIn = (req, res, next) => {
   }
 };
 
+const formateDate = (date) => {
+  const result =
+    date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+  return result;
+};
+
 router.get("/create", checkLogIn, (req, res, next) => {
   res.render("wallet/createWallet.hbs");
 });
@@ -76,6 +82,21 @@ router.get("/:walletId", checkLogIn, (req, res, next) => {
       let year = date.getFullYear();
       date = month + "/" + year;
 
+      response.forEach((elem) => {
+        elem.formattedDate = formateDate(elem.date);
+      });
+
+      response.sort((a, b) => {
+        let keyA = a.formattedDate;
+        let keyB = b.formattedDate;
+        if (keyA < keyB) {
+          return -1;
+        }
+        if (keyA > keyB) {
+          return 1;
+        }
+        return 0;
+      });
       res.render("wallet/wallet.hbs", { response, wallet, date });
     })
     .catch(() => next());
@@ -101,6 +122,22 @@ router.post("/:walletId", (req, res, next) => {
       let month = date.getMonth() + 1;
       let year = date.getFullYear();
       date = month + "/" + year;
+
+      response.forEach((elem) => {
+        elem.formattedDate = formateDate(elem.date);
+      });
+
+      response.sort((a, b) => {
+        let keyA = a.date;
+        let keyB = b.date;
+        if (keyA < keyB) {
+          return -1;
+        }
+        if (keyA > keyB) {
+          return 1;
+        }
+        return 0;
+      });
 
       res.render("wallet/wallet.hbs", { response, wallet, date });
     })
@@ -193,6 +230,18 @@ router.post("/movement/:movementId", (req, res, next) => {
       res.redirect(`/${walletId}`);
     })
     .catch((err) => next(err));
+});
+
+router.post("/movement/:movementId/delete", async (req, res, next) => {
+  const { movementId: _id } = req.params;
+  try {
+    let response = await WalletMovement.findById({ _id });
+    const walletId = response.wallet;
+    await WalletMovement.findByIdAndRemove({ _id: response._id });
+    res.redirect(`/${walletId}`);
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;
