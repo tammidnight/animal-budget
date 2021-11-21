@@ -42,15 +42,34 @@ footer > p {
 .error{  
   background-image: url(../images/tv.jpg);
   background-repeat: no-repeat;
-  background-position: bottom 5px right -165px;
+  background-position: bottom 0.3rem right -10.30rem;
   background-size: 100% 100%;
   width: 72%;
   height: 85%;
   text-align: left;
+  margin-top: 36px;
   margin-left: 36px;
   margin-right: 36px;
 }
 
+.notFound{
+  text-align: left;
+  margin-top: 360px;
+  margin-left: 36px;
+  margin-right: 36px;
+}
+
+.pig{
+  position: relative;
+  left: 72rem;
+}
+
+.snake{
+  position: relative;
+  bottom: 20rem;
+  left: 10rem;
+
+}
 /* This is for the nighmode toggle, */
 
 footer.active{
