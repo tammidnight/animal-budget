@@ -17,23 +17,8 @@
   <body>
 
     {{{body}}}
-    <footer><p>Animal Budget<br />© Tamara & Maria</p>
-     {{!-- /* This is for the nighmode toggle, */ --}}
-     <div id ="toggle">
-       <i class="indicator"></i>
-     </div>
-     <script>
-       const footer = document.querySelector('footer');
-       const toggle = document.getElementById('toggle');
-       toggle.onclick = function(){
-         toggle.classList.toggle('active');
-         footer.classList.toggle('active')
-       }
-     </script>
-    </footer>
-    <div>
-      
-    </div>
+    <footer><p>Animal Budget<br />© Tamara & Maria</p> </footer>
+    
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -42,6 +27,17 @@
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/script.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+    <script>
+    function addDarkmodeWidget() {
+    new Darkmode().showWidget();
+    }
+    window.addEventListener('load', addDarkmodeWidget);
+   </script>
+
+  
   </body>
 
 </html>
