@@ -57,6 +57,23 @@ footer > p {
   outline: 2px solid darkgray;
 }
 
+.changeInfo{
+ text-align: center;
+ list-style-type: none;
+
+}
+
+/*Profile*/
+.containerProfile{
+  display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: flex-start;
+}
+
+/* 404 and 500*/
 .error {
   background-image: url(../images/tv.jpg);
   background-repeat: no-repeat;
@@ -80,13 +97,15 @@ footer > p {
 .pig {
   position: relative;
   left: 72rem;
+  bottom: 12rem;
 }
 
 .snake {
   position: relative;
-  bottom: 20rem;
-  left: 10rem;
+  bottom: 28rem;
+  left: 5rem;
 }
+
 /* This is for the nighmode toggle, */
 
 footer.active {

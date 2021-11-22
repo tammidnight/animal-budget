@@ -1,28 +1,43 @@
+{{> navbar}}
+
+<p> {{myUserInfo.username}} you can change your personal info
+</p>
+
+<figure class="figure">
+  <img src=".../400x300" class="figure-img img-fluid rounded" alt="The user's profile pic">
+  <figcaption class="figure-caption">Tap to change me! </figcaption>
+</figure>
+
+<div class="changeInfo"> 
 <form action="/profile/settings" method="POST">
-  <label>Name</label>
-  <input name="username" type="text"  placeholder="Enter your username" value="{{response.username}}" >
+<ul>
+  <li><label>Name</label>  <br>
+  <input name="username" type="text"  placeholder="Enter your username" value="{{response.username}}" ></li> 
 
-  <label>First name</label>
-  <input name="firstName" type="text"  placeholder="Choose animal" value="{{response.firstName}}">
+  <li><label>First name</label>  <br>
+  <input name="firstName" type="text"  placeholder="Enter your First name" value="{{response.firstName}}"></li>
 
-  <label>Last name</label>
-  <input name="lastName" type="text"  placeholder="Choose animal" value="{{response.lastName}}"  >
+  <li><label>Last name</label>  <br>
+  <input name="lastName" type="text"  placeholder="Enter your Last name" value="{{response.lastName}}"  ></li>
 
-  <label>Email</label>
-  <input name="email" type="email"  placeholder="Enter your email" value="{{response.email}}" >
+  <li><label>Email</label>  <br>
+  <input name="email" type="email"  placeholder="Enter your email" value="{{response.email}}" ></li>
 
-  <label>Password</label>
-  <input name="password" type="password"  placeholder="Enter your Password" >
+  <label>Password</label>  <br>
+  <input name="password" type="password"  placeholder="Enter your Password" ></li>
 
-  <label> New Password</label>
-  <input name=" newPassword" type="password"  placeholder="Enter your Password" >
+  <li><label> New Password</label>  <br>
+  <input name=" newPassword" type="password"  placeholder="Enter your Password" ></li>
 
-  <label>Animal URL</label>
-  <input name="animalUrl" type="text"  placeholder="Choose animal" >
+  <li><label>Animal URL</label>  <br>
+  <input name="animalUrl" type="text"  placeholder="Choose animal" ></li>
   <button>Submit</button>
+</ul>
 
 </form>
 
 <form action="/profile/delete" method="POST">
   <button class="delete">Delete</button>
 </form>
+
+</div>
