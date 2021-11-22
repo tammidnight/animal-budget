@@ -42,6 +42,13 @@ footer > p {
   margin: 0;
 }
 
+.changeInfo{
+ text-align: center;
+ list-style-type: none;
+
+}
+
+/* 404 and 500*/
 .error {
   background-image: url(../images/tv.jpg);
   background-repeat: no-repeat;
@@ -72,8 +79,8 @@ footer > p {
   position: relative;
   bottom: 28rem;
   left: 5rem;
-
 }
+
 /* This is for the nighmode toggle, */
 
 footer.active {
