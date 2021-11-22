@@ -55,6 +55,8 @@ Have a track of your finances.
 - [x] POST /:walletId/edit
 - [x] POST /:walletId/delete
 - [x] GET /:walletId/history
+- [x] POST /movement/:movementId
+- [x] POST /movement/:movementId/delete
 
 <br>
 
