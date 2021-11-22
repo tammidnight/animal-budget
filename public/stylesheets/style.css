@@ -65,12 +65,13 @@ footer > p {
 .pig{
   position: relative;
   left: 72rem;
+  bottom: 12rem;
 }
 
 .snake{
   position: relative;
-  bottom: 20rem;
-  left: 10rem;
+  bottom: 28rem;
+  left: 5rem;
 
 }
 /* This is for the nighmode toggle, */
