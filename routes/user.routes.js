@@ -98,11 +98,11 @@ router.get("/logout", (req, res, next) => {
 router.get("/profile", checkLogIn, (req, res, next) => {
   let myUserInfo = req.session.myProperty;
   let _id = myUserInfo._id;
-  User.findById({ _id })
-    //populate Wallet with User missing
+
+  Wallet.find({ user: _id })
+    .populate("user")
     .then((response) => {
-      let wallet = response.wallet;
-      res.render("user/userProfile.hbs", { myUserInfo, wallet });
+      res.render("user/userProfile.hbs", { myUserInfo, response });
     })
     .catch((err) => {
       next(err);
