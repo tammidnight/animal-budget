@@ -17,10 +17,11 @@
       <option value="Income">Income</option>
       <option value="Spending">Spending</option>
       <option value="Saving">Saving</option>
+      <option value="Saving Spending">Saving Spending</option>
     </select>
 
     <label>Amount</label>
-    <input type="number" name="amount" placeholder="Add the amount" />
+    <input type="number" name="amount" placeholder="Add the amount" step="0.01" />
 
     <label>Category</label>
     <input type="text" name="category" placeholder="Add category" />
@@ -31,6 +32,10 @@
     <button>Create new movement</button>
   </form>
 
+{{#if error}}
+  <p class="error">Message: {{error}}</p>
+{{/if}}
+
   <table>
   <tr>
     <th>Movement</th>
@@ -39,18 +44,41 @@
     <th>Amount</th>
     <th>Currency</th>
   </tr>
+
+  {{#if wallet.monthlyIncome}}
+    <tr>
+      <td>Monthly Income</td>
+      <td>Monthly Income</td>
+      <td>01/{{date}}</td>
+      <td>{{wallet.monthlyIncome}}</td>
+      <td>{{wallet.currency}}</td>
+    </tr>
+  {{/if}}
+
+  {{#if wallet.monthlySpending}}
+    <tr>
+      <td>Monthly Spending</td>
+      <td>Monthly Spending</td>
+      <td>01/{{date}}</td>
+      <td>{{wallet.monthlySpending}}</td>
+      <td>{{wallet.currency}}</td>
+    </tr>
+  {{/if}}
  
   {{#each response}}
-   <tr class="{{this._id}}">
-    <td class="update kind">{{this.kind}}</td>
-    <td class="update category">{{this.category}}</td>
-    <td class="update date">{{this.formattedDate}}</td>
-    <td class="update amount">{{this.amount}}</td>
-    <td>{{this.wallet.currency}}</td>
-    <td><form action="/movement/{{this._id}}/delete" method="POST" class="minus"><input type="image" src="/images/minus-symbol.png" name="submit" width="15" class="minus"></form></td>
-  </tr>
+    <tr class="{{this._id}}">
+      <td class="update kind">{{this.kind}}</td>
+      <td class="update category">{{this.category}}</td>
+      <td class="update date">{{this.formattedDate}}</td>
+      <td class="update amount">{{this.formattedAmount}}</td>
+      <td>{{this.wallet.currency}}</td>
+      <td><form action="/movement/{{this._id}}/delete" method="POST" class="minus"><input type="image" src="/images/minus-symbol.png" name="submit" width="15" class="minus"></form></td>
+    </tr>
   {{/each}}
 </table>
+
+<h4>Balance: {{balance}}</h4>
+<h4>Savings: {{saving}}</h4>
 
 </div>
 <form action="/{{wallet._id}}/edit" method="POST">

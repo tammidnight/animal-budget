@@ -42,10 +42,25 @@ footer > p {
   margin: 0;
 }
 
+[name="currency"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+[name="currency"] + img {
+  cursor: pointer;
+}
+
+[name="currency"]:checked + img {
+  outline: 2px solid darkgray;
+}
+
 .error {
   background-image: url(../images/tv.jpg);
   background-repeat: no-repeat;
-  background-position: bottom 0.3rem right -10.30rem;
+  background-position: bottom 0.3rem right -10.3rem;
   background-size: 100% 100%;
   width: 72%;
   height: 85%;
@@ -55,23 +70,22 @@ footer > p {
   margin-right: 36px;
 }
 
-.notFound{
+.notFound {
   text-align: left;
   margin-top: 360px;
   margin-left: 36px;
   margin-right: 36px;
 }
 
-.pig{
+.pig {
   position: relative;
   left: 72rem;
 }
 
-.snake{
+.snake {
   position: relative;
   bottom: 20rem;
   left: 10rem;
-
 }
 /* This is for the nighmode toggle, */
 
