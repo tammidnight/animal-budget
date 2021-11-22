@@ -42,35 +42,94 @@ footer > p {
   margin: 0;
 }
 
-[name="currency"] {
+[name="currency"],
+[name="savingPlan"] {
   position: absolute;
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-[name="currency"] + img {
+[name="currency"] + img,
+[name="savingPlan"] + img {
   cursor: pointer;
 }
 
-[name="currency"]:checked + img {
+[name="currency"]:checked + img,
+[name="savingPlan"]:checked + img {
   outline: 2px solid darkgray;
 }
 
-.changeInfo{
- text-align: center;
- list-style-type: none;
+.wholeForm {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
 
+.walletCreate {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.firstColumn,
+.secondColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.currencyRow,
+.savingPlanDiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.currencyRow {
+  justify-content: space-between;
+  width: 10rem;
+}
+
+.savingPlanDiv {
+  justify-content: space-around;
+  align-items: center;
+  margin: 0.5rem 0;
+  border: 1px solid darkgray;
+  border-radius: 1rem;
+}
+
+.walletInputField {
+  border-radius: 0.5rem;
+}
+
+.walletInput {
+  display: flex;
+  flex-direction: column;
+}
+
+.walletForm {
+  width: min-content;
+  align-self: center;
+}
+
+.savingPlanP {
+  width: 12rem;
+  margin: 0.5rem 0;
+}
+
+.changeInfo {
+  text-align: center;
+  list-style-type: none;
 }
 
 /*Profile*/
-.containerProfile{
+.containerProfile {
   display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-around;
-	align-items: center;
-	align-content: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: flex-start;
 }
 
 /* 404 and 500*/
