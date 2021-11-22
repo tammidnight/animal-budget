@@ -17,11 +17,56 @@ const formateDate = (date) => {
   return result;
 };
 
+const formateAmount = (amount) => {
+  const result = Number(amount).toFixed(2);
+  return result;
+};
+
+const getBalance = (movement) => {
+  let balance = 0;
+
+  movement.forEach((elem) => {
+    if (elem.kind == "Income") {
+      balance = balance + Number(elem.amount);
+    } else if (elem.kind == "Spending") {
+      balance = balance - Number(elem.amount);
+    }
+  });
+
+  return Number(balance).toFixed(2);
+};
+
+const getSaving = (movement) => {
+  let saving = 0;
+
+  movement.forEach((elem) => {
+    if (elem.kind == "Saving") {
+      saving = saving + Number(elem.amount);
+    } else if (elem.kind == "Saving Spending") {
+      saving = saving - Number(elem.amount);
+    }
+  });
+
+  return Number(saving).toFixed(2);
+};
+
 router.get("/create", checkLogIn, (req, res, next) => {
   res.render("wallet/createWallet.hbs");
 });
 
 router.post("/create", (req, res, next) => {
+  if (
+    walletName == "" ||
+    currency == "" ||
+    startingDate == "" ||
+    savingPlan == ""
+  ) {
+    res.render("wallet/createWallet.hbs", {
+      error: "Please enter all mandatory fields",
+    });
+    return;
+  }
+
   const {
     walletName,
     currency,
@@ -45,17 +90,6 @@ router.post("/create", (req, res, next) => {
     user,
   })
     .then(() => {
-      if (
-        walletName == "" ||
-        currency == "" ||
-        startingDate == "" ||
-        savingPlan == ""
-      ) {
-        res.render("wallet/createWallet.hbs", {
-          error: "Please enter all mandatory fields",
-        });
-        return;
-      }
       res.redirect("/profile");
     })
     .catch((err) => next(err));
@@ -81,9 +115,16 @@ router.get("/:walletId", checkLogIn, (req, res, next) => {
       let month = date.getMonth() + 1;
       let year = date.getFullYear();
       date = month + "/" + year;
+      let monthlyBalance =
+        Number(wallet.monthlyIncome).toFixed(2) -
+        Number(wallet.monthlySpending).toFixed(2);
+      let balance = Number(getBalance(response)).toFixed(2) + monthlyBalance;
+      balance = Number(balance).toFixed(2);
+      let saving = getSaving(response);
 
       response.forEach((elem) => {
         elem.formattedDate = formateDate(elem.date);
+        elem.formattedAmount = formateAmount(elem.amount);
       });
 
       response.sort((a, b) => {
@@ -97,7 +138,13 @@ router.get("/:walletId", checkLogIn, (req, res, next) => {
         }
         return 0;
       });
-      res.render("wallet/wallet.hbs", { response, wallet, date });
+      res.render("wallet/wallet.hbs", {
+        response,
+        wallet,
+        date,
+        balance,
+        saving,
+      });
     })
     .catch(() => next());
 });
@@ -106,14 +153,54 @@ router.post("/:walletId", (req, res, next) => {
   const { kind, amount, category, date } = req.body;
   const { walletId: wallet } = req.params;
 
-  WalletMovement.create({ kind, amount, category, date, wallet })
-    .then((movement) => {
-      if (kind == "" || amount == "" || category == "" || date == "") {
+  if (kind == "" || amount == "" || category == "" || date == "") {
+    WalletMovement.find({ wallet })
+      .populate("wallet")
+      .then((response) => {
+        let wallet = response[0].wallet;
+        let date = new Date();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        date = month + "/" + year;
+        let monthlyBalance =
+          Number(wallet.monthlyIncome).toFixed(2) -
+          Number(wallet.monthlySpending).toFixed(2);
+        let balance = Number(getBalance(response)).toFixed(2) + monthlyBalance;
+        balance = Number(balance).toFixed(2);
+        let saving = getSaving(response);
+
+        response.forEach((elem) => {
+          elem.formattedDate = formateDate(elem.date);
+          elem.formattedAmount = formateAmount(elem.amount);
+        });
+
+        response.sort((a, b) => {
+          let keyA = a.date;
+          let keyB = b.date;
+          if (keyA < keyB) {
+            return -1;
+          }
+          if (keyA > keyB) {
+            return 1;
+          }
+          return 0;
+        });
+
         res.render("wallet/wallet.hbs", {
+          response,
+          wallet,
+          date,
+          balance,
+          saving,
           error: "Please enter all mandatory fields",
         });
-        return;
-      }
+      })
+      .catch((err) => next(err));
+    return;
+  }
+
+  WalletMovement.create({ kind, amount, category, date, wallet })
+    .then(() => {
       return WalletMovement.find({ wallet }).populate("wallet");
     })
     .then((response) => {
@@ -122,9 +209,12 @@ router.post("/:walletId", (req, res, next) => {
       let month = date.getMonth() + 1;
       let year = date.getFullYear();
       date = month + "/" + year;
+      let balance = getBalance(response);
+      let saving = getSaving(response);
 
       response.forEach((elem) => {
         elem.formattedDate = formateDate(elem.date);
+        elem.formattedAmount = formateAmount(elem.amount);
       });
 
       response.sort((a, b) => {
@@ -139,7 +229,13 @@ router.post("/:walletId", (req, res, next) => {
         return 0;
       });
 
-      res.render("wallet/wallet.hbs", { response, wallet, date });
+      res.render("wallet/wallet.hbs", {
+        response,
+        wallet,
+        date,
+        balance,
+        saving,
+      });
     })
     .catch((err) => next(err));
 });
