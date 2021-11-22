@@ -64,6 +64,26 @@ footer > p {
 }
 
 /*Profile*/
+.profilePic{
+  position: relative;
+  margin-top: 3rem;
+  margin-left: 12rem;
+}
+
+.profileHi{
+  text-align: center;
+  position: relative;
+  margin-top: -12rem;
+
+}
+.profileList{
+  display: grid;
+  place-content: center;
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
 .containerProfile{
   display: flex;
 	flex-direction: row;
@@ -71,10 +91,13 @@ footer > p {
 	justify-content: space-around;
 	align-items: center;
 	align-content: flex-start;
+  text-align: center;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
 }
 
 /* 404 and 500*/
-.error {
+.errorPage {
   background-image: url(../images/tv.jpg);
   background-repeat: no-repeat;
   background-position: bottom 0.3rem right -10.3rem;
