@@ -128,7 +128,7 @@ router.post("/profile/settings", (req, res, next) => {
     req.body;
   let myUserInfo = req.session.myProperty;
   let profileName = myUserInfo.username;
-  let _id = myUserInfo._id
+  let _id = myUserInfo._id;
   User.find({ username: profileName })
     .then((usernameResponse) => {
       if (usernameResponse.length) {
@@ -141,7 +141,7 @@ router.post("/profile/settings", (req, res, next) => {
           User.findByIdAndUpdate(
             { _id },
             { username, lastName, firstName, email, password: newPassword }
-          ).then((response) =>{
+          ).then((response) => {
             req.session.myProperty = response;
             res.redirect("/profile");
           });

@@ -17,6 +17,12 @@ const formateDate = (date) => {
   return result;
 };
 
+const formateDateForInput = (date) => {
+  const result =
+    date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+  return result;
+};
+
 const formateAmount = (amount) => {
   const result = Number(amount).toFixed(2);
   return result;
@@ -55,18 +61,6 @@ router.get("/create", checkLogIn, (req, res, next) => {
 });
 
 router.post("/create", (req, res, next) => {
-  if (
-    walletName == "" ||
-    currency == "" ||
-    startingDate == "" ||
-    savingPlan == ""
-  ) {
-    res.render("wallet/createWallet.hbs", {
-      error: "Please enter all mandatory fields",
-    });
-    return;
-  }
-
   const {
     walletName,
     currency,
@@ -78,6 +72,18 @@ router.post("/create", (req, res, next) => {
   } = req.body;
 
   let user = req.session.myProperty._id;
+
+  if (
+    walletName == "" ||
+    currency == "" ||
+    startingDate == "" ||
+    savingPlan == ""
+  ) {
+    res.render("wallet/createWallet.hbs", {
+      error: "Please enter all mandatory fields",
+    });
+    return;
+  }
 
   Wallet.create({
     walletName,
@@ -243,9 +249,37 @@ router.post("/:walletId", (req, res, next) => {
 router.get("/:walletId/edit", checkLogIn, (req, res, next) => {
   const { walletId: _id } = req.params;
 
-  WalletMovement.find({ wallet: _id })
-    .populate("wallet")
+  Wallet.find({ _id })
     .then((response) => {
+      response = response[0];
+      response.formattedDateForInput = formateDateForInput(
+        response.startingDate
+      );
+
+      if (response.currency == "Euro") {
+        response.euroIsChecked = true;
+      } else if (response.currency == "Dollar") {
+        response.dollarIsChecked = true;
+      } else if (response.currency == "Pound") {
+        response.poundIsChecked = true;
+      } else if (response.currency == "Yen") {
+        response.yenIsChecked = true;
+      }
+
+      if (response.shared == true) {
+        response.yesIsChecked = true;
+      } else if (response.shared == false) {
+        response.noIsChecked = true;
+      }
+
+      if (response.savingPlan == "Gold") {
+        response.goldIsChecked = true;
+      } else if (response.savingPlan == "Silver") {
+        response.silverIsChecked = true;
+      } else if (response.savingPlan == "Bronze") {
+        response.bronzeIsChecked = true;
+      }
+
       res.render("wallet/editWallet.hbs", { response });
     })
     .catch((err) => next(err));
@@ -261,7 +295,20 @@ router.post("/:walletId/edit", (req, res, next) => {
     monthlySpending,
     shared,
   } = req.body;
+
   const { walletId: _id } = req.params;
+
+  if (
+    walletName == "" ||
+    currency == "" ||
+    startingDate == "" ||
+    savingPlan == ""
+  ) {
+    res.render("wallet/createWallet.hbs", {
+      error: "Please enter all mandatory fields",
+    });
+    return;
+  }
 
   Wallet.findByIdAndUpdate(
     { _id },
