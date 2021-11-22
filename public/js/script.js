@@ -36,7 +36,7 @@ update.forEach((elem) => {
       select.setAttribute("name", "kind");
       elem.appendChild(select);
     } else if (e.target.className == "update amount") {
-      let data = e.target.innerText;
+      const data = e.target.innerText;
       elem.innerText = "";
       const input = document.createElement("input");
       input.value = data;
@@ -45,14 +45,18 @@ update.forEach((elem) => {
       input.setAttribute("step", "0.01");
       elem.appendChild(input);
     } else if (e.target.className == "update category") {
-      let data = e.target.innerText;
+      const data = e.target.innerText;
       elem.innerText = "";
       const input = document.createElement("input");
       input.value = data;
       input.setAttribute("name", "category");
       elem.appendChild(input);
     } else if (e.target.className == "update date") {
-      let data = e.target.innerText;
+      const data = e.target.innerText;
+      const day = data.slice(0, 2);
+      const month = data.slice(3, 5);
+      const year = data.slice(6);
+      data = year + "-" + month + "-" + day;
       elem.innerText = "";
       const input = document.createElement("input");
       input.value = data;
@@ -72,7 +76,7 @@ update.forEach((elem) => {
           alert("Field cannot be empty");
           return;
         }
-        let data = Number(e.target.value).toFixed(2);
+        const data = Number(e.target.value).toFixed(2);
         elem.innerHTML = `<td class='update kind'>${data}</td>`;
         const amount = elem.innerText;
         axios.post(`/movement/${_id}`, { _id, amount }).then(() => {
@@ -83,7 +87,7 @@ update.forEach((elem) => {
           alert("Field cannot be empty");
           return;
         }
-        let data = e.target.value;
+        const data = e.target.value;
         elem.innerHTML = `<td class='update category'>${data}</td>`;
         const category = elem.innerText;
         axios.post(`/movement/${_id}`, { _id, category });
@@ -92,7 +96,11 @@ update.forEach((elem) => {
           alert("Field cannot be empty");
           return;
         }
-        let data = e.target.value;
+        const data = e.target.value;
+        const day = data.slice(0, 2);
+        const month = data.slice(5,6);
+        const year = data.slice(0,4);
+        data = day + "/" + month + "/" + year;
         elem.innerHTML = `<td class='update date'>${data}</td>`;
         const date = elem.innerText;
         axios.post(`/movement/${_id}`, { _id, date });
@@ -105,7 +113,7 @@ update.forEach((elem) => {
   elem.addEventListener("change", (e) => {
     const _id = elem.parentElement.className;
     if (e.target.name == "kind") {
-      let data = e.target.value;
+      const data = e.target.value;
       elem.innerHTML = `<td class='update kind'>${data}</td>`;
       const kind = elem.innerText;
       axios.post(`/movement/${_id}`, { _id, kind });

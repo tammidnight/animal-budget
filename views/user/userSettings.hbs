@@ -1,12 +1,31 @@
 {{> navbar}}
 
-<p> {{myUserInfo.username}} you can change your personal info
-</p>
 
+
+<div class="settingsPic">
 <figure class="figure">
-  <img src=".../400x300" class="figure-img img-fluid rounded" alt="The user's profile pic">
+  <img src="/images/giraffe.png" class="figure-img img-fluid rounded" alt="The user's profile pic">
   <figcaption class="figure-caption">Tap to change me! </figcaption>
 </figure>
+</div> 
+
+<div class="animalFacts">
+<p>
+  <h2>Fun animal Fact! </h2>
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod <br> 
+  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, <br>
+  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br> 
+  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore <br>
+  fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, <br>
+  sunt in culpa qui officia deserunt mollit anim id est laborum."
+</p>
+</div>
+
+<div class="settingsIntro"> 
+<p> {{myUserInfo.username}} you can change your personal info here: 
+</p>
+</div>
+
 
 <div class="changeInfo"> 
 <form action="/profile/settings" method="POST">
@@ -28,14 +47,13 @@
 
   <li><label> New Password</label>  <br>
   <input name=" newPassword" type="password"  placeholder="Enter your Password" ></li>
-
-  <li><label>Animal URL</label>  <br>
-  <input name="animalUrl" type="text"  placeholder="Choose animal" ></li>
+  <br>
   <button>Submit</button>
 </ul>
-
 </form>
+</div>
 
+<div class="settingsDelete">
 <form action="/profile/delete" method="POST">
   <button class="delete">Delete</button>
 </form>

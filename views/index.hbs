@@ -1,33 +1,212 @@
-<h1>{{title}} 🚀</h1>
-<p>Welcome Ironhacker!</p>
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img
+        src="/images/investment.png"
+        alt="Logo"
+        width="30"
+        height="24"
+        class="d-inline-block align-text-top"
+      />
+      Animal Budget</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
 
-<form method="POST" action="/login">
-  <label>Username</label>
-  <input type="text" name="username" placeholder="Enter your username"  >
+<main id="home">
+  <div id="homeText">
+    <h1>Animal Budget</h1>
+    <h4>
+      Welcome to the jungle!<br />We know how hard saving can be,<br
+      />so we've created this very cute tracker<br />to help you save
+      and achieve<br />all your financial goals.<br />Let's get started!
+    </h4>
+  </div>
 
-  <label>Password</label>
-  <input type="password" name="password" placeholder="Enter your Password"  >
-  <button>Sign In</button>
-</form>
+  <div id="container">
+    <div id="login">
+      <form method="POST" action="/login">
+        <div class="homeInput">
+          <label>Username</label>
+          <input
+            type="text"
+            name="username"
+            placeholder="Enter your username"
+            class="homeInputField"
+          />
+        </div>
 
-{{#if error}}
+        <div class="homeInput">
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter your Password"
+            class="homeInputField"
+          />
+        </div>
 
- <p class="error">Message: {{error}}</p>
+        <div class="homeBtn"><button>Log In</button></div>
+      </form>
+    </div>
 
-{{/if}}
+    <div id="signup">
+      <form action="/signup" method="POST">
+        <div class="signupInput">
+          <label>Name</label>
+          <input
+            name="username"
+            type="text"
+            placeholder="Enter your username"
+            class="homeInputField"
+          />
+        </div>
 
-<form action="/signup" method="POST">
-  <label>Name</label>
-  <input name="username" type="text"  placeholder="Enter your username"  >
+        <div class="signupInput">
+          <label>Email</label>
+          <input
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+            class="homeInputField"
+          />
+        </div>
 
-  <label>Email</label>
-  <input name="email" type="email"  placeholder="Enter your email"  >
+        <div class="signupInput">
+          <label>Password</label>
+          <input
+            name="password"
+            type="password"
+            placeholder="Enter your Password"
+            class="homeInputField"
+          />
+          <p class="passwordP">Needs to contain a minimum of 8 characters,
+            including at least one Uppercase, one Lowercase, one Number and one
+            Special character.</p>
+        </div>
 
-  <label>Password</label>
-  <input name="password" type="password"  placeholder="Enter your Password"  >
+        <div class="signupInput">
+          <p id="animalP">Please choose your avatar</p>
+          <div class="animalInput">
+            <label>
+              <input type="radio" name="animalUrl" value="/images/bear.png" />
+              <img src="/images/bear.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/cow.png" />
+              <img src="/images/cow.png" width="35" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="animalUrl"
+                value="/images/crocodile.png"
+              />
+              <img src="/images/crocodile.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/dog.png" />
+              <img src="/images/dog.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/duck.png" />
+              <img src="/images/duck.png" width="35" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="animalUrl"
+                value="/images/elephant.png"
+              />
+              <img src="/images/elephant.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/monkey.png" />
+              <img src="/images/monkey.png" width="35" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="animalUrl"
+                value="/images/narwhale.png"
+              />
+              <img src="/images/narwhale.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/owl.png" />
+              <img src="/images/owl.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/panda.png" />
+              <img src="/images/panda.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/parrot.png" />
+              <img src="/images/parrot.png" width="35" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="animalUrl"
+                value="/images/penguin.png"
+              />
+              <img src="/images/penguin.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/pig.png" />
+              <img src="/images/pig.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/walrus.png" />
+              <img src="/images/walrus.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/whale.png" />
+              <img src="/images/whale.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/zebra.png" />
+              <img src="/images/zebra.png" width="35" />
+            </label>
+          </div>
+        </div>
 
-  <label>Animal URL</label>
-  <input name="animalUrl" type="text"  placeholder="Choose animal"  >
-  <button>Sign Up</button>
+        <div class="homeBtn"><button>Sign Up</button></div>
 
-</form>
+      </form>
+    </div>
+    <div id="needToSignup">
+      <div>
+        <h6>To enter our jungle,<br />you first need to create an account.</h6>
+      </div>
+      <div class="homeBtn"><button id="signupBtn">Sign Up</button></div>
+    </div>
+
+    <div id="alreadyAccount">
+      <div>
+        <h6>Are you already a inhabitant of our jungle?</h6>
+      </div>
+      <div class="homeBtn"><button id="loginBtn">Log In</button></div>
+    </div>
+
+  </div>
+
+  {{#if error}}
+
+    <p class="error">Message: {{error}}</p>
+
+  {{/if}}
+
+</main>
+
+<script src="/js/home.js"></script>

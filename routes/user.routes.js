@@ -13,6 +13,13 @@ const checkLogIn = (req, res, next) => {
   }
 };
 
+const formateDate = (date) => {
+  const result =
+    date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+  return result;
+};
+
+
 //POST LOGIN
 router.post("/login", (req, res, next) => {
   const { username, password } = req.body;
@@ -102,7 +109,10 @@ router.get("/profile", checkLogIn, (req, res, next) => {
   Wallet.find({ user: _id })
     .populate("user")
     .then((response) => {
-      res.render("user/userProfile.hbs", { myUserInfo, response });
+      let date = response[0].user.createdAt
+      let formattedDate = formateDate(date)
+      
+      res.render("user/userProfile.hbs", { myUserInfo, response, formattedDate});
     })
     .catch((err) => {
       next(err);
@@ -128,7 +138,7 @@ router.post("/profile/settings", (req, res, next) => {
     req.body;
   let myUserInfo = req.session.myProperty;
   let profileName = myUserInfo.username;
-  let _id = myUserInfo._id
+  let _id = myUserInfo._id;
   User.find({ username: profileName })
     .then((usernameResponse) => {
       if (usernameResponse.length) {
@@ -141,7 +151,7 @@ router.post("/profile/settings", (req, res, next) => {
           User.findByIdAndUpdate(
             { _id },
             { username, lastName, firstName, email, password: newPassword }
-          ).then((response) =>{
+          ).then((response) => {
             req.session.myProperty = response;
             res.redirect("/profile");
           });

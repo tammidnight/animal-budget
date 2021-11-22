@@ -1,35 +1,156 @@
-<form method="POST" action="/{{response._id}}/edit">
-  <label>Name of the Wallet</label>
-  <input
-    type="text"
-    name="walletName"
-    value="{{response.walletName}}"
-    placeholder="Please enter a name for your wallet"
-  />
+{{> navbar}}
 
-  <label>Starting Date</label>
-  <input
-    type="date"
-    name="startingDate"
-    value="{{response.startingDate}}"
-    placeholder="Add the starting date of your wallet"
-  />
+<form method="POST" action="/{{response._id}}/edit" class="wholeForm">
+  <div class="walletCreate">
+    <div class="firstColumn">
+      <div>
+        <h2>Edit your {{response.walletName}}</h2>
+        <p>* mandatory fields</p>
+      </div>
+      
+      <div class="walletInput">
+        <label>Name of the Wallet*</label>
+        <input
+          type="text"
+          name="walletName"
+          value="{{response.walletName}}"
+          placeholder="Please enter a name for your wallet"
+          class="walletInputField"
+        />
+      </div>
 
-  <label>Currency</label>
-  <input
-    type="text"
-    name="currency"
-    value="{{response.currency}}"
-    placeholder="Add currency"
-  />
+      <div class="walletInput">
+        <label>Starting Date*</label>
+        <input
+          type="date"
+          name="startingDate"
+          value="{{response.formattedDateForInput}}"
+          placeholder="Add the starting date of your wallet"
+          class="walletInputField"
+        />
+      </div>
 
-  <label>Saving Plan</label>
-  <input
-    type="text"
-    name="savingPlan"
-    value="{{response.savingPlan}}"
-    placeholder="Add saving Plan"
-  />
+      <div class="walletInput">
+        <label>Monthly Income</label>
+        <input
+          type="Number"
+          name="monthlyIncome"
+          value="{{response.monthlyIncome}}"
+          placeholder="Add your monthly Income"
+          step="0.01"
+          class="walletInputField"
+        />
+      </div>
 
-  <button>Submit</button>
+      <div class="walletInput">
+        <label>Monthly Spending</label>
+        <input
+          type="Number"
+          name="monthlySpending"
+          value="{{response.monthlySpending}}"
+          placeholder="Add your monthly Spending"
+          step="0.01"
+          class="walletInputField"
+        />
+      </div>
+
+      <div class="currencyRow">
+        <label>
+          <input type="radio" name="currency" value="Euro"
+          {{#if response.euroIsChecked}}
+          checked
+          {{/if}}/>
+          <img src="/images/euro.png" width="25" />
+        </label>
+        <label>
+          <input type="radio" name="currency" value="Dollar"
+          {{#if response.dollarIsChecked}}
+          checked
+          {{/if}}/>
+          <img src="/images/dollar.png" width="25" />
+        </label>
+        <label>
+          <input type="radio" name="currency" value="Pound"
+          {{#if response.poundIsChecked}}
+          checked
+          {{/if}}/>
+          <img src="/images/pfund-sterling.png" width="25" />
+        </label>
+        <label>
+          <input type="radio" name="currency" value="Yen"
+          {{#if response.yenIsChecked}}
+          checked
+          {{/if}}/>
+          <img src="/images/yen.png" width="25" />
+        </label>
+        <p>*</p>
+      </div>
+
+      <div>
+        <label for="shared">Shared Wallet*</label>
+        <div>
+          <input type="radio" name="shared" value="true" id="true"
+          {{#if response.yesIsChecked}}
+          checked
+          {{/if}}/>
+          <label for="true">Yes</label>
+        </div>
+        <div>
+          <input type="radio" name="shared" value="false" id="false"
+          {{#if response.noIsChecked}}
+          checked
+          {{/if}}/>
+          <label for="true">No</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="secondColumn">
+      <h2>Choose your Saving Plan*</h2>
+      <div class="savingPlanDiv">
+        <label>
+          <input type="radio" name="savingPlan" value="Gold"
+          {{#if response.goldIsChecked}}
+          checked
+          {{/if}}/>
+          <img src="/images/giraffe.png" width="100" />
+        </label>
+        <p class="savingPlanP">GOLD<br />Giraffes only sleep between ten minutes
+          and two hours per night! With this plan you will save 40% of your
+          income.</p>
+      </div>
+      <div class="savingPlanDiv">
+        <label>
+          <input type="radio" name="savingPlan" value="Silver"
+          {{#if response.silverIsChecked}}
+          checked
+          {{/if}}/>
+          <img src="/images/rabbit.png" width="100" />
+        </label>
+        <p class="savingPlanP">SILVER<br />Bunnies are cute and have a lot of
+          kids, they need the money to send them to college. With this plan you
+          will save 20% of your income.
+        </p>
+      </div>
+      <div class="savingPlanDiv">
+        <label>
+          <input type="radio" name="savingPlan" value="Bronze"
+          {{#if response.bronzeIsChecked}}
+          checked
+          {{/if}}/>
+          <img src="/images/sloth.png" width="100" />
+        </label>
+        <p class="savingPlanP">BRONZE<br />Sloths are famously slow but
+          steady. With this plan you will save 10% of your income.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <button class="walletForm">Edit</button>
+
 </form>
+
+{{#if error}}
+  <p class="error">Message: {{error}}</p>
+{{/if}}
