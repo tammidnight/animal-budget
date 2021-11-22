@@ -3,10 +3,13 @@
 <form method="POST" action="/create" class="wholeForm">
   <div class="walletCreate">
     <div class="firstColumn">
-      <h2>Create a New Wallet</h2>
-      
+      <div>
+        <h2>Create a New Wallet</h2>
+        <p>* mandatory fields</p>
+      </div>
+
       <div class="walletInput">
-        <label>Name of the Wallet</label>
+        <label>Name of the Wallet*</label>
         <input
           type="text"
           name="walletName"
@@ -16,7 +19,7 @@
       </div>
 
       <div class="walletInput">
-        <label>Starting Date</label>
+        <label>Starting Date*</label>
         <input
           type="date"
           name="startingDate"
@@ -64,10 +67,11 @@
           <input type="radio" name="currency" value="Yen" />
           <img src="/images/yen.png" width="25" />
         </label>
+        <p>*</p>
       </div>
 
       <div>
-        <label for="shared">Shared Wallet</label>
+        <label for="shared">Shared Wallet*</label>
         <div>
           <input type="radio" name="shared" value="true" id="true" />
           <label for="true">Yes</label>
@@ -80,7 +84,7 @@
     </div>
 
     <div class="secondColumn">
-      <h2>Choose your Saving Plan</h2>
+      <h2>Choose your Saving Plan*</h2>
       <div class="savingPlanDiv">
         <label>
           <input type="radio" name="savingPlan" value="Gold" />

@@ -3,10 +3,13 @@
 <form method="POST" action="/{{response._id}}/edit" class="wholeForm">
   <div class="walletCreate">
     <div class="firstColumn">
-      <h2>Edit your {{response.walletName}}</h2>
+      <div>
+        <h2>Edit your {{response.walletName}}</h2>
+        <p>* mandatory fields</p>
+      </div>
       
       <div class="walletInput">
-        <label>Name of the Wallet</label>
+        <label>Name of the Wallet*</label>
         <input
           type="text"
           name="walletName"
@@ -17,7 +20,7 @@
       </div>
 
       <div class="walletInput">
-        <label>Starting Date</label>
+        <label>Starting Date*</label>
         <input
           type="date"
           name="startingDate"
@@ -80,10 +83,11 @@
           {{/if}}/>
           <img src="/images/yen.png" width="25" />
         </label>
+        <p>*</p>
       </div>
 
       <div>
-        <label for="shared">Shared Wallet</label>
+        <label for="shared">Shared Wallet*</label>
         <div>
           <input type="radio" name="shared" value="true" id="true"
           {{#if response.yesIsChecked}}
@@ -102,7 +106,7 @@
     </div>
 
     <div class="secondColumn">
-      <h2>Choose your Saving Plan</h2>
+      <h2>Choose your Saving Plan*</h2>
       <div class="savingPlanDiv">
         <label>
           <input type="radio" name="savingPlan" value="Gold"
