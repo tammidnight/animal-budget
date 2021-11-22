@@ -13,6 +13,13 @@ const checkLogIn = (req, res, next) => {
   }
 };
 
+const formateDate = (date) => {
+  const result =
+    date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+  return result;
+};
+
+
 //POST LOGIN
 router.post("/login", (req, res, next) => {
   const { username, password } = req.body;
@@ -102,7 +109,10 @@ router.get("/profile", checkLogIn, (req, res, next) => {
   Wallet.find({ user: _id })
     .populate("user")
     .then((response) => {
-      res.render("user/userProfile.hbs", { myUserInfo, response });
+      let date = response[0].user.createdAt
+      let formattedDate = formateDate(date)
+      
+      res.render("user/userProfile.hbs", { myUserInfo, response, formattedDate});
     })
     .catch((err) => {
       next(err);

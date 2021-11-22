@@ -16,13 +16,12 @@ It's good to see you again!
 <div class="profileList">
 <ul>
     <li>User: {{myUserInfo.username}}</li>
-    <li>User since: {{myUserInfo.createdAt}}</li>
+    <li>User since: {{formattedDate}}</li>
     {{#if myUserInfo.firstName}}
          <li>Fullname: {{myUserInfo.firstName}} {{myUserInfo.lastName}}</li>
     {{/if}}
     <li>Email: {{myUserInfo.email}}</li>
     <li>Animal level: {{myUserInfo.animalUrl}}</li>
-    <li>User since: {{myUserInfo.createdAt}}</li>
 </ul>
 </div>
 
@@ -32,7 +31,7 @@ It's good to see you again!
   <div class="card" style="width: 10rem;">
     <img src="/images/wallet.png" class="card-img-top" alt="..." />
     <div class="card-body">
-      <p class="card-text">{{this.walletName}}</p>
+      <p class="card-text">Individual wallet {{this.walletName}}</p>
       <form action="/{{this._id}}" method="GET"><button>Go To</button></form>
     </div>
   </div>

@@ -63,6 +63,41 @@ footer > p {
 
 }
 
+/*Settings*/
+
+
+.settingsPic{
+  position: relative;
+  margin-top: 3rem;
+  margin-left: 16rem;
+}
+
+.settingsIntro{
+  position: absolute;
+  left: 64rem;
+  bottom: 36rem;
+}
+
+.changeInfo{
+  position: absolute;
+  left: 60rem;
+  bottom: 10rem;
+}
+
+.settingsDelete{
+  position: absolute;
+  left: 65.8rem;
+  bottom: 5rem;
+}
+.animalFacts{
+  position: relative;
+  margin-top: 3rem;
+  margin-left: 8rem;
+  margin-right: 6rem;
+  font-style: italic;
+
+}
+
 /*Profile*/
 .profilePic{
   position: relative;
@@ -74,8 +109,8 @@ footer > p {
   text-align: center;
   position: relative;
   margin-top: -12rem;
-
 }
+
 .profileList{
   display: grid;
   place-content: center;
@@ -131,55 +166,4 @@ ul {
   position: relative;
   bottom: 28rem;
   left: 5rem;
-}
-
-/* This is for the nighmode toggle, */
-
-footer.active {
-  background: rgb(82, 79, 82);
-}
-
-#toggle {
-  position: relative;
-  margin-left: 20px;
-  margin-bottom: 8;
-  margin-top: -25;
-  border-radius: 50px;
-  display: flex;
-  height: 26px;
-  width: 50px;
-  height: 25px;
-  background-color: rgb(97, 151, 100);
-  transition: 0.5s;
-  cursor: pointer;
-  box-shadow: inset 0 8px 60px rgba(0, 0, 0, 1),
-    inset 0 8px 8px rgba(0, 0, 0, 1), inset 0 -4px 4px rgba(0, 0, 0, 1);
-}
-/*toggle styling*/
-#toggle.active {
-  background: rgb(22, 61, 7);
-  box-shadow: inset 0 2px 60px rgba(0, 0, 0, 1),
-    inset 0 2px 8px rgba(0, 0, 0, 1), inset 0 -4px 4px rgba(0, 0, 0, 10.05);
-}
-
-#toggle .indicator {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 25px;
-  height: 25px;
-  background: linear-gradient(to bottom, #444, #222);
-  border-radius: 50%;
-  transform: scale(0.9);
-  box-shadow: inset 0 8px 40px rgba(0, 0, 0, 1),
-    inset 0 4px 4px rgba(0, 0, 0, 1), inset 0 -4px 4px rgba(0, 0, 0, 1);
-  transition: 0.5s;
-}
-
-#toggle.active .indicator {
-  left: 25px;
-  background: linear-gradient(to bottom, #eaeaea, #f9f9f9);
-  box-shadow: inset 0 8px 40px rgb(253, 251, 251),
-    inset 0 4px 4px rgba(255, 255, 255, 1),
-    inset 0 -4px 4px rgba(255, 255, 255, 1);
 }
