@@ -26,14 +26,14 @@ Have a track of your finances.
 ## Views
 
 - [ ] layout.hbs
-- [ ] index.hbs
-- [ ] error.hbs
-- [ ] not-found.hbs
-- [ ] userProfile.hbs
+- [x] index.hbs
+- [x] error.hbs
+- [x] not-found.hbs
+- [x] userProfile.hbs
 - [ ] user.Settings.hbs
-- [ ] createWallet.hbs
+- [x] createWallet.hbs
 - [ ] wallet.hbs
-- [ ] editWallet.hbs
+- [x] editWallet.hbs
 - [ ] walletHistory.hbs
       <br>
 
