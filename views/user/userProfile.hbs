@@ -22,16 +22,30 @@ It's good to see you again!
 </ul
 >
 
-<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <p class="card-text">Wallet 1.</p>
-  </div>
-</div>
 
-<div class="card" style="width: 18rem;">
+<div class="containerProfile">
+
+{{#each response}}
+  <div class="card" style="width: 18rem;">
+    <img src="..." class="card-img-top" alt="..." />
+    <div class="card-body">
+      <p class="card-text">{{this.walletName}}</p>
+      <form action="/{{this._id}}" method="GET"><button>Go To</button></form>
+    </div>
+  </div>
+{{/each}}
+
+<div class="card" style="width: 10rem;">
   <img src="..." class="card-img-top" alt="...">
   <div class="card-body">
     <p class="card-text">Shared wallet.</p>
   </div>
+</div>
+
+<div class="card" style="width: 10rem;">
+  <img src="images/plus.png" class="card-img-top" alt="plus symbol">
+  <form action="/create" method="GET">
+  <button class="create"> ADD NEW WALLET</button> </form>
+</div>
+
 </div>

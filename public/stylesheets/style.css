@@ -48,6 +48,16 @@ footer > p {
 
 }
 
+/*Profile*/
+.containerProfile{
+  display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: flex-start;
+}
+
 /* 404 and 500*/
 .error {
   background-image: url(../images/tv.jpg);
