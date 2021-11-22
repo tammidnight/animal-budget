@@ -42,10 +42,42 @@ footer > p {
   margin: 0;
 }
 
+[name="currency"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+[name="currency"] + img {
+  cursor: pointer;
+}
+
+[name="currency"]:checked + img {
+  outline: 2px solid darkgray;
+}
+
+.changeInfo{
+ text-align: center;
+ list-style-type: none;
+
+}
+
+/*Profile*/
+.containerProfile{
+  display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: flex-start;
+}
+
+/* 404 and 500*/
 .error {
   background-image: url(../images/tv.jpg);
   background-repeat: no-repeat;
-  background-position: bottom 0.3rem right -10.30rem;
+  background-position: bottom 0.3rem right -10.3rem;
   background-size: 100% 100%;
   width: 72%;
   height: 85%;
@@ -55,24 +87,25 @@ footer > p {
   margin-right: 36px;
 }
 
-.notFound{
+.notFound {
   text-align: left;
   margin-top: 360px;
   margin-left: 36px;
   margin-right: 36px;
 }
 
-.pig{
+.pig {
   position: relative;
   left: 72rem;
+  bottom: 12rem;
 }
 
-.snake{
+.snake {
   position: relative;
-  bottom: 20rem;
-  left: 10rem;
-
+  bottom: 28rem;
+  left: 5rem;
 }
+
 /* This is for the nighmode toggle, */
 
 footer.active {

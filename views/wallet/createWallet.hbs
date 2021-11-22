@@ -13,8 +13,43 @@
     placeholder="Add the starting date of your wallet"
   />
 
-  <label>Currency</label>
-  <input type="text" name="currency" placeholder="Add currency" />
+  <label>Monthly Income</label>
+  <input
+    type="Number"
+    name="monthlyIncome"
+    placeholder="Add your monthly Income"
+    step="0.01"
+  />
+
+  <label>Monthly Spending</label>
+  <input
+    type="Number"
+    name="monthlySpending"
+    placeholder="Add your monthly Spending"
+    step="0.01"
+  />
+
+  <label for="currency">Currency</label>
+  <label>
+    <input type="radio" name="currency" value="Euro" />
+    <img src="/images/euro.png" width="25" />
+  </label>
+  <label>
+    <input type="radio" name="currency" value="Dollar" />
+    <img src="/images/dollar.png" width="25" />
+  </label>
+  <label>
+    <input type="radio" name="currency" value="Pound" />
+    <img src="/images/pfund-sterling.png" width="25" />
+  </label>
+  <label>
+    <input type="radio" name="currency" value="Yen" />
+    <img src="/images/yen.png" width="25" />
+  </label>
+
+  <label for="shared">Shared Wallet</label>
+  <input type="radio" name="shared" value="true" placeholder="Yes" />
+  <input type="radio" name="shared" value="false" placeholder="No" />
 
   <label>Saving Plan</label>
   <input type="text" name="savingPlan" placeholder="Add saving Plan" />

@@ -29,6 +29,10 @@ update.forEach((elem) => {
       saving.setAttribute("value", "Saving");
       saving.innerText = "Saving";
       select.appendChild(saving);
+      const savingSpending = document.createElement("option");
+      savingSpending.setAttribute("value", "Saving Spending");
+      savingSpending.innerText = "Saving Spending";
+      select.appendChild(savingSpending);
       select.setAttribute("name", "kind");
       elem.appendChild(select);
     } else if (e.target.className == "update amount") {
@@ -38,6 +42,7 @@ update.forEach((elem) => {
       input.value = data;
       input.setAttribute("type", "number");
       input.setAttribute("name", "amount");
+      input.setAttribute("step", "0.01");
       elem.appendChild(input);
     } else if (e.target.className == "update category") {
       let data = e.target.innerText;
@@ -63,16 +68,30 @@ update.forEach((elem) => {
     const _id = elem.parentElement.className;
     if (e.key == "Enter") {
       if (e.target.name == "amount") {
-        let data = e.target.value;
+        if (e.target.value == "") {
+          alert("Field cannot be empty");
+          return;
+        }
+        let data = Number(e.target.value).toFixed(2);
         elem.innerHTML = `<td class='update kind'>${data}</td>`;
         const amount = elem.innerText;
-        axios.post(`/movement/${_id}`, { _id, amount });
+        axios.post(`/movement/${_id}`, { _id, amount }).then(() => {
+          location.reload();
+        });
       } else if (e.target.name == "category") {
+        if (e.target.value == "") {
+          alert("Field cannot be empty");
+          return;
+        }
         let data = e.target.value;
         elem.innerHTML = `<td class='update category'>${data}</td>`;
         const category = elem.innerText;
         axios.post(`/movement/${_id}`, { _id, category });
       } else if (e.target.name == "date") {
+        if (e.target.value == "") {
+          alert("Field cannot be empty");
+          return;
+        }
         let data = e.target.value;
         elem.innerHTML = `<td class='update date'>${data}</td>`;
         const date = elem.innerText;

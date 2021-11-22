@@ -18,8 +18,12 @@ const walletSchema = new Schema({
     type: String,
     required: true,
   },
-  monthlyIncome: Number,
-  monthlySpending: Number,
+  monthlyIncome: {
+    type: Schema.Types.Decimal128,
+  },
+  monthlySpending: {
+    type: Schema.Types.Decimal128,
+  },
   shared: Boolean,
   user: {
     type: Schema.Types.ObjectId,

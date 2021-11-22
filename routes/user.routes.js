@@ -98,11 +98,11 @@ router.get("/logout", (req, res, next) => {
 router.get("/profile", checkLogIn, (req, res, next) => {
   let myUserInfo = req.session.myProperty;
   let _id = myUserInfo._id;
-  User.findById({ _id })
-    //populate Wallet with User missing
+
+  Wallet.find({ user: _id })
+    .populate("user")
     .then((response) => {
-      let wallet = response.wallet;
-      res.render("user/userProfile.hbs", { myUserInfo, wallet });
+      res.render("user/userProfile.hbs", { myUserInfo, response });
     })
     .catch((err) => {
       next(err);
@@ -128,12 +128,12 @@ router.post("/profile/settings", (req, res, next) => {
     req.body;
   let myUserInfo = req.session.myProperty;
   let profileName = myUserInfo.username;
+  let _id = myUserInfo._id
   User.find({ username: profileName })
     .then((usernameResponse) => {
       if (usernameResponse.length) {
         //bcrypt decryption
         let userObj = usernameResponse[0];
-        let _id = usernameResponse._id;
 
         // check if password matches
         let isMatching = bcrypt.compareSync(password, userObj.password);
@@ -141,7 +141,7 @@ router.post("/profile/settings", (req, res, next) => {
           User.findByIdAndUpdate(
             { _id },
             { username, lastName, firstName, email, password: newPassword }
-          ).then((response) => {
+          ).then((response) =>{
             req.session.myProperty = response;
             res.redirect("/profile");
           });
