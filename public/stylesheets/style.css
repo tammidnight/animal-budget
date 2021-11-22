@@ -84,6 +84,10 @@ footer > p {
   margin: 0; /* Remove margins */
 }
 
+ul {
+  list-style-type: none;
+}
+
 .containerProfile{
   display: flex;
 	flex-direction: row;
