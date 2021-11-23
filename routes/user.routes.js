@@ -19,7 +19,6 @@ const formateDate = (date) => {
   return result;
 };
 
-
 //POST LOGIN
 router.post("/login", (req, res, next) => {
   const { username, password } = req.body;
@@ -109,10 +108,15 @@ router.get("/profile", checkLogIn, (req, res, next) => {
   Wallet.find({ user: _id })
     .populate("user")
     .then((response) => {
-      let date = response[0].user.createdAt
-      let formattedDate = formateDate(date)
-      
-      res.render("user/userProfile.hbs", { myUserInfo, response, formattedDate});
+      let date = response[0].user.createdAt;
+      let formattedDate = formateDate(date);
+      let user = response[0].user;
+
+      res.render("user/userProfile.hbs", {
+        response,
+        formattedDate,
+        user,
+      });
     })
     .catch((err) => {
       next(err);
