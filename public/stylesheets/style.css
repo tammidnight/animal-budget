@@ -9,7 +9,7 @@ button {
   color: white;
   padding: 0.5rem;
   border-radius: 0.5rem;
-}
+} 
 
 .delete {
   background-color: #99122d;
@@ -423,3 +423,4 @@ ul {
 #walletBtns button {
   margin-right: 2rem;
 }
+
