@@ -36,6 +36,8 @@ const getBalance = (movement) => {
       balance = balance + Number(elem.amount);
     } else if (elem.kind == "Spending") {
       balance = balance - Number(elem.amount);
+    } else if (elem.kind == "Saving") {
+      balance = balance - Number(elem.amount);
     }
   });
 
@@ -85,112 +87,173 @@ router.post("/create", (req, res, next) => {
     return;
   }
 
-  Wallet.create({
-    walletName,
-    currency,
-    startingDate,
-    savingPlan,
-    monthlyIncome,
-    monthlySpending,
-    shared,
-    user,
-  })
-    .then(() => {
-      res.redirect("/profile");
+  Wallet.find({ user })
+    .then((response) => {
+      if (response.length == 3) {
+        res.render("wallet/createWallet", {
+          error:
+            "Unfortunately you can only have three Wallets at a time. Please delete one Wallet before creating a new one.",
+        });
+      } else {
+        if (monthlyIncome == "" && monthlySpending == "") {
+          return Wallet.create({
+            walletName,
+            currency,
+            startingDate,
+            savingPlan,
+            shared,
+            user,
+          }).then(() => {
+            res.redirect("/profile");
+          });
+        } else if (monthlyIncome == "") {
+          return Wallet.create({
+            walletName,
+            currency,
+            startingDate,
+            savingPlan,
+            shared,
+            user,
+            monthlySpending,
+          }).then(() => {
+            res.redirect("/profile");
+          });
+        } else if (monthlySpending == "") {
+          return Wallet.create({
+            walletName,
+            currency,
+            startingDate,
+            savingPlan,
+            shared,
+            user,
+            monthlySpending,
+          }).then(() => {
+            res.redirect("/profile");
+          });
+        } else {
+          return Wallet.create({
+            walletName,
+            currency,
+            startingDate,
+            savingPlan,
+            monthlyIncome,
+            monthlySpending,
+            shared,
+            user,
+          }).then(() => {
+            res.redirect("/profile");
+          });
+        }
+      }
     })
     .catch((err) => next(err));
 });
 
-router.get("/:walletId", checkLogIn, (req, res, next) => {
+router.get("/:walletId", checkLogIn, async (req, res, next) => {
   const { walletId: _id } = req.params;
 
-  WalletMovement.find({ wallet: _id })
-    .populate("wallet")
-    .then((response) => {
-      if (response.length == 0) {
-        return Wallet.findById({ _id }).then((wallet) => {
-          let date = new Date();
-          let month = date.getMonth() + 1;
-          let year = date.getFullYear();
-          date = month + "/" + year;
-          res.render("wallet/wallet.hbs", { wallet, date });
-        });
+  try {
+    let response = await WalletMovement.find({ wallet: _id }).populate(
+      "wallet"
+    );
+    if (response.length == 0) {
+      return Wallet.findById({ _id }).then((wallet) => {
+        let newWallet = wallet;
+        let newDate = new Date();
+        let month = newDate.getMonth() + 1;
+        let year = newDate.getFullYear();
+        newDate = month + "/" + year;
+        res.render("wallet/wallet.hbs", { newWallet, newDate });
+      });
+    }
+    let newWallet = response[0].wallet;
+    let newDate = new Date();
+    let month = newDate.getMonth() + 1;
+    let year = newDate.getFullYear();
+    newDate = month + "/" + year;
+    let monthlyBalance =
+      Number(newWallet.monthlyIncome).toFixed(2) -
+      Number(newWallet.monthlySpending).toFixed(2);
+    let balance = Number(getBalance(response)).toFixed(2) + monthlyBalance;
+    balance = Number(balance).toFixed(2);
+    let saving = getSaving(response);
+    let chartLabels = [
+      "Transportation",
+      "Food",
+      "Pet",
+      "Leisure",
+      "Present",
+      "Other",
+    ];
+    let chartData = [];
+    let transportation = 0;
+    let food = 0;
+    let pet = 0;
+    let leisure = 0;
+    let present = 0;
+    let other = 0;
+    let chartLabelsTwo = ["Balance", "Saving"];
+    let chartDataTwo = [balance, saving];
+
+    response.forEach((elem) => {
+      elem.formattedDate = formateDate(elem.date);
+      elem.formattedAmount = formateAmount(elem.amount);
+
+      if (elem.kind == "Spending") {
+        if (elem.category == "Transportation") {
+          transportation += Number(elem.formattedAmount);
+        } else if (elem.category == "Food") {
+          food += Number(elem.formattedAmount);
+        } else if (elem.category == "Pet") {
+          pet += Number(elem.formattedAmount);
+        } else if (elem.category == "Leisure") {
+          leisure += Number(elem.formattedAmount);
+        } else if (elem.category == "Present") {
+          present += Number(elem.formattedAmount);
+        } else if (elem.category == "Other") {
+          other += Number(elem.formattedAmount);
+        }
       }
-      let wallet = response[0].wallet;
-      let date = new Date();
-      let month = date.getMonth() + 1;
-      let year = date.getFullYear();
-      date = month + "/" + year;
-      let monthlyBalance =
-        Number(wallet.monthlyIncome).toFixed(2) -
-        Number(wallet.monthlySpending).toFixed(2);
-      let balance = Number(getBalance(response)).toFixed(2) + monthlyBalance;
-      balance = Number(balance).toFixed(2);
-      let saving = getSaving(response);
-      let chartLabels = [
-        "Transportation",
-        "Food",
-        "Pet",
-        "Leisure",
-        "Present",
-        "Other",
-      ];
-      let chartData = [];
-      let transportation = 0;
-      let food = 0;
-      let pet = 0;
-      let leisure = 0;
-      let present = 0;
-      let other = 0;
+    });
 
-      response.forEach((elem) => {
-        elem.formattedDate = formateDate(elem.date);
-        elem.formattedAmount = formateAmount(elem.amount);
+    response.sort((a, b) => {
+      let keyA = a.formattedDate;
+      let keyB = b.formattedDate;
+      if (keyA < keyB) {
+        return -1;
+      }
+      if (keyA > keyB) {
+        return 1;
+      }
+      return 0;
+    });
 
-        if (elem.kind == "Spending") {
-          if (elem.category == "Transportation") {
-            transportation += Number(elem.formattedAmount);
-          } else if (elem.category == "Food") {
-            food += Number(elem.formattedAmount);
-          } else if (elem.category == "Pet") {
-            pet += Number(elem.formattedAmount);
-          } else if (elem.category == "Leisure") {
-            leisure += Number(elem.formattedAmount);
-          } else if (elem.category == "Present") {
-            present += Number(elem.formattedAmount);
-          } else if (elem.category == "Other") {
-            other += Number(elem.formattedAmount);
-          }
-        }
-      });
+    chartData.push(transportation, food, pet, leisure, present, other);
+    chartLabels = JSON.stringify(chartLabels);
+    chartData = JSON.stringify(chartData);
+    chartLabelsTwo = JSON.stringify(chartLabelsTwo);
+    chartDataTwo = JSON.stringify(chartDataTwo);
 
-      response.sort((a, b) => {
-        let keyA = a.formattedDate;
-        let keyB = b.formattedDate;
-        if (keyA < keyB) {
-          return -1;
-        }
-        if (keyA > keyB) {
-          return 1;
-        }
-        return 0;
-      });
+    res.render("wallet/wallet.hbs", {
+      response,
+      newWallet,
+      newDate,
+      balance,
+      saving,
+      chartLabels,
+      chartData,
+      chartLabelsTwo,
+      chartDataTwo,
+    });
 
-      chartData.push(transportation, food, pet, leisure, present, other);
-      chartLabels = JSON.stringify(chartLabels);
-      chartData = JSON.stringify(chartData);
-
-      res.render("wallet/wallet.hbs", {
-        response,
-        wallet,
-        date,
-        balance,
-        saving,
-        chartLabels,
-        chartData,
-      });
-    })
-    .catch(() => next());
+    let w = await Wallet.findByIdAndUpdate(
+      { _id: response[0].wallet._id },
+      { balance, saving }
+    );
+    console.log(w);
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.post("/:walletId", async (req, res, next) => {
@@ -227,6 +290,8 @@ router.post("/:walletId", async (req, res, next) => {
         let leisure = 0;
         let present = 0;
         let other = 0;
+        let chartLabelsTwo = ["Balance", "Saving"];
+        let chartDataTwo = [balance, saving];
 
         response.forEach((elem) => {
           elem.formattedDate = formateDate(elem.date);
@@ -264,6 +329,8 @@ router.post("/:walletId", async (req, res, next) => {
         chartData.push(transportation, food, pet, leisure, present, other);
         chartLabels = JSON.stringify(chartLabels);
         chartData = JSON.stringify(chartData);
+        chartLabelsTwo = JSON.stringify(chartLabelsTwo);
+        chartDataTwo = JSON.stringify(chartDataTwo);
 
         res.render("wallet/wallet.hbs", {
           response,
@@ -273,6 +340,8 @@ router.post("/:walletId", async (req, res, next) => {
           saving,
           chartData,
           chartLabels,
+          chartLabelsTwo,
+          chartDataTwo,
           error: "Please enter all mandatory fields",
         });
       })
@@ -306,6 +375,8 @@ router.post("/:walletId", async (req, res, next) => {
     let leisure = 0;
     let present = 0;
     let other = 0;
+    let chartLabelsTwo = ["Balance", "Saving"];
+    let chartDataTwo = [balance, saving];
 
     response.forEach((elem) => {
       elem.formattedDate = formateDate(elem.date);
@@ -329,8 +400,8 @@ router.post("/:walletId", async (req, res, next) => {
     });
 
     response.sort((a, b) => {
-      let keyA = a.date;
-      let keyB = b.date;
+      let keyA = a.formattedDate;
+      let keyB = b.formattedDate;
       if (keyA < keyB) {
         return -1;
       }
@@ -343,6 +414,8 @@ router.post("/:walletId", async (req, res, next) => {
     chartData.push(transportation, food, pet, leisure, present, other);
     chartLabels = JSON.stringify(chartLabels);
     chartData = JSON.stringify(chartData);
+    chartLabelsTwo = JSON.stringify(chartLabelsTwo);
+    chartDataTwo = JSON.stringify(chartDataTwo);
 
     res.render("wallet/wallet.hbs", {
       response,
@@ -352,6 +425,8 @@ router.post("/:walletId", async (req, res, next) => {
       saving,
       chartData,
       chartLabels,
+      chartLabelsTwo,
+      chartDataTwo,
     });
 
     let w = await Wallet.findByIdAndUpdate(
