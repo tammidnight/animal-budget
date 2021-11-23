@@ -113,9 +113,6 @@ router.get("/profile", checkLogIn, (req, res, next) => {
       let formattedDate = formateDate(date);
       let user = response[0].user;
 
-      let date = response[0].user.createdAt;
-      let formattedDate = formateDate(date);
-
       let chartData = ["wallet.balance", "wallet.saving"];
       let chartLabels = ["balance", "saving"];
 
