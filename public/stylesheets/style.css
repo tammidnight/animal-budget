@@ -147,13 +147,14 @@ footer > p {
 
 .changeInfo {
   position: absolute;
-  left: 60rem;
-  bottom: 10rem;
+  left: 55rem;
+  bottom: 25rem;
+  height: 10rem;
 }
 
 .settingsDelete {
   position: absolute;
-  left: 65.8rem;
+  left: 63.2rem;
   bottom: 5rem;
 }
 .animalFacts {

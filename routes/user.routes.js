@@ -4,6 +4,7 @@ const Wallet = require("../models/Wallet.model");
 const WalletMovement = require("../models/WalletMovement.model");
 const bcrypt = require("bcryptjs");
 const { response } = require("express");
+const app = require("../app");
 
 const checkLogIn = (req, res, next) => {
   if (req.session.myProperty) {
@@ -112,10 +113,21 @@ router.get("/profile", checkLogIn, (req, res, next) => {
       let formattedDate = formateDate(date);
       let user = response[0].user;
 
+      let date = response[0].user.createdAt;
+      let formattedDate = formateDate(date);
+
+      let chartData = ["wallet.balance", "wallet.saving"];
+      let chartLabels = ["balance", "saving"];
+
+      chartData = JSON.stringify(chartData);
+      chartLabels = JSON.stringify(chartLabels);
+
       res.render("user/userProfile.hbs", {
+        user,
         response,
         formattedDate,
-        user,
+        chartData,
+        chartLabels,
       });
     })
     .catch((err) => {
