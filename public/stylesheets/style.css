@@ -243,6 +243,16 @@ ul {
   left: 5rem;
 }
 
+/* Display error on page */
+.error {
+  background: #99122d;
+  box-sizing: border-box;
+  color: #fff;
+  margin: 20px auto;
+  padding: 20px;
+  width: 100%;
+}
+
 /* Homepage */
 #home {
   background-image: url(../images/animal-budget-bg.jpg);
@@ -338,4 +348,46 @@ ul {
 .passwordP {
   font-size: 9px;
   margin: 0;
+}
+
+/* wallet view */
+#walletPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90%;
+}
+
+#walletHeader,
+#walletTopics,
+#walletDetails,
+#balance,
+#walletBtns {
+  display: flex;
+  flex-direction: row;
+}
+
+#walletHeader h1,
+.chart,
+#calendar,
+#newMovement,
+#walletTable,
+#balance h4,
+#walletBtns {
+  width: 45%;
+  margin: 1rem 2rem;
+}
+
+#newMovement {
+  display: flex;
+  flex-direction: column;
+}
+
+#walletDetails,
+#walletTopics {
+  height: 35%;
+}
+
+#walletTable {
+  overflow: auto;
 }
