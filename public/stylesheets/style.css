@@ -8,7 +8,7 @@ button {
   color: white;
   padding: 0.5rem;
   border-radius: 0.5rem;
-}
+} 
 
 .delete {
   background-color: #99122d;
@@ -392,3 +392,4 @@ ul {
 #walletTable {
   overflow: auto;
 }
+
