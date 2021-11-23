@@ -24,11 +24,18 @@ const walletSchema = new Schema({
   monthlySpending: {
     type: Schema.Types.Decimal128,
   },
+  balance: {
+    type: Schema.Types.Decimal128,
+  },
+  saving: {
+    type: Schema.Types.Decimal128,
+  },
   shared: Boolean,
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+ 
 });
 
 const Wallet = model("Wallet", walletSchema);

@@ -1,94 +1,140 @@
 {{> navbar}}
 
-<div id="walletHeader">
-  <h1>{{wallet.walletName}}</h1>
-  <h1>{{date}}</h1>
+<div id="walletPage">
+  <div id="walletHeader">
+    <h1>{{wallet.walletName}}</h1>
+    <h1>{{date}}</h1>
+  </div>
+
+  <div id="walletTopics">
+    <div class="chart"><h3>Chart of the month</h3>
+    <canvas id="myChart" width="200" height="200"></canvas></div>
+    <div id="calendar"><h3>Calendar</h3></div>
+  </div>
+
+  <div id="walletDetails">
+    <form method="POST" action="/{{wallet._id}}" id="newMovement">
+      <label for="movement">New Movement</label>
+      <select id="movement" name="kind">
+        <option value="Income">Income</option>
+        <option value="Spending">Spending</option>
+        <option value="Saving">Saving</option>
+        <option value="Saving Spending">Saving Spending</option>
+      </select>
+
+      <label for="category">Category</label>
+      <select id="category" name="category">
+        <option value="Income">Income</option>
+        <option value="Saving">Saving</option>
+        <option value="Transportation">Transportation</option>
+        <option value="Food">Food</option>
+        <option value="Pet">Pet</option>
+        <option value="Leisure">Leisure</option>
+        <option value="Present">Present</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label>Date</label>
+      <input type="date" name="date" placeholder="Add the date" />
+
+      <label>Amount</label>
+      <input type="number" name="amount" placeholder="Add the amount" step="0.01" />
+
+      <button>Create new movement</button>
+    </form>
+
+    {{#if error}}
+      <p class="error">Message: {{error}}</p>
+    {{/if}}
+
+      <table id="walletTable">
+      <tr>
+        <th>Movement</th>
+        <th>Category</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Currency</th>
+      </tr>
+
+      {{#if wallet.monthlyIncome}}
+        <tr>
+          <td>Monthly Income</td>
+          <td>Monthly Income</td>
+          <td>01/{{date}}</td>
+          <td>{{wallet.monthlyIncome}}</td>
+          <td>{{wallet.currency}}</td>
+        </tr>
+      {{/if}}
+
+      {{#if wallet.monthlySpending}}
+        <tr>
+          <td>Monthly Spending</td>
+          <td>Monthly Spending</td>
+          <td>01/{{date}}</td>
+          <td>{{wallet.monthlySpending}}</td>
+          <td>{{wallet.currency}}</td>
+        </tr>
+      {{/if}}
+    
+      {{#each response}}
+        <tr class="{{this._id}}">
+          <td class="update kind">{{this.kind}}</td>
+          <td class="update category">{{this.category}}</td>
+          <td class="update date">{{this.formattedDate}}</td>
+          <td class="update amount">{{this.formattedAmount}}</td>
+          <td>{{this.wallet.currency}}</td>
+          <td><form action="/movement/{{this._id}}/delete" method="POST" class="minus"><input type="image" src="/images/minus-symbol.png" name="submit" width="15" class="minus"></form></td>
+        </tr>
+      {{/each}}
+    </table>
+  </div>
+
+  <div id="balance">
+    <h4>Balance: {{balance}}</h4>
+    <h4>Savings: {{saving}}</h4>
+  </div>
+
+
+  <div id="walletBtns">
+    <form action="/{{wallet._id}}/edit" method="GET">
+      <button>Edit</button>
+    </form>
+
+    <form action="/{{wallet._id}}/history" method="GET">
+      <button>Wallet History</button>
+    </form>
+
+    <form action="/{{wallet._id}}/delete" method="POST">
+      <button class="delete">Delete</button>
+    </form>
+  </div>
+
 </div>
 
-<div id="walletTopics">
-  <div class="chart"><h3>Chart of the month</h3></div>
-  <div id="calendar"><h3>Calendar</h3></div>
-</div>
+<script>
 
-<div id="details">
-  <form method="POST" action="/{{wallet._id}}" id="newMovement">
-    <label for="movement">New Movement</label>
-    <select id="movement" name="kind">
-      <option value="Income">Income</option>
-      <option value="Spending">Spending</option>
-      <option value="Saving">Saving</option>
-      <option value="Saving Spending">Saving Spending</option>
-    </select>
-
-    <label>Amount</label>
-    <input type="number" name="amount" placeholder="Add the amount" step="0.01" />
-
-    <label>Category</label>
-    <input type="text" name="category" placeholder="Add category" />
-
-    <label>Date</label>
-    <input type="date" name="date" placeholder="Add the date" />
-
-    <button>Create new movement</button>
-  </form>
-
-{{#if error}}
-  <p class="error">Message: {{error}}</p>
-{{/if}}
-
-  <table>
-  <tr>
-    <th>Movement</th>
-    <th>Category</th>
-    <th>Date</th>
-    <th>Amount</th>
-    <th>Currency</th>
-  </tr>
-
-  {{#if wallet.monthlyIncome}}
-    <tr>
-      <td>Monthly Income</td>
-      <td>Monthly Income</td>
-      <td>01/{{date}}</td>
-      <td>{{wallet.monthlyIncome}}</td>
-      <td>{{wallet.currency}}</td>
-    </tr>
-  {{/if}}
-
-  {{#if wallet.monthlySpending}}
-    <tr>
-      <td>Monthly Spending</td>
-      <td>Monthly Spending</td>
-      <td>01/{{date}}</td>
-      <td>{{wallet.monthlySpending}}</td>
-      <td>{{wallet.currency}}</td>
-    </tr>
-  {{/if}}
- 
-  {{#each response}}
-    <tr class="{{this._id}}">
-      <td class="update kind">{{this.kind}}</td>
-      <td class="update category">{{this.category}}</td>
-      <td class="update date">{{this.formattedDate}}</td>
-      <td class="update amount">{{this.formattedAmount}}</td>
-      <td>{{this.wallet.currency}}</td>
-      <td><form action="/movement/{{this._id}}/delete" method="POST" class="minus"><input type="image" src="/images/minus-symbol.png" name="submit" width="15" class="minus"></form></td>
-    </tr>
-  {{/each}}
-</table>
-
-<h4>Balance: {{balance}}</h4>
-<h4>Savings: {{saving}}</h4>
-
-</div>
-<form action="/{{wallet._id}}/edit" method="GET">
-  <button>Edit</button>
-</form>
-
-<form action="/{{wallet._id}}/delete" method="POST">
-  <button class="delete">Delete</button>
-</form>
-
-<form action="/{{wallet._id}}/history" method="GET">
-  <button>Wallet History</button>
-</form>
+const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: {{{chartLabels}}},
+            datasets: [{
+                label: 'Spendings',
+                data: {{{chartData}}},
+                 backgroundColor: [
+                    '#99122d',
+                    '#00613e',
+                    '#99c0b2',
+                    '#99c0b2',
+                    '#a9a9a9',
+                    '#99c0b2'
+                ],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+          responsive: true, 
+          maintainAspectRatio: false
+        }
+    });
+</script>

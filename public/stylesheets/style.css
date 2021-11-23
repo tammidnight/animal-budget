@@ -147,13 +147,14 @@ footer > p {
 
 .changeInfo {
   position: absolute;
-  left: 60rem;
-  bottom: 10rem;
+  left: 55rem;
+  bottom: 25rem;
+  height: 10rem;
 }
 
 .settingsDelete {
   position: absolute;
-  left: 65.8rem;
+  left: 63.2rem;
   bottom: 5rem;
 }
 .animalFacts {
@@ -241,6 +242,16 @@ ul {
   position: relative;
   bottom: 28rem;
   left: 5rem;
+}
+
+/* Display error on page */
+.error {
+  background: #99122d;
+  box-sizing: border-box;
+  color: #fff;
+  margin: 20px auto;
+  padding: 20px;
+  width: 100%;
 }
 
 /* Homepage */
@@ -338,4 +349,46 @@ ul {
 .passwordP {
   font-size: 9px;
   margin: 0;
+}
+
+/* wallet view */
+#walletPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90%;
+}
+
+#walletHeader,
+#walletTopics,
+#walletDetails,
+#balance,
+#walletBtns {
+  display: flex;
+  flex-direction: row;
+}
+
+#walletHeader h1,
+.chart,
+#calendar,
+#newMovement,
+#walletTable,
+#balance h4,
+#walletBtns {
+  width: 45%;
+  margin: 1rem 2rem;
+}
+
+#newMovement {
+  display: flex;
+  flex-direction: column;
+}
+
+#walletDetails,
+#walletTopics {
+  height: 35%;
+}
+
+#walletTable {
+  overflow: auto;
 }

@@ -2,26 +2,26 @@
 
 <div class="profilePic"> 
 <figure class="figure">
-  <img src="images/sloth.png" class="figure-img img-fluid rounded" alt="The user's profile pic">
+  <img src="{{user.animalUrl}}" class="figure-img img-fluid rounded" alt="The user's profile pic">
   <figcaption class="figure-caption">Looking good! </figcaption>
 </figure>
 </div>
 
 <div class="profileHi">
-<p>Hi {{myUserInfo.username}}!<br>
+<p>Hi {{user.username}}!<br>
 It's good to see you again!
 </p>
 </div>
 
 <div class="profileList">
 <ul>
-    <li>User: {{myUserInfo.username}}</li>
+    <li>User: {{user.username}}</li>
     <li>User since: {{formattedDate}}</li>
-    {{#if myUserInfo.firstName}}
-         <li>Fullname: {{myUserInfo.firstName}} {{myUserInfo.lastName}}</li>
+    {{#if user.firstName}}
+         <li>Fullname: {{user.firstName}} {{user.lastName}}</li>
     {{/if}}
-    <li>Email: {{myUserInfo.email}}</li>
-    <li>Animal level: {{myUserInfo.animalUrl}}</li>
+    <li>Email: {{user.email}}</li>
+    <li>Animal level: {{user.animalUrl}}</li>
 </ul>
 </div>
 
@@ -29,7 +29,7 @@ It's good to see you again!
 <div class="containerProfile">
 {{#each response}}
   <div class="card" style="width: 10rem;">
-    <img src="/images/wallet.png" class="card-img-top" alt="..." />
+  <canvas  id="myChart"  width="400"  height="400"></canvas>
     <div class="card-body">
       <p class="card-text">Individual wallet {{this.walletName}}</p>
       <form action="/{{this._id}}" method="GET"><button>Go To</button></form>
@@ -50,3 +50,29 @@ It's good to see you again!
   <button class="create"> ADD NEW WALLET</button> </form>
 </div>
 </div>
+
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{{chartLabels}}},
+            datasets: [{
+                label: 'This month',
+                data: {{{chartData}}},
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

@@ -89,8 +89,10 @@ Have a track of your finances.
         - currency: {type: String, required: true},
         - startingDate: {type: Date, required: true},
         - savingPlan: {type: String, required: true},
-        - monthlyIncome: Number,
-        - monthlySpending: Number,
+        - monthlyIncome: {type: Schema.Types.Decimal128},
+        - monthlySpending: {type: Schema.Types.Decimal128},
+        - balance: {type: Schema.Types.Decimal128},
+        - saving: {type: Schema.Types.Decimal128},
         - shared: Boolean
         - user: {type: Schema.Types.ObjectId, ref: 'User'},
           })
@@ -103,7 +105,7 @@ Have a track of your finances.
 
         - \_id: ,
         - kind: {type: String, required: true},
-        - amount: {type: Number, required: true},
+        - amount: {type: Schema.Types.Decimal128, required: true},
         - category: {type: String, required: true},
         - date: {type: Date, required: true},
         - wallet: {type: Schema.Types.ObjectId, ref: 'Wallet'},

@@ -4,6 +4,7 @@ const Wallet = require("../models/Wallet.model");
 const WalletMovement = require("../models/WalletMovement.model");
 const bcrypt = require("bcryptjs");
 const { response } = require("express");
+const app = require("../app");
 
 const checkLogIn = (req, res, next) => {
   if (req.session.myProperty) {
@@ -18,7 +19,6 @@ const formateDate = (date) => {
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
   return result;
 };
-
 
 //POST LOGIN
 router.post("/login", (req, res, next) => {
@@ -109,10 +109,26 @@ router.get("/profile", checkLogIn, (req, res, next) => {
   Wallet.find({ user: _id })
     .populate("user")
     .then((response) => {
-      let date = response[0].user.createdAt
-      let formattedDate = formateDate(date)
-      
-      res.render("user/userProfile.hbs", { myUserInfo, response, formattedDate});
+      let date = response[0].user.createdAt;
+      let formattedDate = formateDate(date);
+      let user = response[0].user;
+
+      let date = response[0].user.createdAt;
+      let formattedDate = formateDate(date);
+
+      let chartData = ["wallet.balance", "wallet.saving"];
+      let chartLabels = ["balance", "saving"];
+
+      chartData = JSON.stringify(chartData);
+      chartLabels = JSON.stringify(chartLabels);
+
+      res.render("user/userProfile.hbs", {
+        user,
+        response,
+        formattedDate,
+        chartData,
+        chartLabels,
+      });
     })
     .catch((err) => {
       next(err);
