@@ -4,6 +4,7 @@ const Wallet = require("../models/Wallet.model");
 const WalletMovement = require("../models/WalletMovement.model");
 const bcrypt = require("bcryptjs");
 const { response } = require("express");
+const app = require("../app");
 
 const checkLogIn = (req, res, next) => {
   if (req.session.myProperty) {
@@ -111,8 +112,14 @@ router.get("/profile", checkLogIn, (req, res, next) => {
     .then((response) => {
       let date = response[0].user.createdAt
       let formattedDate = formateDate(date)
+
+      let chartData= ['wallet.balance', 'wallet.saving']
+      let chartLabels =['balance', 'saving']
       
-      res.render("user/userProfile.hbs", { myUserInfo, response, formattedDate});
+      chartData = JSON.stringify(chartData)
+      chartLabels = JSON.stringify(chartLabels)
+
+      res.render("user/userProfile.hbs", { myUserInfo, response, formattedDate, chartData, chartLabels});
     })
     .catch((err) => {
       next(err);
@@ -195,5 +202,7 @@ router.post("/profile/delete", (req, res, next) => {
       next(err);
     });
 });
+
+
 
 module.exports = router;
