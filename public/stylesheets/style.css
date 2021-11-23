@@ -1,6 +1,7 @@
 body {
   background-color: #f5f5f5;
   transition: 0.5s;
+  font-family: "Catamaran", sans-serif;
 }
 
 button {
@@ -8,7 +9,7 @@ button {
   color: white;
   padding: 0.5rem;
   border-radius: 0.5rem;
-}
+} 
 
 .delete {
   background-color: #99122d;
@@ -99,18 +100,19 @@ footer > p {
 }
 
 .walletInputField,
-.homeInputField {
+.homeInputField,
+.movementInputField {
   border-radius: 0.5rem;
   padding-left: 0.5rem;
 }
 
-.walletInput {
+.walletInput,
+.movementInput {
   display: flex;
   flex-direction: column;
 }
 
 .walletForm {
-  width: min-content;
   align-self: center;
 }
 
@@ -169,10 +171,13 @@ footer > p {
 .containerProfile {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   align-content: flex-start;
+  text-align: center;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
 }
 
 .profilePic {
@@ -199,16 +204,11 @@ ul {
   list-style-type: none;
 }
 
-.containerProfile {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-around;
-  align-items: center;
-  align-content: flex-start;
-  text-align: center;
-  margin-bottom: 1rem;
-  margin-top: 2rem;
+.card {
+  width: 15rem;
+  height: 25rem;
+  margin: 2rem, 1rem;
+  border-radius: 1rem;
 }
 
 /* 404 and 500*/
@@ -370,9 +370,8 @@ ul {
 
 #walletHeader h1,
 .chart,
-#calendar,
 #newMovement,
-#walletTable,
+#walletTableDiv,
 #balance h4,
 #walletBtns {
   width: 45%;
@@ -382,6 +381,8 @@ ul {
 #newMovement {
   display: flex;
   flex-direction: column;
+  align-content: center;
+  justify-content: space-around;
 }
 
 #walletDetails,
@@ -390,5 +391,36 @@ ul {
 }
 
 #walletTable {
-  overflow: auto;
+  width: 100%;
 }
+
+#walletTable,
+#walletTable tr,
+#walletTable td,
+#walletTable th {
+  border-collapse: collapse;
+  border: 1px solid darkgray;
+}
+
+#walletTable tr {
+  height: 1.5rem;
+}
+
+#walletTableDiv {
+  overflow: scroll;
+}
+
+.createNewMovementBtn {
+  align-self: center;
+}
+
+.chart {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+}
+
+#walletBtns button {
+  margin-right: 2rem;
+}
+

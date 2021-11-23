@@ -32,7 +32,7 @@ Have a track of your finances.
 - [x] userProfile.hbs
 - [ ] user.Settings.hbs
 - [x] createWallet.hbs
-- [ ] wallet.hbs
+- [x] wallet.hbs
 - [x] editWallet.hbs
 - [ ] walletHistory.hbs
       <br>

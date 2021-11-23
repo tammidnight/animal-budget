@@ -36,7 +36,7 @@ update.forEach((elem) => {
       select.setAttribute("name", "kind");
       elem.appendChild(select);
     } else if (e.target.className == "update amount") {
-      const data = e.target.innerText;
+      let data = e.target.innerText;
       elem.innerText = "";
       const input = document.createElement("input");
       input.value = data;
@@ -86,7 +86,7 @@ update.forEach((elem) => {
       select.setAttribute("name", "category");
       elem.appendChild(select);
     } else if (e.target.className == "update date") {
-      const data = e.target.innerText;
+      let data = e.target.innerText;
       const day = data.slice(0, 2);
       const month = data.slice(3, 5);
       const year = data.slice(6);
@@ -121,14 +121,16 @@ update.forEach((elem) => {
           alert("Field cannot be empty");
           return;
         }
-        const data = e.target.value;
-        const day = data.slice(0, 2);
-        const month = data.slice(5, 6);
+        const date = e.target.value;
+        let data = date;
+        const day = data.slice(8);
+        const month = data.slice(5, 7);
         const year = data.slice(0, 4);
         data = day + "/" + month + "/" + year;
         elem.innerHTML = `<td class='update date'>${data}</td>`;
-        const date = elem.innerText;
-        axios.post(`/movement/${_id}`, { _id, date });
+        axios.post(`/movement/${_id}`, { _id, date }).then(() => {
+          location.reload();
+        });
       }
     }
   });
@@ -141,12 +143,16 @@ update.forEach((elem) => {
       const data = e.target.value;
       elem.innerHTML = `<td class='update kind'>${data}</td>`;
       const kind = elem.innerText;
-      axios.post(`/movement/${_id}`, { _id, kind });
+      axios.post(`/movement/${_id}`, { _id, kind }).then(() => {
+        location.reload();
+      });
     } else if (e.target.name == "category") {
       const data = e.target.value;
       elem.innerHTML = `<td class='update category'>${data}</td>`;
       const category = elem.innerText;
-      axios.post(`/movement/${_id}`, { _id, category });
+      axios.post(`/movement/${_id}`, { _id, category }).then(() => {
+        location.reload();
+      });
     }
   });
 });

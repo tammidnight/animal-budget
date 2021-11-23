@@ -3,7 +3,7 @@
 <div class="profilePic"> 
 <figure class="figure">
   <img src="{{user.animalUrl}}" class="figure-img img-fluid rounded" alt="The user's profile pic">
-  <figcaption class="figure-caption">Looking good! </figcaption>
+  <figcaption class="figure-caption">Looking good!</figcaption>
 </figure>
 </div>
 
@@ -18,61 +18,164 @@ It's good to see you again!
     <li>User: {{user.username}}</li>
     <li>User since: {{formattedDate}}</li>
     {{#if user.firstName}}
-         <li>Fullname: {{user.firstName}} {{user.lastName}}</li>
+         <li>Full name: {{user.firstName}} {{user.lastName}}</li>
     {{/if}}
     <li>Email: {{user.email}}</li>
-    <li>Animal level: {{user.animalUrl}}</li>
 </ul>
 </div>
 
-
 <div class="containerProfile">
-{{#each response}}
-  <div class="card" style="width: 10rem;">
-  <canvas  id="myChart"  width="400"  height="400"></canvas>
+{{#if responseOne.walletName}}
+  <div class="card">
+  <canvas  id="myChartOne"></canvas>
     <div class="card-body">
-      <p class="card-text">Individual wallet {{this.walletName}}</p>
-      <form action="/{{this._id}}" method="GET"><button>Go To</button></form>
+      <p class="card-text">{{responseOne.walletName}}</p>
+      <form action="/{{responseOne._id}}" method="GET"><button>Go To</button></form>
     </div>
   </div>
-{{/each}}
-
-<div class="card" style="width: 10rem;">
-  <img src="/images/shakehands.png" class="card-img-top" alt="...">
-  <div class="card-body">
-    <form action="/{{this._id}}" method="GET"><button>Go To Shared Wallet</button></form>
-  </div>
-</div>
-
-<div class="card" style="width: 10rem;">
+  {{else}}
+ <div class="card">
   <img src="images/plus.png" class="card-img-top" alt="plus symbol">
   <form action="/create" method="GET">
-  <button class="create"> ADD NEW WALLET</button> </form>
+  <button class="create">Add new Wallet</button> </form>
 </div>
+{{/if}}
+
+{{#if responseTwo.walletName}}
+  <div class="card">
+  <canvas  id="myChartTwo"></canvas>
+    <div class="card-body">
+      <p class="card-text">{{responseTwo.walletName}}</p>
+      <form action="/{{responseTwo._id}}" method="GET"><button>Go To</button></form>
+    </div>
+  </div>
+  {{else}}
+ <div class="card">
+  <img src="images/plus.png" class="card-img-top" alt="plus symbol">
+  <form action="/create" method="GET">
+  <button class="create">Add new Wallet</button> </form>
+</div>
+{{/if}}
+
+{{#if responseThree.walletName}}
+ <div class="card">
+  <canvas  id="myChartThree"></canvas>
+    <div class="card-body">
+      <p class="card-text">{{responseThree.walletName}}</p>
+      <form action="/{{responseThree._id}}" method="GET"><button>Go To</button></form>
+    </div>
+  </div>
+{{else}}
+ <div class="card">
+  <img src="images/plus.png" class="card-img-top" alt="plus symbol">
+  <form action="/create" method="GET">
+  <button class="create">Add new Wallet</button> </form>
+</div>
+{{/if}}
+
 </div>
 
-<canvas id="myChart" width="400" height="400"></canvas>
 <script>
-    const ctx = document.getElementById('myChart').getContext('2d');
+    const one = document.getElementById('myChartOne');
+    const two = document.getElementById('myChartTwo');
+    const three = document.getElementById('myChartThree');
 
-    const myChart = new Chart(ctx, {
+    if (one){
+      const ctxOne = one.getContext('2d');
+      const myChartOne = new Chart(ctxOne, {
         type: 'bar',
         data: {
             labels: {{{chartLabels}}},
             datasets: [{
-                label: 'This month',
-                data: {{{chartData}}},
+                label: 'Current status',
+                data: {{{chartDataOne}}},
                 fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
+                backgroundColor: [
+                  '#99c0b2',
+                  '#cc8996',
+                ],
+                  borderColor: [
+                  '#00613e',
+                  '#99122d',
+                ],
+                borderWidth: 1
             }]
         },
         options: {
+          responsive: true,
+          aspectRatio: 1,
             scales: {
                 y: {
                     beginAtZero: true
                 }
             }
         }
-    });
+      });
+    }
+
+    if (two){
+      const ctxTwo = two.getContext('2d');
+      const myChartTwo = new Chart(ctxTwo, {
+        type: 'bar',
+        data: {
+            labels: {{{chartLabels}}},
+            datasets: [{
+                label: 'Current status',
+                data: {{{chartDataTwo}}},
+                fill: false,
+                backgroundColor: [
+                  '#99c0b2',
+                  '#cc8996',
+                ],
+                  borderColor: [
+                  '#00613e',
+                  '#99122d',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+          responsive: true,
+          aspectRatio: 1,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+      });
+    }
+
+    if (three){
+      const ctxThree = three.getContext('2d');
+      const myChartThree = new Chart(ctxThree, {
+        type: 'bar',
+        data: {
+            labels: {{{chartLabels}}},
+            datasets: [{
+                label: 'Current status',
+                data: {{{chartDataThree}}},
+                fill: false,
+                backgroundColor: [
+                  '#99c0b2',
+                  '#cc8996',
+                ],
+                  borderColor: [
+                  '#00613e',
+                  '#99122d',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+          responsive: true,
+          aspectRatio: 1,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+      });
+    }
 </script>

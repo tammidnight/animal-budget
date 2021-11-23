@@ -109,24 +109,72 @@ router.get("/profile", checkLogIn, (req, res, next) => {
   Wallet.find({ user: _id })
     .populate("user")
     .then((response) => {
+      if (response.lenght == 0) {
+        res.redirect("/create");
+        return;
+      }
+
       let date = response[0].user.createdAt;
       let formattedDate = formateDate(date);
       let user = response[0].user;
+      let responseOne = {};
+      let chartDataOne = [];
+      let responseTwo = {};
+      let chartDataTwo = [];
+      let responseThree = {};
+      let chartDataThree = [];
 
-      let date = response[0].user.createdAt;
-      let formattedDate = formateDate(date);
+      if (response.length === 1) {
+        responseOne = response[0];
+        chartDataOne = [
+          Number(response[0].balance).toFixed(2),
+          Number(response[0].saving).toFixed(2),
+        ];
+      } else if (response.length === 2) {
+        responseOne = response[0];
+        chartDataOne = [
+          Number(response[0].balance).toFixed(2),
+          Number(response[0].saving).toFixed(2),
+        ];
+        responseTwo = response[1];
+        chartDataTwo = [
+          Number(response[1].balance).toFixed(2),
+          Number(response[1].saving).toFixed(2),
+        ];
+      } else if (response.length === 3) {
+        responseOne = response[0];
+        chartDataOne = [
+          Number(response[0].balance).toFixed(2),
+          Number(response[0].saving).toFixed(2),
+        ];
+        responseTwo = response[1];
+        chartDataTwo = [
+          Number(response[1].balance).toFixed(2),
+          Number(response[1].saving).toFixed(2),
+        ];
+        responseThree = response[2];
+        chartDataThree = [
+          Number(response[2].balance).toFixed(2),
+          Number(response[2].saving).toFixed(2),
+        ];
+      }
 
-      let chartData = ["wallet.balance", "wallet.saving"];
-      let chartLabels = ["balance", "saving"];
+      let chartLabels = ["Balance", "Saving"];
 
-      chartData = JSON.stringify(chartData);
+      chartDataOne = JSON.stringify(chartDataOne);
+      chartDataTwo = JSON.stringify(chartDataTwo);
+      chartDataThree = JSON.stringify(chartDataThree);
       chartLabels = JSON.stringify(chartLabels);
 
       res.render("user/userProfile.hbs", {
         user,
-        response,
+        responseOne,
+        responseTwo,
+        responseThree,
         formattedDate,
-        chartData,
+        chartDataOne,
+        chartDataTwo,
+        chartDataThree,
         chartLabels,
       });
     })
