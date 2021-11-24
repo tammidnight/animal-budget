@@ -1,4 +1,4 @@
-{{> navbar}}
+{{> navbar response}}
 
 <div class="profilePic"> 
 <figure class="figure">
@@ -29,7 +29,12 @@ It's good to see you again!
   <div class="card">
   <canvas  id="myChartOne"></canvas>
     <div class="card-body">
-      <p class="card-text">{{responseOne.walletName}}</p>
+      <p class="card-text">{{responseOne.walletName}}
+        <br>
+        {{#if responseOne.sharedUser}}
+        <p>Shared Wallet with {{responseOne.sharedUser}}</p>
+        {{/if}}
+      </p>
       <form action="/{{responseOne._id}}" method="GET"><button>Go To</button></form>
     </div>
   </div>
@@ -45,7 +50,12 @@ It's good to see you again!
   <div class="card">
   <canvas  id="myChartTwo"></canvas>
     <div class="card-body">
-      <p class="card-text">{{responseTwo.walletName}}</p>
+      <p class="card-text">{{responseTwo.walletName}}
+        <br>
+        {{#if responseTwo.sharedUser}}
+        <p>Shared Wallet with {{responseTwo.sharedUser}}</p>
+        {{/if}}
+      </p>
       <form action="/{{responseTwo._id}}" method="GET"><button>Go To</button></form>
     </div>
   </div>
@@ -61,7 +71,12 @@ It's good to see you again!
  <div class="card">
   <canvas  id="myChartThree"></canvas>
     <div class="card-body">
-      <p class="card-text">{{responseThree.walletName}}</p>
+      <p class="card-text">{{responseThree.walletName}}
+        <br>
+        {{#if responseThree.sharedUser}}
+        <p>Shared Wallet with {{responseThree.sharedUser}}</p>
+        {{/if}}
+      </p>
       <form action="/{{responseThree._id}}" method="GET"><button>Go To</button></form>
     </div>
   </div>

@@ -1,4 +1,4 @@
-{{> navbar}}
+{{> navbar wallet}}
 
 <form method="POST" action="/{{response._id}}/edit" class="wholeForm">
   <div class="walletCreate">
@@ -103,6 +103,17 @@
           <label for="true">No</label>
         </div>
       </div>
+
+      <div class="walletInput sharedWalletTrue">
+        <label>Username of the second User*</label>
+        <input
+          type="text"
+          name="sharedWalletUser"
+          value="{{sharedUser.username}}"
+          placeholder="Please enter the username for sharing"
+          class="walletInputField"
+        />
+      </div>
     </div>
 
     <div class="secondColumn">
@@ -154,3 +165,5 @@
 {{#if error}}
   <p class="error">Message: {{error}}</p>
 {{/if}}
+
+<script src="/js/walletForm.js"></script>
