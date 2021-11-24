@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User.model");
 const Wallet = require("../models/Wallet.model");
 const WalletMovement = require("../models/WalletMovement.model");
+const mongoose = require("mongoose");
 
 const checkLogIn = (req, res, next) => {
   if (req.session.myProperty) {
@@ -19,7 +20,11 @@ const formateDate = (date) => {
 
 const formateDateForInput = (date) => {
   const result =
-    date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    date.getFullYear() +
+    "-" +
+    (date.getMonth() + 1) +
+    "-" +
+    ("0" + date.getDate()).slice(-2);
   return result;
 };
 
@@ -59,10 +64,23 @@ const getSaving = (movement) => {
 };
 
 router.get("/create", checkLogIn, (req, res, next) => {
-  res.render("wallet/createWallet.hbs");
+  let myUserInfo = req.session.myProperty;
+  let _id = myUserInfo._id;
+
+  Wallet.find({ user: mongoose.Types.ObjectId(_id) })
+    .populate("user")
+    .then((response) => {
+      if (response.length == 0) {
+        res.render("wallet/createWallet.hbs");
+        return;
+      }
+
+      res.render("wallet/createWallet.hbs", { response });
+    })
+    .catch((err) => next(err));
 });
 
-router.post("/create", (req, res, next) => {
+router.post("/create", async (req, res, next) => {
   const {
     walletName,
     currency,
@@ -71,100 +89,145 @@ router.post("/create", (req, res, next) => {
     monthlyIncome,
     monthlySpending,
     shared,
+    sharedWalletUser,
   } = req.body;
 
   let user = req.session.myProperty._id;
+  user = mongoose.Types.ObjectId(user);
+  let sharedUserId = [user];
 
-  if (
-    walletName == "" ||
-    currency == "" ||
-    startingDate == "" ||
-    savingPlan == ""
-  ) {
-    res.render("wallet/createWallet.hbs", {
-      error: "Please enter all mandatory fields",
-    });
-    return;
-  }
-
-  Wallet.find({ user })
-    .then((response) => {
-      if (response.length == 3) {
-        res.render("wallet/createWallet", {
-          error:
-            "Unfortunately you can only have three Wallets at a time. Please delete one Wallet before creating a new one.",
+  try {
+    if (sharedWalletUser) {
+      let sharedUser = await User.find({ username: sharedWalletUser });
+      if (sharedUser.length === 0) {
+        res.render("wallet/createWallet.hbs", {
+          error: "Please enter a valid username.",
+        });
+        return;
+      }
+      sharedUserId = [user, sharedUser[0]._id];
+    }
+    let response = await Wallet.find({ user });
+    if (
+      walletName == "" ||
+      currency == "" ||
+      startingDate == "" ||
+      savingPlan == ""
+    ) {
+      res.render("wallet/createWallet.hbs", {
+        response,
+        error: "Please enter all mandatory fields",
+      });
+      return;
+    }
+    if (shared === true && sharedWalletUser == "") {
+      res.render("wallet/createWallet", {
+        response,
+        error:
+          "Please enter the username of the second User for the shared wallet.",
+      });
+      return;
+    }
+    if (response.length == 3) {
+      res.render("wallet/createWallet", {
+        response,
+        error:
+          "Unfortunately you can only have three Wallets at a time. Please delete one Wallet before creating a new one.",
+      });
+    } else {
+      if (monthlyIncome == "" && monthlySpending == "") {
+        return Wallet.create({
+          walletName,
+          currency,
+          startingDate,
+          savingPlan,
+          shared,
+          user: sharedUserId,
+        }).then(() => {
+          res.redirect("/profile");
+        });
+      } else if (monthlyIncome == "") {
+        return Wallet.create({
+          walletName,
+          currency,
+          startingDate,
+          savingPlan,
+          shared,
+          user: sharedUserId,
+          monthlySpending,
+        }).then(() => {
+          res.redirect("/profile");
+        });
+      } else if (monthlySpending == "") {
+        return Wallet.create({
+          walletName,
+          currency,
+          startingDate,
+          savingPlan,
+          shared,
+          user: sharedUserId,
+          monthlySpending,
+        }).then(() => {
+          res.redirect("/profile");
         });
       } else {
-        if (monthlyIncome == "" && monthlySpending == "") {
-          return Wallet.create({
-            walletName,
-            currency,
-            startingDate,
-            savingPlan,
-            shared,
-            user,
-          }).then(() => {
-            res.redirect("/profile");
-          });
-        } else if (monthlyIncome == "") {
-          return Wallet.create({
-            walletName,
-            currency,
-            startingDate,
-            savingPlan,
-            shared,
-            user,
-            monthlySpending,
-          }).then(() => {
-            res.redirect("/profile");
-          });
-        } else if (monthlySpending == "") {
-          return Wallet.create({
-            walletName,
-            currency,
-            startingDate,
-            savingPlan,
-            shared,
-            user,
-            monthlySpending,
-          }).then(() => {
-            res.redirect("/profile");
-          });
-        } else {
-          return Wallet.create({
-            walletName,
-            currency,
-            startingDate,
-            savingPlan,
-            monthlyIncome,
-            monthlySpending,
-            shared,
-            user,
-          }).then(() => {
-            res.redirect("/profile");
-          });
-        }
+        return Wallet.create({
+          walletName,
+          currency,
+          startingDate,
+          savingPlan,
+          monthlyIncome,
+          monthlySpending,
+          shared,
+          user: sharedUserId,
+        }).then(() => {
+          res.redirect("/profile");
+        });
       }
-    })
-    .catch((err) => next(err));
+    }
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.get("/:walletId", checkLogIn, async (req, res, next) => {
-  const { walletId: _id } = req.params;
+  const { walletId } = req.params;
+  let myUserInfo = req.session.myProperty;
+  let _id = myUserInfo._id;
 
   try {
-    let response = await WalletMovement.find({ wallet: _id }).populate(
+    let navWallet = await Wallet.find({
+      user: mongoose.Types.ObjectId(_id),
+    }).populate("user");
+    let response = await WalletMovement.find({ wallet: walletId }).populate(
       "wallet"
     );
     if (response.length == 0) {
-      return Wallet.findById({ _id }).then((wallet) => {
-        let newWallet = wallet;
-        let newDate = new Date();
-        let month = newDate.getMonth() + 1;
-        let year = newDate.getFullYear();
-        newDate = month + "/" + year;
-        res.render("wallet/wallet.hbs", { newWallet, newDate });
-      });
+      return Wallet.findById({ _id: walletId })
+        .populate("user")
+        .then((wallet) => {
+          let newWallet = wallet;
+          let newDate = new Date();
+          let month = newDate.getMonth() + 1;
+          let year = newDate.getFullYear();
+          newDate = month + "/" + year;
+
+          if (newWallet.user.length > 1) {
+            let username = "";
+            if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+              username = newWallet.user[1];
+            } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+              username = newWallet.user[0];
+            }
+            res.render("wallet/wallet.hbs", {
+              navWallet,
+              newWallet,
+              newDate,
+              username,
+            });
+          }
+          res.render("wallet/wallet.hbs", { newWallet, newDate, navWallet });
+        });
     }
     let newWallet = response[0].wallet;
     let newDate = new Date();
@@ -234,8 +297,31 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
     chartLabelsTwo = JSON.stringify(chartLabelsTwo);
     chartDataTwo = JSON.stringify(chartDataTwo);
 
+    if (newWallet.user.length > 1) {
+      let username = "";
+      if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+        username = newWallet.user[1];
+      } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+        username = newWallet.user[0];
+      }
+      res.render("wallet/wallet.hbs", {
+        response,
+        navWallet,
+        newWallet,
+        newDate,
+        balance,
+        saving,
+        chartLabels,
+        chartData,
+        chartLabelsTwo,
+        chartDataTwo,
+        username,
+      });
+    }
+
     res.render("wallet/wallet.hbs", {
       response,
+      navWallet,
       newWallet,
       newDate,
       balance,
@@ -246,11 +332,11 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
       chartDataTwo,
     });
 
-    let w = await Wallet.findByIdAndUpdate(
+    await Wallet.findByIdAndUpdate(
       { _id: response[0].wallet._id },
       { balance, saving }
     );
-    console.log(w);
+    return;
   } catch (err) {
     next(err);
   }
@@ -259,19 +345,54 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
 router.post("/:walletId", async (req, res, next) => {
   const { kind, amount, category, date } = req.body;
   const { walletId: wallet } = req.params;
+  let myUserInfo = req.session.myProperty;
+  let _id = myUserInfo._id;
 
   if (kind == "" || amount == "" || category == "" || date == "") {
     WalletMovement.find({ wallet })
       .populate("wallet")
       .then((response) => {
-        let wallet = response[0].wallet;
-        let date = new Date();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-        date = month + "/" + year;
+        if (response.length == 0) {
+          return Wallet.findById({ _id: walletId })
+            .populate("user")
+            .then((wallet) => {
+              let newWallet = wallet;
+              let newDate = new Date();
+              let month = newDate.getMonth() + 1;
+              let year = newDate.getFullYear();
+              newDate = month + "/" + year;
+
+              if (newWallet.user.length > 1) {
+                let username = "";
+                if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+                  username = newWallet.user[1];
+                } else if (
+                  newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)
+                ) {
+                  username = newWallet.user[0];
+                }
+                res.render("wallet/wallet.hbs", {
+                  navWallet,
+                  newWallet,
+                  newDate,
+                  username,
+                });
+              }
+              res.render("wallet/wallet.hbs", {
+                newWallet,
+                newDate,
+                navWallet,
+              });
+            });
+        }
+        let newWallet = response[0].wallet;
+        let newDate = new Date();
+        let month = newDate.getMonth() + 1;
+        let year = newDate.getFullYear();
+        newDate = month + "/" + year;
         let monthlyBalance =
-          Number(wallet.monthlyIncome).toFixed(2) -
-          Number(wallet.monthlySpending).toFixed(2);
+          Number(newWallet.monthlyIncome).toFixed(2) -
+          Number(newWallet.monthlySpending).toFixed(2);
         let balance = Number(getBalance(response)).toFixed(2) + monthlyBalance;
         balance = Number(balance).toFixed(2);
         let saving = getSaving(response);
@@ -299,17 +420,17 @@ router.post("/:walletId", async (req, res, next) => {
 
           if (elem.kind == "Spending") {
             if (elem.category == "Transportation") {
-              transportation += Number(elem.formattedAmount.toFixed(2));
+              transportation += Number(elem.formattedAmount);
             } else if (elem.category == "Food") {
-              food += Number(elem.formattedAmount.toFixed(2));
+              food += Number(elem.formattedAmount);
             } else if (elem.category == "Pet") {
-              pet += Number(elem.formattedAmount.toFixed(2));
+              pet += Number(elem.formattedAmount);
             } else if (elem.category == "Leisure") {
-              leisure += Number(elem.formattedAmount.toFixed(2));
+              leisure += Number(elem.formattedAmount);
             } else if (elem.category == "Present") {
-              present += Number(elem.formattedAmount.toFixed(2));
+              present += Number(elem.formattedAmount);
             } else if (elem.category == "Other") {
-              other += Number(elem.formattedAmount.toFixed(2));
+              other += Number(elem.formattedAmount);
             }
           }
         });
@@ -332,10 +453,32 @@ router.post("/:walletId", async (req, res, next) => {
         chartLabelsTwo = JSON.stringify(chartLabelsTwo);
         chartDataTwo = JSON.stringify(chartDataTwo);
 
+        if (newWallet.user.length > 1) {
+          let username = "";
+          if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+            username = newWallet.user[1];
+          } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+            username = newWallet.user[0];
+          }
+          res.render("wallet/wallet.hbs", {
+            response,
+            navWallet,
+            newWallet,
+            newDate,
+            balance,
+            saving,
+            chartLabels,
+            chartData,
+            chartLabelsTwo,
+            chartDataTwo,
+            username,
+          });
+        }
+
         res.render("wallet/wallet.hbs", {
           response,
-          wallet,
-          date,
+          newWallet,
+          newDate,
           balance,
           saving,
           chartData,
@@ -350,9 +493,39 @@ router.post("/:walletId", async (req, res, next) => {
   }
 
   try {
+    let navWallet = await Wallet.find({
+      user: mongoose.Types.ObjectId(_id),
+    }).populate("user");
     await WalletMovement.create({ kind, amount, category, date, wallet });
 
     let response = await WalletMovement.find({ wallet }).populate("wallet");
+    if (response.length == 0) {
+      return Wallet.findById({ _id: walletId })
+        .populate("user")
+        .then((wallet) => {
+          let newWallet = wallet;
+          let newDate = new Date();
+          let month = newDate.getMonth() + 1;
+          let year = newDate.getFullYear();
+          newDate = month + "/" + year;
+
+          if (newWallet.user.length > 1) {
+            let username = "";
+            if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+              username = newWallet.user[1];
+            } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+              username = newWallet.user[0];
+            }
+            res.render("wallet/wallet.hbs", {
+              navWallet,
+              newWallet,
+              newDate,
+              username,
+            });
+          }
+          res.render("wallet/wallet.hbs", { newWallet, newDate, navWallet });
+        });
+    }
     let newWallet = response[0].wallet;
     let newDate = new Date();
     let month = newDate.getMonth() + 1;
@@ -417,8 +590,31 @@ router.post("/:walletId", async (req, res, next) => {
     chartLabelsTwo = JSON.stringify(chartLabelsTwo);
     chartDataTwo = JSON.stringify(chartDataTwo);
 
+    if (newWallet.user.length > 1) {
+      let username = "";
+      if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+        username = newWallet.user[1];
+      } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+        username = newWallet.user[0];
+      }
+      res.render("wallet/wallet.hbs", {
+        response,
+        navWallet,
+        newWallet,
+        newDate,
+        balance,
+        saving,
+        chartLabels,
+        chartData,
+        chartLabelsTwo,
+        chartDataTwo,
+        username,
+      });
+    }
+
     res.render("wallet/wallet.hbs", {
       response,
+      navWallet,
       newWallet,
       newDate,
       balance,
@@ -429,56 +625,73 @@ router.post("/:walletId", async (req, res, next) => {
       chartDataTwo,
     });
 
-    let w = await Wallet.findByIdAndUpdate(
+    await Wallet.findByIdAndUpdate(
       { _id: response[0].wallet._id },
       { balance, saving }
     );
-    console.log(w);
+    return;
   } catch (err) {
     next(err);
   }
 });
 
-router.get("/:walletId/edit", checkLogIn, (req, res, next) => {
-  const { walletId: _id } = req.params;
+router.get("/:walletId/edit", checkLogIn, async (req, res, next) => {
+  const { walletId } = req.params;
+  let myUserInfo = req.session.myProperty;
+  let _id = myUserInfo._id;
 
-  Wallet.find({ _id })
-    .then((response) => {
-      response = response[0];
-      response.formattedDateForInput = formateDateForInput(
-        response.startingDate
-      );
+  try {
+    let response = await Wallet.find({ _id: walletId }).populate("user");
+    response = response[0];
+    response.formattedDateForInput = formateDateForInput(response.startingDate);
 
-      if (response.currency == "Euro") {
-        response.euroIsChecked = true;
-      } else if (response.currency == "Dollar") {
-        response.dollarIsChecked = true;
-      } else if (response.currency == "Pound") {
-        response.poundIsChecked = true;
-      } else if (response.currency == "Yen") {
-        response.yenIsChecked = true;
-      }
+    if (response.currency == "Euro") {
+      response.euroIsChecked = true;
+    } else if (response.currency == "Dollar") {
+      response.dollarIsChecked = true;
+    } else if (response.currency == "Pound") {
+      response.poundIsChecked = true;
+    } else if (response.currency == "Yen") {
+      response.yenIsChecked = true;
+    }
 
-      if (response.shared == true) {
-        response.yesIsChecked = true;
-      } else if (response.shared == false) {
-        response.noIsChecked = true;
-      }
+    if (response.shared == true) {
+      response.yesIsChecked = true;
+    } else if (response.shared == false) {
+      response.noIsChecked = true;
+    }
 
-      if (response.savingPlan == "Gold") {
-        response.goldIsChecked = true;
-      } else if (response.savingPlan == "Silver") {
-        response.silverIsChecked = true;
-      } else if (response.savingPlan == "Bronze") {
-        response.bronzeIsChecked = true;
-      }
+    if (response.savingPlan == "Gold") {
+      response.goldIsChecked = true;
+    } else if (response.savingPlan == "Silver") {
+      response.silverIsChecked = true;
+    } else if (response.savingPlan == "Bronze") {
+      response.bronzeIsChecked = true;
+    }
 
-      res.render("wallet/editWallet.hbs", { response });
-    })
-    .catch((err) => next(err));
+    let sharedUser = {};
+
+    if (response.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+      sharedUser = response.user[1];
+    } else if (response.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+      sharedUser = response.user[0];
+    }
+
+    let wallet = await Wallet.find({
+      user: mongoose.Types.ObjectId(_id),
+    }).populate("user");
+
+    res.render("wallet/editWallet.hbs", {
+      response,
+      wallet,
+      sharedUser,
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.post("/:walletId/edit", (req, res, next) => {
+router.post("/:walletId/edit", async (req, res, next) => {
   const {
     walletName,
     currency,
@@ -487,49 +700,144 @@ router.post("/:walletId/edit", (req, res, next) => {
     monthlyIncome,
     monthlySpending,
     shared,
+    sharedWalletUser,
   } = req.body;
 
-  const { walletId: _id } = req.params;
+  const { walletId } = req.params;
+  let myUserInfo = req.session.myProperty;
+  let _id = myUserInfo._id;
+  let user = [_id];
 
-  if (
-    walletName == "" ||
-    currency == "" ||
-    startingDate == "" ||
-    savingPlan == ""
-  ) {
-    res.render("wallet/createWallet.hbs", {
-      error: "Please enter all mandatory fields",
-    });
-    return;
-  }
+  try {
+    let response = await Wallet.find({ _id: walletId });
+    response = response[0];
+    response.formattedDateForInput = formateDateForInput(response.startingDate);
 
-  Wallet.findByIdAndUpdate(
-    { _id },
-    {
-      walletName,
-      currency,
-      startingDate,
-      savingPlan,
-      monthlyIncome,
-      monthlySpending,
-      shared,
+    if (response.currency == "Euro") {
+      response.euroIsChecked = true;
+    } else if (response.currency == "Dollar") {
+      response.dollarIsChecked = true;
+    } else if (response.currency == "Pound") {
+      response.poundIsChecked = true;
+    } else if (response.currency == "Yen") {
+      response.yenIsChecked = true;
     }
-  )
-    .then((response) => {
-      if (
-        walletName == "" ||
-        currency == "" ||
-        startingDate == "" ||
-        savingPlan == ""
-      ) {
+
+    if (response.shared == true) {
+      response.yesIsChecked = true;
+    } else if (response.shared == false) {
+      response.noIsChecked = true;
+    }
+
+    if (response.savingPlan == "Gold") {
+      response.goldIsChecked = true;
+    } else if (response.savingPlan == "Silver") {
+      response.silverIsChecked = true;
+    } else if (response.savingPlan == "Bronze") {
+      response.bronzeIsChecked = true;
+    }
+
+    let wallet = await Wallet.find({
+      user: mongoose.Types.ObjectId(_id),
+    }).populate("user");
+    if (
+      walletName == "" ||
+      currency == "" ||
+      startingDate == "" ||
+      savingPlan == ""
+    ) {
+      res.render("wallet/editWallet.hbs", {
+        wallet,
+        response,
+        error: "Please enter all mandatory fields",
+      });
+      return;
+    }
+    if (shared === true && sharedWalletUser == "") {
+      res.render("wallet/editWallet.hbs", {
+        response,
+        error:
+          "Please enter the username of the second User for the shared wallet.",
+      });
+      return;
+    }
+
+    if (sharedWalletUser) {
+      let sharedUser = await User.find({ username: sharedWalletUser });
+      if (sharedUser.length === 0) {
         res.render("wallet/editWallet.hbs", {
-          error: "Please enter all mandatory fields",
+          response,
+          error: "Please enter a valid username.",
         });
         return;
       }
-      res.redirect(`/${_id}`);
-    })
-    .catch((err) => next(err));
+      let sharedUserId = sharedUser[0]._id;
+      user = [_id, sharedUserId];
+    }
+    if (monthlyIncome == "" && monthlySpending == "") {
+      return Wallet.findByIdAndUpdate(
+        { _id: walletId },
+        {
+          walletName,
+          currency,
+          startingDate,
+          savingPlan,
+          shared,
+          user,
+        }
+      ).then(() => {
+        res.redirect(`/${walletId}`);
+      });
+    } else if (monthlyIncome == "") {
+      return Wallet.findByIdAndUpdate(
+        { _id: walletId },
+        {
+          walletName,
+          currency,
+          startingDate,
+          savingPlan,
+          monthlySpending,
+          shared,
+          user,
+        }
+      ).then(() => {
+        res.redirect(`/${walletId}`);
+      });
+    } else if (monthlySpending == "") {
+      return Wallet.findByIdAndUpdate(
+        { _id: walletId },
+        {
+          walletName,
+          currency,
+          startingDate,
+          savingPlan,
+          monthlyIncome,
+          shared,
+          user,
+        }
+      ).then(() => {
+        res.redirect(`/${walletId}`);
+      });
+    } else {
+      return Wallet.findByIdAndUpdate(
+        { _id: walletId },
+        {
+          walletName,
+          currency,
+          startingDate,
+          savingPlan,
+          monthlyIncome,
+          monthlySpending,
+          shared,
+          user,
+        }
+      ).then(() => {
+        res.redirect(`/${walletId}`);
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.post("/:walletId/delete", (req, res, next) => {
@@ -545,15 +853,21 @@ router.post("/:walletId/delete", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.get("/:walletId/history", checkLogIn, (req, res, next) => {
-  const { walletId: _id } = req.params;
+router.get("/:walletId/history", checkLogIn, async (req, res, next) => {
+  const { walletId } = req.params;
+  let myUserInfo = req.session.myProperty;
+  let _id = myUserInfo._id;
 
-  WalletMovement.find({ wallet: _id })
-    .populate("wallet")
-    .then((response) => {
-      res.render("wallet/walletHistory.hbs", { response });
-    })
-    .catch((err) => next(err));
+  try {
+    let navWallet = await Wallet.find({ user: _id }).populate("user");
+    let response = await WalletMovement.find({ wallet: walletId }).populate(
+      "wallet"
+    );
+    const wallet = response[0].wallet;
+    res.render("wallet/walletHistory.hbs", { response, wallet, navWallet });
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.post("/movement/:movementId", (req, res, next) => {

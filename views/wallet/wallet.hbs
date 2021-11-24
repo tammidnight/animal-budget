@@ -1,8 +1,11 @@
-{{> navbar}}
+{{> navbar navWallet}}
 
 <div id="walletPage">
   <div id="walletHeader">
     <h1>{{newWallet.walletName}}</h1>
+    {{#if username}}
+    <h1>Shared Wallet with {{username.username}}</h1>
+    {{/if}}
   </div>
 
   <div id="walletTopics">
@@ -53,11 +56,11 @@
     </div>
 
       <button class="createNewMovementBtn">Create new movement</button>
-    </form>
-
-    {{#if error}}
+        {{#if error}}
       <p class="error">Message: {{error}}</p>
     {{/if}}
+
+    </form>
 
 <div id="walletTableDiv">
       <table id="walletTable">
