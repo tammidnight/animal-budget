@@ -1,17 +1,7 @@
 {{> navbar}}
 
-
-
 <div class="settingsPic">
-<figure class="figure">
-  <button onclick="myFunction()" class="dropbtn"></button>>  <img src="{{user.animalUrl}}" class="figure-img img-fluid rounded" alt="The user's profile pic"></button>
-  <figcaption class="figure-caption">Tap to change me! </figcaption>´
-  <div id="myDropdown" class="dropdown-content">
-    <a href="#">Link 1</a>
-    <a href="#">Link 2</a>
-    <a href="#">Link 3</a>
-  </div>
-</figure>
+<img src="{{response.animalUrl}}" class="figure-img img-fluid rounded" alt="The user's profile pic">
 </div> 
 
 <div class="animalFacts">
@@ -34,6 +24,136 @@
 
 <div class="changeInfo"> 
 <form action="/profile/settings" method="POST">
+<div class="animalInput">
+            <label>
+              <input type="radio" name="animalUrl" value="/images/bear.png"
+              {{#if response.bearChecked}}
+              checked
+              {{/if}}/>
+              <img src="/images/bear.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/cow.png"
+              {{#if response.cowChecked}}
+              checked
+              {{/if}}/>
+              <img src="/images/cow.png" width="35" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="animalUrl"
+                value="/images/crocodile.png"
+                {{#if response.crocodileChecked}}
+                checked
+                {{/if}}
+              />
+              <img src="/images/crocodile.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/dog.png"
+              {{#if response.dogChecked}}
+              checked
+              {{/if}}/>
+              <img src="/images/dog.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/duck.png"
+              {{#if response.duckChecked}}
+              checked
+              {{/if}}/>
+              <img src="/images/duck.png" width="35" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="animalUrl"
+                value="/images/elephant.png"
+                {{#if response.elephantChecked}}
+                checked
+                {{/if}}
+              />
+              <img src="/images/elephant.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/monkey.png"
+              {{#if response.monkeyChecked}}
+              checked
+              {{/if}}/>
+              <img src="/images/monkey.png" width="35" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="animalUrl"
+                value="/images/narwhale.png"
+                {{#if response.narwhaleChecked}}
+                checked
+                {{/if}}
+              />
+              <img src="/images/narwhale.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/owl.png"
+              {{#if response.owlChecked}}
+              checked
+              {{/if}}/>
+              <img src="/images/owl.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/panda.png"
+              {{#if response.pandaChecked}}
+              checked
+              {{/if}}/>
+              <img src="/images/panda.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/parrot.png"
+              {{#if response.parrotChecked}}
+              checked
+              {{/if}}/>
+              <img src="/images/parrot.png" width="35" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="animalUrl"
+                value="/images/penguin.png"
+                {{#if response.penguinChecked}}
+                checked
+                {{/if}}
+              />
+              <img src="/images/penguin.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/pig.png"
+              {{#if response.pigChecked}}
+              checked
+              {{/if}}/>
+              <img src="/images/pig.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/walrus.png"
+              {{#if response.walrusChecked}}
+              checked
+              {{/if}}/>
+              <img src="/images/walrus.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/whale.png"
+              {{#if response.whaleChecked}}
+              checked
+              {{/if}}/>
+              <img src="/images/whale.png" width="35" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/zebra.png"
+              {{#if response.zebraChecked}}
+              checked
+              {{/if}}/>
+              <img src="/images/zebra.png" width="35" />
+            </label>
+          </div>
 <ul>
   <li><label>Name</label>  <br>
   <input name="username" type="text"  placeholder="Enter your username" value="{{response.username}}" size="30"></li> 
