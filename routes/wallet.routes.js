@@ -283,10 +283,10 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
       let keyA = a.formattedDate;
       let keyB = b.formattedDate;
       if (keyA < keyB) {
-        return -1;
+        return 1;
       }
       if (keyA > keyB) {
-        return 1;
+        return -1;
       }
       return 0;
     });
@@ -439,10 +439,10 @@ router.post("/:walletId", async (req, res, next) => {
           let keyA = a.date;
           let keyB = b.date;
           if (keyA < keyB) {
-            return -1;
+            return 1;
           }
           if (keyA > keyB) {
-            return 1;
+            return -1;
           }
           return 0;
         });
@@ -576,10 +576,10 @@ router.post("/:walletId", async (req, res, next) => {
       let keyA = a.formattedDate;
       let keyB = b.formattedDate;
       if (keyA < keyB) {
-        return -1;
+        return 1;
       }
       if (keyA > keyB) {
-        return 1;
+        return -1;
       }
       return 0;
     });
@@ -853,18 +853,49 @@ router.post("/:walletId/delete", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.get("/:walletId/history", checkLogIn, async (req, res, next) => {
+router.get("/:walletId/filter", checkLogIn, async (req, res, next) => {
   const { walletId } = req.params;
   let myUserInfo = req.session.myProperty;
   let _id = myUserInfo._id;
+  let username = "";
 
   try {
     let navWallet = await Wallet.find({ user: _id }).populate("user");
     let response = await WalletMovement.find({ wallet: walletId }).populate(
       "wallet"
     );
-    const wallet = response[0].wallet;
-    res.render("wallet/walletHistory.hbs", { response, wallet, navWallet });
+    let wallet = await Wallet.findById({ _id: walletId }).populate("user");
+
+    if (response.length == 0) {
+      if (wallet.user.length > 1) {
+        if (wallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+          username = wallet.user[1];
+        } else if (wallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+          username = wallet.user[0];
+        }
+      }
+      res.render("wallet/walletFilter.hbs", {
+        error: "No movements available.",
+        wallet,
+        username,
+      });
+      return;
+    }
+
+    if (wallet.user.length > 1) {
+      if (wallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+        username = wallet.user[1];
+      } else if (wallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+        username = wallet.user[0];
+      }
+    }
+
+    res.render("wallet/walletFilter.hbs", {
+      response,
+      wallet,
+      navWallet,
+      username,
+    });
   } catch (err) {
     next(err);
   }

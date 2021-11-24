@@ -9,7 +9,7 @@ button {
   color: white;
   padding: 0.5rem;
   border-radius: 0.5rem;
-} 
+}
 
 .delete {
   background-color: #99122d;
@@ -141,7 +141,7 @@ footer > p {
   margin-left: 16rem;
 }
 
-.settingsIntro { 
+.settingsIntro {
   display: flex;
   justify-content: space-around;
   align-content: flex-start;
@@ -154,31 +154,29 @@ footer > p {
   position: relative;
   margin: 0;
   right: -25rem;
-  top: -21rem
+  top: -21rem;
 }
 
 .settingsDelete {
   justify-content: space-around;
   display: flex;
-  margin-bottom: 40rem;
-  margin-left: 73.4rem;
-  margin-top: -32em;
+  margin-left: 52.1rem;
+  margin-top: -20em;
 }
-
 
 .animalFacts {
   margin-bottom: 2rem;
   margin-left: 10em;
   margin-top: 1rem;
   font-style: italic;
-} 
+}
 
-.animalPic{
+.animalPic {
   display: flex;
   margin-left: 11.5rem;
   top: -300rem;
-	flex-wrap: wrap;
-  width:22rem;
+  flex-wrap: wrap;
+  width: 22rem;
 }
 
 /*Profile*/
@@ -236,7 +234,6 @@ ul {
   margin-top: 36px;
   margin-left: 36px;
 }
-
 
 .notFound {
   text-align: left;
@@ -384,8 +381,7 @@ ul {
 .chart,
 #newMovement,
 #walletTableDiv,
-#balance h4,
-#walletBtns {
+#balance h4 {
   width: 45%;
   margin: 1rem 2rem;
 }
@@ -436,3 +432,19 @@ ul {
   margin-right: 2rem;
 }
 
+#walletBtns {
+  width: 80%;
+  height: 5%;
+  margin: 1rem 2rem;
+}
+
+.walletDeleting {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: auto;
+}
+
+.walletDeletingH {
+  margin: 1rem;
+}

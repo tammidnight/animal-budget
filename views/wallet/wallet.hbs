@@ -56,7 +56,7 @@
     </div>
 
       <button class="createNewMovementBtn">Create new movement</button>
-        {{#if error}}
+    {{#if error}}
       <p class="error">Message: {{error}}</p>
     {{/if}}
 
@@ -114,17 +114,19 @@
 
   <div id="walletBtns">
     <form action="/{{newWallet._id}}/edit" method="GET">
-      <button>Edit the Wallet</button>
+      <button>Edit Wallet</button>
     </form>
 
-    <form action="/{{newWallet._id}}/history" method="GET">
-      <button>Wallet History</button>
+    <form action="/{{newWallet._id}}/filter" method="GET">
+      <button>Filter History</button>
     </form>
 
     <button class="delete firstDelete">Delete</button>
 
-    <div class="confirmDeleting">
-      <p>Are you sure you want to delete this wallet?</p>
+    <div class="confirmDeleting" id="walletDeleting">
+      <div class="walletDeletingH">
+        <h5>Are you sure you want to delete this wallet?</h5>
+      </div>
       <form action="/{{newWallet._id}}/delete" method="POST">
         <button class="delete">Delete</button>
      </form>
