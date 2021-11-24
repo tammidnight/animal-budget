@@ -189,6 +189,40 @@ router.get("/profile/settings", checkLogIn, (req, res, next) => {
   let _id = myUserInfo._id;
   User.findById({ _id })
     .then((response) => {
+      if (response.animalUrl == "/images/bear.png") {
+        response.bearChecked = true;
+      } else if (response.animalUrl == "/images/cow.png") {
+        response.cowChecked = true;
+      } else if (response.animalUrl == "/images/crocodile.png") {
+        response.crocodileChecked = true;
+      } else if (response.animalUrl == "/images/dog.png") {
+        response.dogChecked = true;
+      } else if (response.animalUrl == "/images/duck.png") {
+        response.duckChecked = true;
+      } else if (response.animalUrl == "/images/elephant.png") {
+        response.elephantChecked = true;
+      } else if (response.animalUrl == "/images/monkey.png") {
+        response.monkeyChecked = true;
+      } else if (response.animalUrl == "/images/narwhale.png") {
+        response.narwhaleChecked = true;
+      } else if (response.animalUrl == "/images/owl.png") {
+        response.owlChecked = true;
+      } else if (response.animalUrl == "/images/panda.png") {
+        response.pandaChecked = true;
+      } else if (response.animalUrl == "/images/parrot.png") {
+        response.parrotChecked = true;
+      } else if (response.animalUrl == "/images/penguin.png") {
+        response.penguinChecked = true;
+      } else if (response.animalUrl == "/images/pig.png") {
+        response.pigChecked = true;
+      } else if (response.animalUrl == "/images/walrus.png") {
+        response.walrusChecked = true;
+      } else if (response.animalUrl == "/images/whale.png") {
+        response.whaleChecked = true;
+      } else if (response.animalUrl == "/images/zebra.png") {
+        response.zebraChecked = true;
+      }
+
       res.render("user/userSettings.hbs", { response });
     })
     .catch((err) => {
@@ -198,8 +232,15 @@ router.get("/profile/settings", checkLogIn, (req, res, next) => {
 
 // POST /profile/settings
 router.post("/profile/settings", (req, res, next) => {
-  const { username, lastName, firstName, email, password, newPassword } =
-    req.body;
+  const {
+    username,
+    lastName,
+    firstName,
+    email,
+    password,
+    newPassword,
+    animalUrl,
+  } = req.body;
   let myUserInfo = req.session.myProperty;
   let profileName = myUserInfo.username;
   let _id = myUserInfo._id;
@@ -214,7 +255,14 @@ router.post("/profile/settings", (req, res, next) => {
         if (isMatching) {
           User.findByIdAndUpdate(
             { _id },
-            { username, lastName, firstName, email, password: newPassword }
+            {
+              username,
+              lastName,
+              firstName,
+              email,
+              password: newPassword,
+              animalUrl,
+            }
           ).then((response) => {
             req.session.myProperty = response;
             res.redirect("/profile");
