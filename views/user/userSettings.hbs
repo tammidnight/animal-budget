@@ -1,7 +1,11 @@
 {{> navbar}}
-<div class="settingsPic">
-<img src="{{response.animalUrl}}" class="figure-img img-fluid rounded" alt="The user's profile pic">
+<div class="settingsPic"> 
+<figure class="figure">
+  <img src="{{response.animalUrl}}" class="figure-img img-fluid rounded" alt="The user's profile pic">
+  <figcaption class="figure-caption">Click on the animals to change me! </figcaption>
+</figure>
 </div>
+
 <div class="animalFacts">
 <p>
   <h2>Fun animal Fact! </h2>
@@ -17,16 +21,15 @@
 <p> {{myUserInfo.username}} you can change your personal info here:
 </p>
 </div>
-<div class="changeInfo">
 <form action="/profile/settings" method="POST">
-<div class="animalInput">
+<div class="animalPic">
             <label>
               <input type="radio" name="animalUrl" value="/images/bear.png" />
-              <img src="/images/bear.png" width="35" />
+              <img src="/images/bear.png" width="42" />
             </label>
             <label>
               <input type="radio" name="animalUrl" value="/images/cow.png" />
-              <img src="/images/cow.png" width="35" />
+              <img src="/images/cow.png" width="42" />
             </label>
             <label>
               <input
@@ -101,6 +104,7 @@
               <img src="/images/zebra.png" width="35" />
             </label>
           </div>
+<div class="changeInfo">
 <ul>
   <li><label>Name</label>  <br>
   <input name="username" type="text"  placeholder="Enter your username" value="{{response.username}}" size="30"></li>

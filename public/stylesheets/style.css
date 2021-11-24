@@ -136,35 +136,42 @@ footer > p {
 /*Settings*/
 
 .settingsPic {
-  position: relative;
+  display: flex;
+  align-items: center;
   margin-top: 3rem;
   margin-left: 16rem;
 }
 
 .settingsIntro {
-  position: absolute;
-  left: 64rem;
-  bottom: 36rem;
+  position: relative;
+  bottom: 42%;
+  right: -66%;
 }
 
 .changeInfo {
-  position: absolute;
-  left: 55rem;
-  bottom: 25rem;
-  height: 10rem;
+  position: relative;
+  right: -25rem;
+  top: -25rem
+ 
 }
 
 .settingsDelete {
-  position: absolute;
-  left: 63.2rem;
-  bottom: 5rem;
+  position: relative;
+  right: -83.4rem;
+  top: -25rem
 }
 .animalFacts {
   position: relative;
-  margin-top: 3rem;
+  margin-top: 5rem;
   margin-left: 8rem;
   margin-right: 6rem;
   font-style: italic;
+}
+.animalPic{
+  display: flex;
+  margin-top: 1rem;
+
+
 }
 
 /*Profile*/
@@ -181,7 +188,8 @@ footer > p {
 }
 
 .profilePic {
-  position: relative;
+  display: flex;
+  align-items: center;
   margin-top: 3rem;
   margin-left: 14rem;
 }
