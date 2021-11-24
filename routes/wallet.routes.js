@@ -70,11 +70,26 @@ router.get("/create", checkLogIn, (req, res, next) => {
   Wallet.find({ user: mongoose.Types.ObjectId(_id) })
     .populate("user")
     .then((response) => {
-      if (response.length == 0) {
-        res.render("wallet/createWallet.hbs");
-        return;
+      if (response[0].length == 0) {
+        if (response[0].user.length > 1) {
+          if (response[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
+            response[0].animalUrl = response[0].user[0].animalUrl;
+          } else if (response[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
+            response[0].animalUrl = response[0].user[1].animalUrl;
+          }
+          response[0].animalUrl = response[0].user[0].animalUrl;
+          res.render("wallet/createWallet.hbs", { response });
+          return;
+        }
       }
-
+      if (response[0].user.length > 1) {
+        if (response[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
+          response[0].animalUrl = response[0].user[0].animalUrl;
+        } else if (response[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
+          response[0].animalUrl = response[0].user[1].animalUrl;
+        }
+        response[0].animalUrl = response[0].user[0].animalUrl;
+      }
       res.render("wallet/createWallet.hbs", { response });
     })
     .catch((err) => next(err));
@@ -107,7 +122,15 @@ router.post("/create", async (req, res, next) => {
       }
       sharedUserId = [user, sharedUser[0]._id];
     }
-    let response = await Wallet.find({ user });
+    let response = await Wallet.find({ user }).populate("user");
+    if (response[0].user.length > 1) {
+      if (response[0].user[0]._id !== mongoose.Types.ObjectId(user)) {
+        response[0].animalUrl = response[0].user[0].animalUrl;
+      } else if (response[0].user[1]._id !== mongoose.Types.ObjectId(user)) {
+        response[0].animalUrl = response[0].user[1].animalUrl;
+      }
+      response[0].animalUrl = response[0].user[0].animalUrl;
+    }
     if (
       walletName == "" ||
       currency == "" ||
@@ -216,9 +239,12 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
             let username = "";
             if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
               username = newWallet.user[1];
+              navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
             } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
               username = newWallet.user[0];
+              navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
             }
+
             res.render("wallet/wallet.hbs", {
               navWallet,
               newWallet,
@@ -226,6 +252,7 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
               username,
             });
           }
+          navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
           res.render("wallet/wallet.hbs", { newWallet, newDate, navWallet });
         });
     }
@@ -301,9 +328,12 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
       let username = "";
       if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
         username = newWallet.user[1];
+        navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
       } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
         username = newWallet.user[0];
+        navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
       }
+
       res.render("wallet/wallet.hbs", {
         response,
         navWallet,
@@ -318,6 +348,8 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
         username,
       });
     }
+
+    navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
 
     res.render("wallet/wallet.hbs", {
       response,
@@ -366,10 +398,12 @@ router.post("/:walletId", async (req, res, next) => {
                 let username = "";
                 if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
                   username = newWallet.user[1];
+                  navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
                 } else if (
                   newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)
                 ) {
                   username = newWallet.user[0];
+                  navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
                 }
                 res.render("wallet/wallet.hbs", {
                   navWallet,
@@ -378,6 +412,7 @@ router.post("/:walletId", async (req, res, next) => {
                   username,
                 });
               }
+              navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
               res.render("wallet/wallet.hbs", {
                 newWallet,
                 newDate,
@@ -457,8 +492,10 @@ router.post("/:walletId", async (req, res, next) => {
           let username = "";
           if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
             username = newWallet.user[1];
+            navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
           } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
             username = newWallet.user[0];
+            navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
           }
           res.render("wallet/wallet.hbs", {
             response,
@@ -474,7 +511,7 @@ router.post("/:walletId", async (req, res, next) => {
             username,
           });
         }
-
+        navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
         res.render("wallet/wallet.hbs", {
           response,
           newWallet,
@@ -513,9 +550,12 @@ router.post("/:walletId", async (req, res, next) => {
             let username = "";
             if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
               username = newWallet.user[1];
+              navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
             } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
               username = newWallet.user[0];
+              navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
             }
+
             res.render("wallet/wallet.hbs", {
               navWallet,
               newWallet,
@@ -523,6 +563,7 @@ router.post("/:walletId", async (req, res, next) => {
               username,
             });
           }
+          navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
           res.render("wallet/wallet.hbs", { newWallet, newDate, navWallet });
         });
     }
@@ -594,8 +635,10 @@ router.post("/:walletId", async (req, res, next) => {
       let username = "";
       if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
         username = newWallet.user[1];
+        navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
       } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
         username = newWallet.user[0];
+        navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
       }
       res.render("wallet/wallet.hbs", {
         response,
@@ -611,6 +654,8 @@ router.post("/:walletId", async (req, res, next) => {
         username,
       });
     }
+
+    navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
 
     res.render("wallet/wallet.hbs", {
       response,
@@ -681,6 +726,27 @@ router.get("/:walletId/edit", checkLogIn, async (req, res, next) => {
       user: mongoose.Types.ObjectId(_id),
     }).populate("user");
 
+    if (wallet[0].length == 0) {
+      if (wallet[0].user.length > 1) {
+        if (wallet[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
+          wallet[0].animalUrl = wallet[0].user[0].animalUrl;
+        } else if (wallet[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
+          wallet[0].animalUrl = wallet[0].user[1].animalUrl;
+        }
+        wallet[0].animalUrl = wallet[0].user[0].animalUrl;
+        res.render("wallet/editWallet.hbs", { response });
+        return;
+      }
+    }
+    if (wallet[0].user.length > 1) {
+      if (wallet[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
+        wallet[0].animalUrl = wallet[0].user[0].animalUrl;
+      } else if (wallet[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
+        wallet[0].animalUrl = wallet[0].user[1].animalUrl;
+      }
+      wallet[0].animalUrl = wallet[0].user[0].animalUrl;
+    }
+
     res.render("wallet/editWallet.hbs", {
       response,
       wallet,
@@ -740,6 +806,15 @@ router.post("/:walletId/edit", async (req, res, next) => {
     let wallet = await Wallet.find({
       user: mongoose.Types.ObjectId(_id),
     }).populate("user");
+
+    if (wallet[0].user.length > 1) {
+      if (wallet[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
+        wallet[0].animalUrl = wallet[0].user[0].animalUrl;
+      } else if (wallet[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
+        wallet[0].animalUrl = wallet[0].user[1].animalUrl;
+      }
+      wallet[0].animalUrl = wallet[0].user[0].animalUrl;
+    }
     if (
       walletName == "" ||
       currency == "" ||
@@ -870,14 +945,19 @@ router.get("/:walletId/filter", checkLogIn, async (req, res, next) => {
       if (wallet.user.length > 1) {
         if (wallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
           username = wallet.user[1];
+          navWallet[0].user = wallet.user[0].animalUrl;
         } else if (wallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
           username = wallet.user[0];
+          navWallet[0].user = wallet.user[1].animalUrl;
         }
       }
+      navWallet[0].user = wallet.user[0].animalUrl;
+
       res.render("wallet/walletFilter.hbs", {
         error: "No movements available.",
         wallet,
         username,
+        navWallet,
       });
       return;
     }
@@ -885,10 +965,14 @@ router.get("/:walletId/filter", checkLogIn, async (req, res, next) => {
     if (wallet.user.length > 1) {
       if (wallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
         username = wallet.user[1];
+        navWallet[0].animalUrl = wallet.user[0].animalUrl;
       } else if (wallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
         username = wallet.user[0];
+        navWallet[0].animalUrl = wallet.user[1].animalUrl;
       }
     }
+
+    navWallet[0].user = wallet.user[0].animalUrl;
 
     res.render("wallet/walletFilter.hbs", {
       response,
