@@ -19,7 +19,7 @@ Have a track of your finances.
 - **user-profile** - As a user I want to see a short overview about my informations and wallets.
 - **user-settings** - As a user I want easily to edit my informations.
 - **wallet** - As a user I want to see a detailed page for the current month in my wallet.
-- **wallet-history** - As a user I want to see a detailed page for the passed months in my wallet, where I can also filter the spendings and incomes.
+- **wallet-filter** - As a user I want to see a detailed page for my wallet, where I can filter the spendings and incomes.
 - **wallet-edit** - As a user I want to edit my wallet easily.
   <br>
 
@@ -34,7 +34,7 @@ Have a track of your finances.
 - [x] createWallet.hbs
 - [x] wallet.hbs
 - [x] editWallet.hbs
-- [ ] walletHistory.hbs
+- [ ] walletFilter.hbs
       <br>
 
 ## API routes (back-end)
@@ -54,7 +54,7 @@ Have a track of your finances.
 - [x] GET /:walletId/edit
 - [x] POST /:walletId/edit
 - [x] POST /:walletId/delete
-- [x] GET /:walletId/history
+- [x] GET /:walletId/filter
 - [x] POST /movement/:movementId
 - [x] POST /movement/:movementId/delete
 
@@ -94,7 +94,7 @@ Have a track of your finances.
         - balance: {type: Schema.Types.Decimal128},
         - saving: {type: Schema.Types.Decimal128},
         - shared: Boolean
-        - user: {type: Schema.Types.ObjectId, ref: 'User'},
+        - user: [{type: Schema.Types.ObjectId, ref: 'User'}],
           })
 
     <br>
@@ -115,12 +115,12 @@ Have a track of your finances.
 
 ## Backlog
 
-- Dark mode
-- Shared wallet
-- Reminders
-- Achievments
-- loading Screen
-- edit the movements
+- [ ] Dark mode
+- [x] Shared wallet
+- [ ] Reminders
+- [ ] Achievments
+- [ ] loading Screen
+- [x] edit and delete the movements
 
 <br>
 
