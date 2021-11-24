@@ -3,8 +3,7 @@ const User = require("../models/User.model");
 const Wallet = require("../models/Wallet.model");
 const WalletMovement = require("../models/WalletMovement.model");
 const bcrypt = require("bcryptjs");
-const { response } = require("express");
-const app = require("../app");
+const mongoose = require("mongoose");
 
 const checkLogIn = (req, res, next) => {
   if (req.session.myProperty) {
@@ -106,17 +105,26 @@ router.get("/profile", checkLogIn, (req, res, next) => {
   let myUserInfo = req.session.myProperty;
   let _id = myUserInfo._id;
 
-  Wallet.find({ user: _id })
+  Wallet.find({ user: mongoose.Types.ObjectId(_id) })
     .populate("user")
     .then((response) => {
-      if (response.lenght == 0) {
+      if (response.length == 0) {
         res.redirect("/create");
         return;
       }
 
-      let date = response[0].user.createdAt;
+      let date;
+      let user = {};
+
+      if (response[0].user[0]._id == _id) {
+        date = response[0].user[0].createdAt;
+        user = response[0].user[0];
+      } else if (response[0].user[1]._id == _id) {
+        date = response[0].user[1].createdAt;
+        user = response[0].user[1];
+      }
+
       let formattedDate = formateDate(date);
-      let user = response[0].user;
       let responseOne = {};
       let chartDataOne = [];
       let responseTwo = {};
@@ -130,33 +138,77 @@ router.get("/profile", checkLogIn, (req, res, next) => {
           Number(response[0].balance).toFixed(2),
           Number(response[0].saving).toFixed(2),
         ];
+        if (responseOne.user.length > 1) {
+          if (responseOne.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+            responseOne.sharedUser = responseOne.user[1].username;
+          } else if (responseOne.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+            responseOne.sharedUser = responseOne.user[0].username;
+          }
+        }
       } else if (response.length === 2) {
         responseOne = response[0];
         chartDataOne = [
           Number(response[0].balance).toFixed(2),
           Number(response[0].saving).toFixed(2),
         ];
+        if (responseOne.user.length > 1) {
+          if (responseOne.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+            responseOne.sharedUser = responseOne.user[1].username;
+          } else if (responseOne.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+            responseOne.sharedUser = responseOne.user[0].username;
+          }
+        }
         responseTwo = response[1];
         chartDataTwo = [
           Number(response[1].balance).toFixed(2),
           Number(response[1].saving).toFixed(2),
         ];
+        if (responseTwo.user.length > 1) {
+          if (responseTwo.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+            responseTwo.sharedUser = responseTwo.user[1].username;
+          } else if (responseTwo.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+            responseTwo.sharedUser = responseTwo.user[0].username;
+          }
+        }
       } else if (response.length === 3) {
         responseOne = response[0];
         chartDataOne = [
           Number(response[0].balance).toFixed(2),
           Number(response[0].saving).toFixed(2),
         ];
+        if (responseOne.user.length > 1) {
+          if (responseOne.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+            responseOne.sharedUser = responseOne.user[1].username;
+          } else if (responseOne.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+            responseOne.sharedUser = responseOne.user[0].username;
+          }
+        }
         responseTwo = response[1];
         chartDataTwo = [
           Number(response[1].balance).toFixed(2),
           Number(response[1].saving).toFixed(2),
         ];
+        if (responseTwo.user.length > 1) {
+          if (responseTwo.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+            responseTwo.sharedUser = responseTwo.user[1].username;
+          } else if (responseTwo.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+            responseTwo.sharedUser = responseTwo.user[0].username;
+          }
+        }
         responseThree = response[2];
         chartDataThree = [
           Number(response[2].balance).toFixed(2),
           Number(response[2].saving).toFixed(2),
         ];
+        if (responseThree.user.length > 1) {
+          if (responseThree.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+            responseThree.sharedUser = responseThree.user[1].username;
+          } else if (
+            responseThree.user[1]._id !== mongoose.Types.ObjectId(_id)
+          ) {
+            responseThree.sharedUser = responseThree.user[0].username;
+          }
+        }
       }
 
       let chartLabels = ["Balance", "Saving"];
@@ -168,6 +220,7 @@ router.get("/profile", checkLogIn, (req, res, next) => {
 
       res.render("user/userProfile.hbs", {
         user,
+        response,
         responseOne,
         responseTwo,
         responseThree,
@@ -187,9 +240,52 @@ router.get("/profile", checkLogIn, (req, res, next) => {
 router.get("/profile/settings", checkLogIn, (req, res, next) => {
   let myUserInfo = req.session.myProperty;
   let _id = myUserInfo._id;
-  User.findById({ _id })
+
+  Wallet.find({ user: mongoose.Types.ObjectId(_id) })
+    .populate("user")
     .then((response) => {
-      res.render("user/userSettings.hbs", { response });
+      let user = {};
+      if (response[0].user[0]._id == _id) {
+        user = response[0].user[0];
+      } else if (response[0].user[1]._id == _id) {
+        user = response[0].user[1];
+      }
+
+      if (user.animalUrl == "/images/bear.png") {
+        user.bearChecked = true;
+      } else if (user.animalUrl == "/images/cow.png") {
+        user.cowChecked = true;
+      } else if (user.animalUrl == "/images/crocodile.png") {
+        user.crocodileChecked = true;
+      } else if (user.animalUrl == "/images/dog.png") {
+        user.dogChecked = true;
+      } else if (user.animalUrl == "/images/duck.png") {
+        user.duckChecked = true;
+      } else if (user.animalUrl == "/images/elephant.png") {
+        user.elephantChecked = true;
+      } else if (user.animalUrl == "/images/monkey.png") {
+        user.monkeyChecked = true;
+      } else if (user.animalUrl == "/images/narwhale.png") {
+        user.narwhaleChecked = true;
+      } else if (user.animalUrl == "/images/owl.png") {
+        user.owlChecked = true;
+      } else if (user.animalUrl == "/images/panda.png") {
+        user.pandaChecked = true;
+      } else if (user.animalUrl == "/images/parrot.png") {
+        user.parrotChecked = true;
+      } else if (user.animalUrl == "/images/penguin.png") {
+        user.penguinChecked = true;
+      } else if (user.animalUrl == "/images/pig.png") {
+        user.pigChecked = true;
+      } else if (user.animalUrl == "/images/walrus.png") {
+        user.walrusChecked = true;
+      } else if (user.animalUrl == "/images/whale.png") {
+        user.whaleChecked = true;
+      } else if (user.animalUrl == "/images/zebra.png") {
+        user.zebraChecked = true;
+      }
+
+      res.render("user/userSettings.hbs", { user, response });
     })
     .catch((err) => {
       next(err);
@@ -255,17 +351,23 @@ router.post("/profile/delete", (req, res, next) => {
   let _id = myUserInfo._id;
   User.findByIdAndRemove({ _id })
     .then(() => {
-      return Wallet.find({ user: _id });
+      return Wallet.find({ user: mongoose.Types.ObjectId(_id) });
     })
     .then((response) => {
-      console.log(response._id);
-      let wallet = response._id;
-      return WalletMovement.deleteMany({ wallet });
+      console.log(response);
+
+      let wallet = [];
+
+      response.forEach((elem) => {
+        wallet.push(elem._id);
+      });
+
+      return WalletMovement.deleteMany({ wallet: { $in: wallet } });
     })
     .then(() => {
-      return Wallet.deleteMany({ user: _id });
+      return Wallet.deleteMany({ user: mongoose.Types.ObjectId(_id) });
     })
-    .then((response) => {
+    .then(() => {
       req.session.destroy();
       res.redirect("/");
     })

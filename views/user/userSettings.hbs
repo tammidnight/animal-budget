@@ -1,7 +1,7 @@
-{{> navbar}}
-<div class="settingsPic"> 
-<figure class="figure">
-  <img src="{{response.animalUrl}}" class="figure-img img-fluid rounded" alt="The user's profile pic">
+{{> navbar response}}
+
+<div class="settingsPic">
+<img src="{{user.animalUrl}}" class="figure-img img-fluid rounded" alt="The user's profile pic">
   <figcaption class="figure-caption">Click on the animals to change me! </figcaption>
 </figure>
 </div>
@@ -124,7 +124,14 @@
 </form>
 </div>
 <div class="settingsDelete">
-<form action="/profile/delete" method="POST">
-  <button class="delete">Delete</button>
-</form>
+<button class="delete firstDelete">Delete</button>
+
+    <div class="confirmDeleting">
+      <p>Are you sure you want to delete your account?</p>
+      <form action="/profile/delete" method="POST">
+        <button class="delete">Delete</button>
+     </form>
+     <button class="cancel">Cancel</button>
+    </div>
 </div>
+

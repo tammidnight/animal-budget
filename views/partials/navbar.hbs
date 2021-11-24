@@ -37,9 +37,19 @@
             More
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="/profile/settings">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Wallet One</a></li>
-            <li><a class="dropdown-item" href="/logout">Logout</a></li> 
+            <li><a
+                class="dropdown-item"
+                href="/profile/settings"
+              >Settings</a></li>
+            {{#if this}}
+              {{#each this}}
+                <li><a
+                    class="dropdown-item"
+                    href="/{{this._id}}"
+                  >{{this.walletName}}</a></li>
+              {{/each}}
+            {{/if}}
+            <li><a class="dropdown-item" href="/logout">Logout</a></li>
           </ul>
         </li>
       </ul>
