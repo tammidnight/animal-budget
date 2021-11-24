@@ -47,14 +47,6 @@ update.forEach((elem) => {
         choose.setAttribute("value", "choose");
         choose.innerText = "Please choose one:";
         select.appendChild(choose);
-        const income = document.createElement("option");
-        income.setAttribute("value", "Income");
-        income.innerText = "Income";
-        select.appendChild(income);
-        const saving = document.createElement("option");
-        saving.setAttribute("value", "Saving");
-        saving.innerText = "Saving";
-        select.appendChild(saving);
         const transportation = document.createElement("option");
         transportation.setAttribute("value", "Transportation");
         transportation.innerText = "Transportation";
@@ -163,6 +155,6 @@ category.addEventListener("click", (e) => {
       '<select id="category" name="category" class="movementInputField"> <option value="Saving">Saving</option> </select>';
   } else if (kind.value === "Spending") {
     category.innerHTML =
-      ' <select id="category" name="category" class="movementInputField"> <option value="Income">Income</option><option value="Saving">Saving</option><option value="Transportation">Transportation</option><option value="Food">Food</option><option value="Pet">Pet</option><option value="Leisure">Leisure</option><option value="Present">Present</option><option value="Other">Other</option></select>';
+      ' <select id="category" name="category" class="movementInputField"><option value="Transportation">Transportation</option><option value="Food">Food</option><option value="Pet">Pet</option><option value="Leisure">Leisure</option><option value="Present">Present</option><option value="Other">Other</option></select>';
   }
 });
