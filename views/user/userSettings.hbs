@@ -6,7 +6,94 @@
 </figure>
 </div>
 
-<div class="animalFacts">
+<div class="settingsIntro">
+<p> Welcome {{myUserInfo.username}}, you can change your personal info here:
+</p>
+</div>
+<form action="/profile/settings" method="POST">
+<div class="animalPic">
+            <label>
+              <input type="radio" name="animalUrl" value="/images/bear.png" />
+              <img src="/images/bear.png" width="44" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/cow.png" />
+              <img src="/images/cow.png" width="44" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="animalUrl"
+                value="/images/crocodile.png"
+              />
+              <img src="/images/crocodile.png" width="44" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/dog.png" />
+              <img src="/images/dog.png" width="44" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/duck.png" />
+              <img src="/images/duck.png" width="44" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="animalUrl"
+                value="/images/elephant.png"
+              />
+              <img src="/images/elephant.png" width="44" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/monkey.png" />
+              <img src="/images/monkey.png" width="44" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="animalUrl"
+                value="/images/narwhale.png"
+              />
+              <img src="/images/narwhale.png" width="44" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/owl.png" />
+              <img src="/images/owl.png" width="44" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/panda.png" />
+              <img src="/images/panda.png" width="44" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/parrot.png" />
+              <img src="/images/parrot.png" width="44" />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="animalUrl"
+                value="/images/penguin.png"
+              />
+              <img src="/images/penguin.png" width="44" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/pig.png" />
+              <img src="/images/pig.png" width="44" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/walrus.png" />
+              <img src="/images/walrus.png" width="44" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/whale.png" />
+              <img src="/images/whale.png" width="44" />
+            </label>
+            <label>
+              <input type="radio" name="animalUrl" value="/images/zebra.png" />
+              <img src="/images/zebra.png" width="44" />
+            </label>
+          </div>
+          <div class="animalFacts">
 <p>
   <h2>Fun animal Fact! </h2>
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod <br>
@@ -17,93 +104,6 @@
   sunt in culpa qui officia deserunt mollit anim id est laborum."
 </p>
 </div>
-<div class="settingsIntro">
-<p> {{myUserInfo.username}} you can change your personal info here:
-</p>
-</div>
-<form action="/profile/settings" method="POST">
-<div class="animalPic">
-            <label>
-              <input type="radio" name="animalUrl" value="/images/bear.png" />
-              <img src="/images/bear.png" width="42" />
-            </label>
-            <label>
-              <input type="radio" name="animalUrl" value="/images/cow.png" />
-              <img src="/images/cow.png" width="42" />
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="animalUrl"
-                value="/images/crocodile.png"
-              />
-              <img src="/images/crocodile.png" width="35" />
-            </label>
-            <label>
-              <input type="radio" name="animalUrl" value="/images/dog.png" />
-              <img src="/images/dog.png" width="35" />
-            </label>
-            <label>
-              <input type="radio" name="animalUrl" value="/images/duck.png" />
-              <img src="/images/duck.png" width="35" />
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="animalUrl"
-                value="/images/elephant.png"
-              />
-              <img src="/images/elephant.png" width="35" />
-            </label>
-            <label>
-              <input type="radio" name="animalUrl" value="/images/monkey.png" />
-              <img src="/images/monkey.png" width="35" />
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="animalUrl"
-                value="/images/narwhale.png"
-              />
-              <img src="/images/narwhale.png" width="35" />
-            </label>
-            <label>
-              <input type="radio" name="animalUrl" value="/images/owl.png" />
-              <img src="/images/owl.png" width="35" />
-            </label>
-            <label>
-              <input type="radio" name="animalUrl" value="/images/panda.png" />
-              <img src="/images/panda.png" width="35" />
-            </label>
-            <label>
-              <input type="radio" name="animalUrl" value="/images/parrot.png" />
-              <img src="/images/parrot.png" width="35" />
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="animalUrl"
-                value="/images/penguin.png"
-              />
-              <img src="/images/penguin.png" width="35" />
-            </label>
-            <label>
-              <input type="radio" name="animalUrl" value="/images/pig.png" />
-              <img src="/images/pig.png" width="35" />
-            </label>
-            <label>
-              <input type="radio" name="animalUrl" value="/images/walrus.png" />
-              <img src="/images/walrus.png" width="35" />
-            </label>
-            <label>
-              <input type="radio" name="animalUrl" value="/images/whale.png" />
-              <img src="/images/whale.png" width="35" />
-            </label>
-            <label>
-              <input type="radio" name="animalUrl" value="/images/zebra.png" />
-              <img src="/images/zebra.png" width="35" />
-            </label>
-          </div>
 <div class="changeInfo">
 <ul>
   <li><label>Name</label>  <br>
