@@ -1,0 +1,131 @@
+{{> navbar navWallet}}
+
+ <div id="walletHeader">
+    <h1>{{wallet.walletName}}</h1>
+    {{#if username}}
+        <h1>Shared Wallet with {{username.username}}</h1>
+    {{/if}}
+</div>
+
+{{#if error}}
+    <p class="error">Message: {{error}}</p>
+{{/if}}
+
+<div></div>
+
+<div>
+    <div id="walletTableDiv">
+        <table id="walletTable">
+            <tr>
+                <th>Movement</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Currency</th>
+            </tr>
+
+            {{#if wallet.monthlyIncome}}
+                <tr>
+                    <td>Monthly Income</td>
+                    <td>Monthly Income</td>
+                    <td>01/{{newDate}}</td>
+                    <td>{{wallet.monthlyIncome}}</td>
+                    <td>{{wallet.currency}}</td>
+                </tr>
+            {{/if}}
+
+            {{#if wallet.monthlySpending}}
+                <tr>
+                    <td>Monthly Spending</td>
+                    <td>Monthly Spending</td>
+                    <td>01/{{newDate}}</td>
+                    <td>{{wallet.monthlySpending}}</td>
+                    <td>{{wallet.currency}}</td>
+                </tr>
+            {{/if}}
+            
+            {{#each response}}
+                <tr class="{{this._id}}">
+                    <td class="update kind">{{this.kind}}</td>
+                    <td class="update category">{{this.category}}</td>
+                    <td class="update date">{{this.formattedDate}}</td>
+                    <td class="update amount">{{this.formattedAmount}}</td>
+                    <td>{{this.wallet.currency}}</td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
+
+
+    <div>
+        <div class="chart">
+            <h3>Pie Chart of Spendings</h3>
+            <canvas id="myChart" width="200" height="200"></canvas>
+        </div>
+        <div class="chart">
+            <h3>Bar Chart of status</h3>
+            <canvas id="myChartTwo" width="200" height="200"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+const ctx = document.getElementById('myChart').getContext('2d');
+const ctxTwo = document.getElementById('myChartTwo').getContext('2d');
+
+    const myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: {{{chartLabels}}},
+            datasets: [{
+                label: 'Spendings',
+                data: {{{chartData}}},
+                 backgroundColor: [
+                    '#99122d',
+                    '#00613e',
+                    '#99c0b2',
+                    '#cc8996',
+                    '#a9a9a9',
+                    '#d4d4d4'
+                ],
+                hoverOffset: 1
+            }]
+        },
+        options: {
+          responsive: true, 
+          maintainAspectRatio: false,
+          aspectRatio: 1
+        }
+    });
+
+    const myChartTwo = new Chart(ctxTwo, {
+        type: 'bar',
+        data: {
+            labels: {{{chartLabelsTwo}}},
+            datasets: [{
+                label: 'Current status',
+                data: {{{chartDataTwo}}},
+                fill: false,
+                backgroundColor: [
+                  '#99c0b2',
+                  '#cc8996',
+                ],
+                  borderColor: [
+                  '#00613e',
+                  '#99122d',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+      });
+</script>
