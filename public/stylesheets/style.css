@@ -221,6 +221,10 @@ ul {
   border-radius: 1rem;
 }
 
+.cardImg {
+  margin: 5rem 0.2em;
+}
+
 /* 404 and 500*/
 .errorPage {
   font-family: "Catamaran", sans-serif;
