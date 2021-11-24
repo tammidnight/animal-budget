@@ -21,6 +21,37 @@ footer {
   border: 1px solid #00613e;
 }
 
+.navbar {
+  padding: 0;
+}
+
+.navbar-brand {
+  margin-bottom: 0;
+}
+
+.navbar-collapse {
+  justify-content: flex-end;
+}
+
+.navbar-nav {
+  flex-direction: row;
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 75px;
+}
+
+.nav-link {
+  padding: 0;
+}
+
+.dropdown-toggle {
+  padding-top: 20;
+}
+
 .nav-link {
   text-decoration: none;
   color: black;
