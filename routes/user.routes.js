@@ -311,7 +311,6 @@ router.post("/profile/settings", (req, res, next) => {
       if (usernameResponse.length) {
         //bcrypt decryption
         let userObj = usernameResponse[0];
-
         // check if password matches
         let isMatching = bcrypt.compareSync(password, userObj.password);
         if (isMatching) {
@@ -344,6 +343,7 @@ router.post("/profile/settings", (req, res, next) => {
       next(err);
     });
 });
+
 
 // POST /profile/delete
 router.post("/profile/delete", (req, res, next) => {

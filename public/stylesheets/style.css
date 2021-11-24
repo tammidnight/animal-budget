@@ -134,37 +134,51 @@ footer > p {
 }
 
 /*Settings*/
-
 .settingsPic {
-  position: relative;
+  display: flex;
+  align-items: center;
   margin-top: 3rem;
   margin-left: 16rem;
 }
 
-.settingsIntro {
-  position: absolute;
-  left: 64rem;
-  bottom: 36rem;
+.settingsIntro { 
+  display: flex;
+  justify-content: space-around;
+  align-content: flex-start;
+  align-items: center;
+  margin-left: 50rem;
+  margin-top: -3rem;
 }
 
 .changeInfo {
-  position: absolute;
-  left: 55rem;
-  bottom: 25rem;
-  height: 10rem;
+  position: relative;
+  margin: 0;
+  right: -25rem;
+  top: -21rem
 }
 
 .settingsDelete {
-  position: absolute;
-  left: 63.2rem;
-  bottom: 5rem;
+  justify-content: space-around;
+  display: flex;
+  margin-bottom: 40rem;
+  margin-left: 73.4rem;
+  margin-top: -32em;
 }
+
+
 .animalFacts {
-  position: relative;
-  margin-top: 3rem;
-  margin-left: 8rem;
-  margin-right: 6rem;
+  margin-bottom: 2rem;
+  margin-left: 10em;
+  margin-top: 1rem;
   font-style: italic;
+} 
+
+.animalPic{
+  display: flex;
+  margin-left: 11.5rem;
+  top: -300rem;
+	flex-wrap: wrap;
+  width:22rem;
 }
 
 /*Profile*/
@@ -177,13 +191,14 @@ footer > p {
   align-content: flex-start;
   text-align: center;
   margin-bottom: 1rem;
-  margin-top: 2rem;
+  margin-top: 4rem;
 }
 
 .profilePic {
-  position: relative;
+  display: flex;
+  align-items: center;
   margin-top: 3rem;
-  margin-left: 12rem;
+  margin-left: 14rem;
 }
 
 .profileHi {
@@ -195,9 +210,6 @@ footer > p {
 .profileList {
   display: grid;
   place-content: center;
-  list-style-type: none; /* Remove bullets */
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margins */
 }
 
 ul {
@@ -213,23 +225,23 @@ ul {
 
 /* 404 and 500*/
 .errorPage {
+  font-family: "Catamaran", sans-serif;
+  text-align: left;
+  display: flex;
   background-image: url(../images/tv.jpg);
-  background-repeat: no-repeat;
-  background-position: bottom 0.3rem right -10.3rem;
+  background-position: bottom 0.3rem right -13rem;
   background-size: 100% 100%;
   width: 72%;
   height: 85%;
-  text-align: left;
   margin-top: 36px;
   margin-left: 36px;
-  margin-right: 36px;
 }
+
 
 .notFound {
   text-align: left;
-  margin-top: 360px;
-  margin-left: 36px;
-  margin-right: 36px;
+  margin-top: 26rem;
+  margin-left: 12rem;
 }
 
 .pig {
