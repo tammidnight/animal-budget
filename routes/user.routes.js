@@ -198,8 +198,15 @@ router.get("/profile/settings", checkLogIn, (req, res, next) => {
 
 // POST /profile/settings
 router.post("/profile/settings", (req, res, next) => {
-  const { username, lastName, firstName, email, password, newPassword } =
-    req.body;
+  const {
+    username,
+    lastName,
+    firstName,
+    email,
+    password,
+    newPassword,
+    animalUrl,
+  } = req.body;
   let myUserInfo = req.session.myProperty;
   let profileName = myUserInfo.username;
   let _id = myUserInfo._id;
@@ -208,13 +215,19 @@ router.post("/profile/settings", (req, res, next) => {
       if (usernameResponse.length) {
         //bcrypt decryption
         let userObj = usernameResponse[0];
-
         // check if password matches
         let isMatching = bcrypt.compareSync(password, userObj.password);
         if (isMatching) {
           User.findByIdAndUpdate(
             { _id },
-            { username, lastName, firstName, email, password: newPassword }
+            {
+              username,
+              lastName,
+              firstName,
+              email,
+              password: newPassword,
+              animalUrl,
+            }
           ).then((response) => {
             req.session.myProperty = response;
             res.redirect("/profile");
@@ -234,6 +247,7 @@ router.post("/profile/settings", (req, res, next) => {
       next(err);
     });
 });
+
 
 // POST /profile/delete
 router.post("/profile/delete", (req, res, next) => {

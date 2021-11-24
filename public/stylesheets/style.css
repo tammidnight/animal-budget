@@ -213,23 +213,23 @@ ul {
 
 /* 404 and 500*/
 .errorPage {
+  font-family: "Catamaran", sans-serif;
+  text-align: left;
+  display: flex;
   background-image: url(../images/tv.jpg);
-  background-repeat: no-repeat;
-  background-position: bottom 0.3rem right -10.3rem;
+  background-position: bottom 0.3rem right -13rem;
   background-size: 100% 100%;
   width: 72%;
   height: 85%;
-  text-align: left;
   margin-top: 36px;
   margin-left: 36px;
-  margin-right: 36px;
 }
+
 
 .notFound {
   text-align: left;
-  margin-top: 360px;
-  margin-left: 36px;
-  margin-right: 36px;
+  margin-top: 26rem;
+  margin-left: 12rem;
 }
 
 .pig {
