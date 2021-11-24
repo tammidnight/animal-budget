@@ -179,9 +179,14 @@
 </div>
 
 <div class="settingsDelete">
-<form action="/profile/delete" method="POST">
-  <button class="delete">Delete</button>
-</form>
+<button class="delete firstDelete">Delete</button>
 
+    <div class="confirmDeleting">
+      <p>Are you sure you want to delete your account?</p>
+      <form action="/profile/delete" method="POST">
+        <button class="delete">Delete</button>
+     </form>
+     <button class="cancel">Cancel</button>
+    </div>
 </div>
 

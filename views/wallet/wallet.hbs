@@ -121,12 +121,21 @@
       <button>Wallet History</button>
     </form>
 
-    <form action="/{{newWallet._id}}/delete" method="POST">
-      <button class="delete">Delete</button>
-    </form>
+    <button class="delete firstDelete">Delete</button>
+
+    <div class="confirmDeleting">
+      <p>Are you sure you want to delete this wallet?</p>
+      <form action="/{{newWallet._id}}/delete" method="POST">
+        <button class="delete">Delete</button>
+     </form>
+     <button class="cancel">Cancel</button>
+    </div>
+
   </div>
 
 </div>
+
+<script src="/js/walletView.js"></script>
 
 <script>
 const ctx = document.getElementById('myChart').getContext('2d');

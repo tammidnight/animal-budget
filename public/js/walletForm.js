@@ -3,9 +3,11 @@ const sharedFalse = document.querySelector("#false");
 const sharedUser = document.querySelector(".sharedWalletTrue");
 
 window.addEventListener("load", () => {
-  if (sharedFalse.checked) {
-    sharedUser.style.display = "none";
+  if (sharedTrue.checked) {
+    sharedUser.style.display = "flex";
   }
+
+  sharedUser.style.display = "none";
 
   sharedTrue.addEventListener("click", () => {
     sharedUser.style.display = "flex";
