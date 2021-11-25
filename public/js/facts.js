@@ -47,7 +47,7 @@ const div = document.querySelector("#animalText");
   }
   if (dog.checked) {
     div.innerHTML =
-      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Dogs can be left or right-pawed. You can fin out whether your dog is left or right-pawed by giving them their favourite toy and seeing which pay whey use first on it. Scientists believe dogs can experience jealousy when their owners give attention to other dogs. But if they look ashamed but they’re lying since they don’t experience that emotion. Liars."</p></div>';
+      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Dogs can be left or right-pawed. You can fin out whether your dog is left or right-pawed by giving them their favourite toy and seeing which pay whey use first for it. Scientists believe dogs can experience jealousy when their owners give attention to other dogs. But if they look ashamed but they’re lying, since they don’t experience that emotion. Liars."</p></div>';
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/dog.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   }
@@ -59,7 +59,7 @@ const div = document.querySelector("#animalText");
   }
   if (elephant.checked) {
     div.innerHTML =
-      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"You can tell the species of an elephant thanks to it’s ears. Because their tusks never stop growing they’re an indication of age. They’re very into skincare and they love sunscreen so much they made their own. After a river or swamp bath, they’ll throw mud and sand up and over themselves to protect their skin from the hot, burning sun. Clever"</p></div>';
+      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"You can tell the species of an elephant thanks to its ears. Because their tusks never stop growing they’re an indication of age. They’re very into skincare and they love sunscreen so much they made their own. After a river or swamp bath, they’ll throw mud and sand up and over themselves to protect their skin from the hot, burning sun. Clever"</p></div>';
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/elephant.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   }
