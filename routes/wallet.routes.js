@@ -13,8 +13,9 @@ const checkLogIn = (req, res, next) => {
 };
 
 const formateDate = (date) => {
-  const result =
-    date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const day = ("0" + date.getDate()).slice(-2);
+  const result = day + "/" + month + "/" + date.getFullYear();
   return result;
 };
 
@@ -219,6 +220,101 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
     let navWallet = await Wallet.find({
       user: mongoose.Types.ObjectId(_id),
     }).populate("user");
+
+    let monthly = await WalletMovement.find({
+      $or: [
+        { wallet: walletId, kind: "Monthly Income" },
+        { wallet: walletId, kind: "Monthly Spending" },
+        { wallet: walletId, category: "Saving" },
+      ],
+    });
+    let today = new Date();
+    let currentMonth = today.getMonth() + 1;
+    let currentYear = today.getFullYear();
+    let savingArr = [];
+    let savingForReminder = 0;
+    let movementIncomeArr = [];
+    let movementSpendingArr = [];
+    let movementArr = [];
+    navWallet[0].animalUrl = myUserInfo.animalUrl;
+
+    monthly.forEach((elem) => {
+      let month = elem.date.getMonth() + 1;
+      if (elem.category == "Saving" && month == currentMonth) {
+        savingArr.push(elem);
+      }
+
+      if (elem.kind == "Monthly Income") {
+        movementIncomeArr.push(elem);
+      }
+
+      if (elem.kind == "Monthly Spending") {
+        movementSpendingArr.push(elem);
+      }
+    });
+
+    movementIncomeArr.sort((a, b) => {
+      let keyA = a.date;
+      let keyB = b.date;
+      if (keyA < keyB) {
+        return 1;
+      }
+      if (keyA > keyB) {
+        return -1;
+      }
+      return 0;
+    });
+
+    movementSpendingArr.sort((a, b) => {
+      let keyA = a.date;
+      let keyB = b.date;
+      if (keyA < keyB) {
+        return 1;
+      }
+      if (keyA > keyB) {
+        return -1;
+      }
+      return 0;
+    });
+
+    let incomeMonth = movementIncomeArr[0].date.getMonth() + 1;
+    let spendingMonth = movementSpendingArr[0].date.getMonth() + 1;
+
+    if (incomeMonth !== currentMonth) {
+      let counter = currentMonth - incomeMonth;
+      for (counter; counter > 0, counter--; ) {
+        let newMonth = currentMonth - counter;
+        let date = currentYear + "-" + newMonth + "-" + "01";
+        let newMovement = {
+          kind: movementIncomeArr[0].kind,
+          date,
+          amount: movementIncomeArr[0].amount,
+          category: movementIncomeArr[0].category,
+          wallet: walletId,
+        };
+        movementArr.push(newMovement);
+      }
+    }
+
+    if (spendingMonth !== currentMonth) {
+      let counter = currentMonth - spendingMonth;
+      for (counter; counter > 0, counter--; ) {
+        let newMonth = currentMonth - counter;
+        let date = currentYear + "-" + newMonth + "-" + "01";
+        let newMovement = {
+          kind: movementSpendingArr[0].kind,
+          date,
+          amount: movementSpendingArr[0].amount,
+          category: movementSpendingArr[0].category,
+          wallet: walletId,
+        };
+        movementArr.push(newMovement);
+      }
+    }
+    savingForReminder = getSaving(savingArr);
+
+    await WalletMovement.insertMany(movementArr);
+
     let response = await WalletMovement.find({ wallet: walletId }).populate(
       "wallet"
     );
@@ -236,10 +332,8 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
             let username = "";
             if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
               username = newWallet.user[1];
-              navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
             } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
               username = newWallet.user[0];
-              navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
             }
 
             res.render("wallet/wallet.hbs", {
@@ -249,7 +343,6 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
               username,
             });
           }
-          navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
           res.render("wallet/wallet.hbs", { newWallet, newDate, navWallet });
         });
     }
@@ -277,6 +370,7 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
     let other = 0;
     let chartLabelsTwo = ["Balance", "Saving"];
     let chartDataTwo = [balance, saving];
+    let reminder = [];
 
     response.forEach((elem) => {
       elem.formattedDate = formateDate(elem.date);
@@ -300,8 +394,8 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
     });
 
     response.sort((a, b) => {
-      let keyA = a.formattedDate;
-      let keyB = b.formattedDate;
+      let keyA = a.date;
+      let keyB = b.date;
       if (keyA < keyB) {
         return 1;
       }
@@ -317,14 +411,44 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
     chartLabelsTwo = JSON.stringify(chartLabelsTwo);
     chartDataTwo = JSON.stringify(chartDataTwo);
 
+    if (newWallet.savingPlan == "Gold") {
+      let percent = newWallet.monthlyIncome * 0.6;
+      let monthlySaving = newWallet.monthlyIncome - percent;
+      let missingSaving = monthlySaving - savingForReminder;
+      missingSaving = Number(missingSaving).toFixed(2);
+      if (monthlySaving > savingForReminder) {
+        reminder.message = `Don't forget to save ${missingSaving} ${newWallet.currency} this month`;
+      } else {
+        reminder.message = "Good job, you're doing good with your saving plan.";
+      }
+    } else if (newWallet.savingPlan == "Silver") {
+      let percent = newWallet.monthlyIncome * 0.8;
+      let monthlySaving = newWallet.monthlyIncome - percent;
+      let missingSaving = monthlySaving - savingForReminder;
+      missingSaving = Number(missingSaving).toFixed(2);
+      if (monthlySaving > savingForReminder) {
+        reminder.message = `Don't forget to save ${missingSaving} ${newWallet.currency} this month`;
+      } else {
+        reminder.message = "Good job, you're doing good with your saving plan.";
+      }
+    } else if (newWallet.savingPlan == "Bronze") {
+      let percent = newWallet.monthlyIncome * 0.9;
+      let monthlySaving = newWallet.monthlyIncome - percent;
+      let missingSaving = monthlySaving - savingForReminder;
+      missingSaving = Number(missingSaving).toFixed(2);
+      if (monthlySaving > savingForReminder) {
+        reminder.message = `Don't forget to save ${missingSaving} ${newWallet.currency} this month`;
+      } else {
+        reminder.message = "Good job, you're doing good with your saving plan.";
+      }
+    }
+
     if (newWallet.user.length > 1) {
       let username = "";
       if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
         username = newWallet.user[1];
-        navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
       } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
         username = newWallet.user[0];
-        navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
       }
 
       res.render("wallet/wallet.hbs", {
@@ -339,10 +463,9 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
         chartLabelsTwo,
         chartDataTwo,
         username,
+        reminder,
       });
     }
-
-    navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
 
     res.render("wallet/wallet.hbs", {
       response,
@@ -355,6 +478,7 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
       chartData,
       chartLabelsTwo,
       chartDataTwo,
+      reminder,
     });
 
     await Wallet.findByIdAndUpdate(
@@ -386,34 +510,38 @@ router.post("/:walletId", async (req, res, next) => {
               let month = newDate.getMonth() + 1;
               let year = newDate.getFullYear();
               newDate = month + "/" + year;
+              let navWallet = wallet;
+              navWallet[0].animalUrl = myUserInfo.animalUrl;
 
               if (newWallet.user.length > 1) {
                 let username = "";
                 if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
                   username = newWallet.user[1];
-                  navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
                 } else if (
                   newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)
                 ) {
                   username = newWallet.user[0];
-                  navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
                 }
                 res.render("wallet/wallet.hbs", {
                   navWallet,
                   newWallet,
                   newDate,
                   username,
+                  error: "Please enter all mandatory fields",
                 });
               }
-              navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
               res.render("wallet/wallet.hbs", {
                 newWallet,
+                navWallet,
                 newDate,
                 navWallet,
+                error: "Please enter all mandatory fields",
               });
             });
         }
         let newWallet = response[0].wallet;
+        let navWallet = response;
+        navWallet[0].animalUrl = myUserInfo.animalUrl;
         let newDate = new Date();
         let month = newDate.getMonth() + 1;
         let year = newDate.getFullYear();
@@ -481,10 +609,8 @@ router.post("/:walletId", async (req, res, next) => {
           let username = "";
           if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
             username = newWallet.user[1];
-            navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
           } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
             username = newWallet.user[0];
-            navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
           }
           res.render("wallet/wallet.hbs", {
             response,
@@ -498,12 +624,14 @@ router.post("/:walletId", async (req, res, next) => {
             chartLabelsTwo,
             chartDataTwo,
             username,
+            error: "Please enter all mandatory fields",
           });
         }
-        navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
+
         res.render("wallet/wallet.hbs", {
           response,
           newWallet,
+          navWallet,
           newDate,
           balance,
           saving,
@@ -522,6 +650,25 @@ router.post("/:walletId", async (req, res, next) => {
     let navWallet = await Wallet.find({
       user: mongoose.Types.ObjectId(_id),
     }).populate("user");
+
+    let monthly = await WalletMovement.find({
+      wallet,
+      category: "Saving",
+    });
+
+    let today = new Date();
+    let currentMonth = today.getMonth() + 1;
+    let savingArr = [];
+    let savingForReminder = 0;
+
+    monthly.forEach((elem) => {
+      let month = elem.date.getMonth() + 1;
+      if (elem.category == "Saving" && month == currentMonth) {
+        savingArr.push(elem);
+      }
+    });
+    savingForReminder = getSaving(savingArr);
+
     await WalletMovement.create({ kind, amount, category, date, wallet });
 
     let response = await WalletMovement.find({ wallet }).populate("wallet");
@@ -534,15 +681,14 @@ router.post("/:walletId", async (req, res, next) => {
           let month = newDate.getMonth() + 1;
           let year = newDate.getFullYear();
           newDate = month + "/" + year;
+          navWallet[0].animalUrl = myUserInfo.animalUrl;
 
           if (newWallet.user.length > 1) {
             let username = "";
             if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
               username = newWallet.user[1];
-              navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
             } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
               username = newWallet.user[0];
-              navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
             }
 
             res.render("wallet/wallet.hbs", {
@@ -552,10 +698,10 @@ router.post("/:walletId", async (req, res, next) => {
               username,
             });
           }
-          navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
           res.render("wallet/wallet.hbs", { newWallet, newDate, navWallet });
         });
     }
+
     let newWallet = response[0].wallet;
     let newDate = new Date();
     let month = newDate.getMonth() + 1;
@@ -580,6 +726,7 @@ router.post("/:walletId", async (req, res, next) => {
     let other = 0;
     let chartLabelsTwo = ["Balance", "Saving"];
     let chartDataTwo = [balance, saving];
+    let reminder = [];
 
     response.forEach((elem) => {
       elem.formattedDate = formateDate(elem.date);
@@ -603,8 +750,8 @@ router.post("/:walletId", async (req, res, next) => {
     });
 
     response.sort((a, b) => {
-      let keyA = a.formattedDate;
-      let keyB = b.formattedDate;
+      let keyA = a.date;
+      let keyB = b.date;
       if (keyA < keyB) {
         return 1;
       }
@@ -620,14 +767,44 @@ router.post("/:walletId", async (req, res, next) => {
     chartLabelsTwo = JSON.stringify(chartLabelsTwo);
     chartDataTwo = JSON.stringify(chartDataTwo);
 
+    if (newWallet.savingPlan == "Gold") {
+      let percent = newWallet.monthlyIncome * 0.6;
+      let monthlySaving = newWallet.monthlyIncome - percent;
+      let missingSaving = monthlySaving - savingForReminder;
+      missingSaving = Number(missingSaving).toFixed(2);
+      if (monthlySaving > savingForReminder) {
+        reminder.message = `Don't forget to save ${missingSaving} ${newWallet.currency} this month`;
+      } else {
+        reminder.message = "Good job, you're doing good with your saving plan.";
+      }
+    } else if (newWallet.savingPlan == "Silver") {
+      let percent = newWallet.monthlyIncome * 0.8;
+      let monthlySaving = newWallet.monthlyIncome - percent;
+      let missingSaving = monthlySaving - savingForReminder;
+      missingSaving = Number(missingSaving).toFixed(2);
+      if (monthlySaving > savingForReminder) {
+        reminder.message = `Don't forget to save ${missingSaving} ${newWallet.currency} this month`;
+      } else {
+        reminder.message = "Good job, you're doing good with your saving plan.";
+      }
+    } else if (newWallet.savingPlan == "Bronze") {
+      let percent = newWallet.monthlyIncome * 0.9;
+      let monthlySaving = newWallet.monthlyIncome - percent;
+      let missingSaving = monthlySaving - savingForReminder;
+      missingSaving = Number(missingSaving).toFixed(2);
+      if (monthlySaving > savingForReminder) {
+        reminder.message = `Don't forget to save ${missingSaving} ${newWallet.currency} this month`;
+      } else {
+        reminder.message = "Good job, you're doing good with your saving plan.";
+      }
+    }
+
     if (newWallet.user.length > 1) {
       let username = "";
       if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
         username = newWallet.user[1];
-        navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
       } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
         username = newWallet.user[0];
-        navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
       }
       res.render("wallet/wallet.hbs", {
         response,
@@ -641,10 +818,9 @@ router.post("/:walletId", async (req, res, next) => {
         chartLabelsTwo,
         chartDataTwo,
         username,
+        reminder,
       });
     }
-
-    navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
 
     res.render("wallet/wallet.hbs", {
       response,
@@ -657,6 +833,7 @@ router.post("/:walletId", async (req, res, next) => {
       chartLabels,
       chartLabelsTwo,
       chartDataTwo,
+      reminder,
     });
 
     await Wallet.findByIdAndUpdate(
@@ -678,6 +855,12 @@ router.get("/:walletId/edit", checkLogIn, async (req, res, next) => {
     let response = await Wallet.find({ _id: walletId }).populate("user");
     response = response[0];
     response.formattedDateForInput = formateDateForInput(response.startingDate);
+    response.formattedAmountMonthlyIncome = formateAmount(
+      response.monthlyIncome
+    );
+    response.formattedAmountMonthlySpending = formateAmount(
+      response.monthlySpending
+    );
 
     if (response.currency == "Euro") {
       response.euroIsChecked = true;
@@ -715,26 +898,7 @@ router.get("/:walletId/edit", checkLogIn, async (req, res, next) => {
       user: mongoose.Types.ObjectId(_id),
     }).populate("user");
 
-    if (wallet[0].length == 0) {
-      if (wallet[0].user.length > 1) {
-        if (wallet[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
-          wallet[0].animalUrl = wallet[0].user[0].animalUrl;
-        } else if (wallet[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
-          wallet[0].animalUrl = wallet[0].user[1].animalUrl;
-        }
-        wallet[0].animalUrl = wallet[0].user[0].animalUrl;
-        res.render("wallet/editWallet.hbs", { response });
-        return;
-      }
-    }
-    if (wallet[0].user.length > 1) {
-      if (wallet[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
-        wallet[0].animalUrl = wallet[0].user[0].animalUrl;
-      } else if (wallet[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
-        wallet[0].animalUrl = wallet[0].user[1].animalUrl;
-      }
-      wallet[0].animalUrl = wallet[0].user[0].animalUrl;
-    }
+    wallet[0].animalUrl = myUserInfo.animalUrl;
 
     res.render("wallet/editWallet.hbs", {
       response,
@@ -767,6 +931,12 @@ router.post("/:walletId/edit", async (req, res, next) => {
     let response = await Wallet.find({ _id: walletId });
     response = response[0];
     response.formattedDateForInput = formateDateForInput(response.startingDate);
+    response.formattedAmountMonthlyIncome = formateAmount(
+      response.monthlyIncome
+    );
+    response.formattedAmountMonthlySpending = formateAmount(
+      response.monthlySpending
+    );
 
     if (response.currency == "Euro") {
       response.euroIsChecked = true;
@@ -796,19 +966,15 @@ router.post("/:walletId/edit", async (req, res, next) => {
       user: mongoose.Types.ObjectId(_id),
     }).populate("user");
 
-    if (wallet[0].user.length > 1) {
-      if (wallet[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
-        wallet[0].animalUrl = wallet[0].user[0].animalUrl;
-      } else if (wallet[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
-        wallet[0].animalUrl = wallet[0].user[1].animalUrl;
-      }
-      wallet[0].animalUrl = wallet[0].user[0].animalUrl;
-    }
+    wallet[0].animalUrl = myUserInfo.animalUrl;
+
     if (
       walletName == "" ||
       currency == "" ||
       startingDate == "" ||
-      savingPlan == ""
+      savingPlan == "" ||
+      monthlyIncome == "" ||
+      monthlySpending == ""
     ) {
       res.render("wallet/editWallet.hbs", {
         wallet,
@@ -838,67 +1004,21 @@ router.post("/:walletId/edit", async (req, res, next) => {
       let sharedUserId = sharedUser[0]._id;
       user = [_id, sharedUserId];
     }
-    if (monthlyIncome == "" && monthlySpending == "") {
-      return Wallet.findByIdAndUpdate(
-        { _id: walletId },
-        {
-          walletName,
-          currency,
-          startingDate,
-          savingPlan,
-          shared,
-          user,
-        }
-      ).then(() => {
-        res.redirect(`/${walletId}`);
-      });
-    } else if (monthlyIncome == "") {
-      return Wallet.findByIdAndUpdate(
-        { _id: walletId },
-        {
-          walletName,
-          currency,
-          startingDate,
-          savingPlan,
-          monthlySpending,
-          shared,
-          user,
-        }
-      ).then(() => {
-        res.redirect(`/${walletId}`);
-      });
-    } else if (monthlySpending == "") {
-      return Wallet.findByIdAndUpdate(
-        { _id: walletId },
-        {
-          walletName,
-          currency,
-          startingDate,
-          savingPlan,
-          monthlyIncome,
-          shared,
-          user,
-        }
-      ).then(() => {
-        res.redirect(`/${walletId}`);
-      });
-    } else {
-      return Wallet.findByIdAndUpdate(
-        { _id: walletId },
-        {
-          walletName,
-          currency,
-          startingDate,
-          savingPlan,
-          monthlyIncome,
-          monthlySpending,
-          shared,
-          user,
-        }
-      ).then(() => {
-        res.redirect(`/${walletId}`);
-      });
-    }
+
+    await Wallet.findByIdAndUpdate(
+      { _id: walletId },
+      {
+        walletName,
+        currency,
+        startingDate,
+        savingPlan,
+        monthlyIncome,
+        monthlySpending,
+        shared,
+        user,
+      }
+    );
+    res.redirect(`/${walletId}`);
   } catch (err) {
     next(err);
   }

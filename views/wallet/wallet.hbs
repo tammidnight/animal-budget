@@ -89,6 +89,9 @@
   <div id="balance">
     <h4>Balance: {{balance}}</h4>
     <h4>Savings: {{saving}}</h4>
+    {{#if reminder.message}}
+      <p class="reminder">Message: {{reminder.message}}</p>
+    {{/if}}
   </div>
 
 
