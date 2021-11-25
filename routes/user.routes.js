@@ -326,6 +326,71 @@ router.post("/profile/settings", (req, res, next) => {
   let myUserInfo = req.session.myProperty;
   let profileName = myUserInfo.username;
   let _id = myUserInfo._id;
+
+  if (password == "") {
+    Wallet.find({ user: mongoose.Types.ObjectId(_id) })
+      .populate("user")
+      .then((response) => {
+        let user = {};
+        if (response[0].user[0]._id == _id) {
+          user = response[0].user[0];
+        } else if (response[0].user[1]._id == _id) {
+          user = response[0].user[1];
+        }
+
+        if (user.animalUrl == "/images/bear.png") {
+          user.bearChecked = true;
+        } else if (user.animalUrl == "/images/cow.png") {
+          user.cowChecked = true;
+        } else if (user.animalUrl == "/images/crocodile.png") {
+          user.crocodileChecked = true;
+        } else if (user.animalUrl == "/images/dog.png") {
+          user.dogChecked = true;
+        } else if (user.animalUrl == "/images/duck.png") {
+          user.duckChecked = true;
+        } else if (user.animalUrl == "/images/elephant.png") {
+          user.elephantChecked = true;
+        } else if (user.animalUrl == "/images/monkey.png") {
+          user.monkeyChecked = true;
+        } else if (user.animalUrl == "/images/narwhale.png") {
+          user.narwhaleChecked = true;
+        } else if (user.animalUrl == "/images/owl.png") {
+          user.owlChecked = true;
+        } else if (user.animalUrl == "/images/panda.png") {
+          user.pandaChecked = true;
+        } else if (user.animalUrl == "/images/parrot.png") {
+          user.parrotChecked = true;
+        } else if (user.animalUrl == "/images/penguin.png") {
+          user.penguinChecked = true;
+        } else if (user.animalUrl == "/images/pig.png") {
+          user.pigChecked = true;
+        } else if (user.animalUrl == "/images/walrus.png") {
+          user.walrusChecked = true;
+        } else if (user.animalUrl == "/images/whale.png") {
+          user.whaleChecked = true;
+        } else if (user.animalUrl == "/images/zebra.png") {
+          user.zebraChecked = true;
+        }
+
+        if (response[0].user.length > 1) {
+          if (response[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
+            response[0].animalUrl = response[0].user[0].animalUrl;
+          } else if (response[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
+            response[0].animalUrl = response[0].user[1].animalUrl;
+          }
+        } else {
+          response[0].animalUrl = responseOne.user[0].animalUrl;
+        }
+
+        res.render("user/userSettings.hbs", {
+          user,
+          response,
+          error: "Please enter your Password.",
+        });
+        return;
+      });
+  }
+
   User.find({ username: profileName })
     .then((usernameResponse) => {
       if (usernameResponse.length) {

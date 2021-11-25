@@ -10,6 +10,7 @@
 <p> Welcome {{myUserInfo.username}}, you can change your personal info here:
 </p>
 </div>
+
 <form action="/profile/settings" method="POST">
 <div class="animalPic">
             <label>
@@ -185,3 +186,6 @@
     </div>
 </div>
 
+{{#if error}}
+   <p class="error">Message: {{error}}</p>
+{{/if}}
