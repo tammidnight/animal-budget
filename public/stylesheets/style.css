@@ -199,10 +199,12 @@ footer > p {
 }
 
 .settingsDelete {
-  align-items: flex-start;
-  display: flex;
   margin-top: 0rem;
-  margin-left: 68.4rem;
+}
+
+.firstDeleteBtn {
+  position: relative;
+  right: -67.5rem;
 }
 
 .confirmDeleting {
@@ -254,6 +256,9 @@ ul {
   height: 25rem;
   margin: 2rem, 1rem;
   border-radius: 1rem;
+}
+.cardImg {
+  margin: 5rem 0.2em;
 }
 
 /* 404 and 500*/
