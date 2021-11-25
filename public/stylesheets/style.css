@@ -21,37 +21,6 @@ footer {
   border: 1px solid #00613e;
 }
 
-.navbar {
-  padding: 0;
-}
-
-.navbar-brand {
-  margin-bottom: 0;
-}
-
-.navbar-collapse {
-  justify-content: flex-end;
-}
-
-.navbar-nav {
-  flex-direction: row;
-}
-
-.dropdown {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  padding-right: 75px;
-}
-
-.nav-link {
-  padding: 0;
-}
-
-.dropdown-toggle {
-  padding-top: 20;
-}
-
 .nav-link {
   text-decoration: none;
   color: black;
@@ -211,14 +180,15 @@ footer > p {
   width: 22rem;
 }
 
-.confirmDeleting{
+/* .confirmDeleting{
   display: flex;
   margin-left: -9rem;
   top: -300rem;
   flex-wrap: wrap;
   justify-content: space-around;
   width: 22rem;
-}
+} */
+
 
 
 /*Profile*/
@@ -261,10 +231,6 @@ ul {
   height: 25rem;
   margin: 2rem, 1rem;
   border-radius: 1rem;
-}
-
-.cardImg {
-  margin: 5rem 0.2em;
 }
 
 /* 404 and 500*/
