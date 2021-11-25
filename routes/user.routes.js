@@ -227,7 +227,7 @@ router.get("/profile", checkLogIn, (req, res, next) => {
       chartDataTwo = JSON.stringify(chartDataTwo);
       chartDataThree = JSON.stringify(chartDataThree);
       chartLabels = JSON.stringify(chartLabels);
-      console.log(response);
+
       res.render("user/userProfile.hbs", {
         user,
         response,
@@ -499,8 +499,6 @@ router.post("/profile/delete", (req, res, next) => {
       return Wallet.find({ user: mongoose.Types.ObjectId(_id) });
     })
     .then((response) => {
-      console.log(response);
-
       let wallet = [];
 
       response.forEach((elem) => {

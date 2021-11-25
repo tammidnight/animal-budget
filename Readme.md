@@ -25,16 +25,16 @@ Have a track of your finances.
 
 ## Views
 
-- [ ] layout.hbs
+- [x] layout.hbs
 - [x] index.hbs
 - [x] error.hbs
 - [x] not-found.hbs
 - [x] userProfile.hbs
-- [ ] user.Settings.hbs
+- [x] user.Settings.hbs
 - [x] createWallet.hbs
 - [x] wallet.hbs
 - [x] editWallet.hbs
-- [ ] walletFilter.hbs
+- [x] walletFilter.hbs
       <br>
 
 ## API routes (back-end)
@@ -55,6 +55,7 @@ Have a track of your finances.
 - [x] POST /:walletId/edit
 - [x] POST /:walletId/delete
 - [x] GET /:walletId/filter
+- [x] POST /:walletId/filter
 - [x] POST /movement/:movementId
 - [x] POST /movement/:movementId/delete
 
@@ -117,7 +118,7 @@ Have a track of your finances.
 
 - [ ] Dark mode
 - [x] Shared wallet
-- [ ] Reminders
+- [x] Reminders
 - [ ] Achievments
 - [ ] loading Screen
 - [x] edit and delete the movements
