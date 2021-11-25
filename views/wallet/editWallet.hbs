@@ -31,11 +31,11 @@
       </div>
 
       <div class="walletInput">
-        <label>Monthly Income</label>
+        <label>Monthly Income*</label>
         <input
           type="Number"
           name="monthlyIncome"
-          value="{{response.monthlyIncome}}"
+          value="{{response.formattedAmountMonthlyIncome}}"
           placeholder="Add your monthly Income"
           step="0.01"
           class="walletInputField"
@@ -43,11 +43,11 @@
       </div>
 
       <div class="walletInput">
-        <label>Monthly Spending</label>
+        <label>Monthly Spending*</label>
         <input
           type="Number"
           name="monthlySpending"
-          value="{{response.monthlySpending}}"
+          value="{{response.formattedAmountMonthlySpending}}"
           placeholder="Add your monthly Spending"
           step="0.01"
           class="walletInputField"
