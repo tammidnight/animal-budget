@@ -531,6 +531,7 @@ router.post("/:walletId", async (req, res, next) => {
               ) {
                 username = newWallet.user[0].username;
               }
+
               res.render("wallet/wallet.hbs", {
                 navWallet,
                 newWallet,
@@ -620,10 +621,11 @@ router.post("/:walletId", async (req, res, next) => {
       if (newWallet.user.length > 1) {
         let username = "";
         if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
-          username = newWallet.user[1];
+          username = newWallet.user[1].username;
         } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
-          username = newWallet.user[0];
+          username = newWallet.user[0].username;
         }
+
         res.render("wallet/wallet.hbs", {
           response,
           navWallet,
