@@ -71,26 +71,6 @@
         <th>Amount</th>
         <th>Currency</th>
       </tr>
-
-      {{#if newWallet.monthlyIncome}}
-        <tr>
-          <td>Monthly Income</td>
-          <td>Monthly Income</td>
-          <td>01/{{newDate}}</td>
-          <td>{{newWallet.monthlyIncome}}</td>
-          <td>{{newWallet.currency}}</td>
-        </tr>
-      {{/if}}
-
-      {{#if newWallet.monthlySpending}}
-        <tr>
-          <td>Monthly Spending</td>
-          <td>Monthly Spending</td>
-          <td>01/{{newDate}}</td>
-          <td>{{newWallet.monthlySpending}}</td>
-          <td>{{newWallet.currency}}</td>
-        </tr>
-      {{/if}}
     
       {{#each response}}
         <tr class="{{this._id}}">

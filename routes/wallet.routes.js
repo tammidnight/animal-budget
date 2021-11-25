@@ -37,11 +37,11 @@ const getBalance = (movement) => {
   let balance = 0;
 
   movement.forEach((elem) => {
-    if (elem.kind == "Income") {
+    if (elem.category == "Income") {
       balance = balance + Number(elem.amount);
-    } else if (elem.kind == "Spending") {
+    } else if (elem.category == "Spending") {
       balance = balance - Number(elem.amount);
-    } else if (elem.kind == "Saving") {
+    } else if (elem.category == "Saving") {
       balance = balance - Number(elem.amount);
     }
   });
@@ -70,7 +70,21 @@ router.get("/create", checkLogIn, (req, res, next) => {
   Wallet.find({ user: mongoose.Types.ObjectId(_id) })
     .populate("user")
     .then((response) => {
-      if (response[0].length == 0) {
+      if (response.length > 0) {
+        if (response[0].length == 0) {
+          if (response[0].user.length > 1) {
+            if (response[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
+              response[0].animalUrl = response[0].user[0].animalUrl;
+            } else if (
+              response[0].user[1]._id !== mongoose.Types.ObjectId(_id)
+            ) {
+              response[0].animalUrl = response[0].user[1].animalUrl;
+            }
+            response[0].animalUrl = response[0].user[0].animalUrl;
+            res.render("wallet/createWallet.hbs", { response });
+            return;
+          }
+        }
         if (response[0].user.length > 1) {
           if (response[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
             response[0].animalUrl = response[0].user[0].animalUrl;
@@ -78,19 +92,13 @@ router.get("/create", checkLogIn, (req, res, next) => {
             response[0].animalUrl = response[0].user[1].animalUrl;
           }
           response[0].animalUrl = response[0].user[0].animalUrl;
+        }
+        res.render("wallet/createWallet.hbs", { response });
+      } else {
+        return User.find({ username: myUserInfo.username }).then((response) => {
           res.render("wallet/createWallet.hbs", { response });
-          return;
-        }
+        });
       }
-      if (response[0].user.length > 1) {
-        if (response[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
-          response[0].animalUrl = response[0].user[0].animalUrl;
-        } else if (response[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
-          response[0].animalUrl = response[0].user[1].animalUrl;
-        }
-        response[0].animalUrl = response[0].user[0].animalUrl;
-      }
-      res.render("wallet/createWallet.hbs", { response });
     })
     .catch((err) => next(err));
 });
@@ -123,19 +131,23 @@ router.post("/create", async (req, res, next) => {
       sharedUserId = [user, sharedUser[0]._id];
     }
     let response = await Wallet.find({ user }).populate("user");
-    if (response[0].user.length > 1) {
-      if (response[0].user[0]._id !== mongoose.Types.ObjectId(user)) {
+    if (response.length > 0) {
+      if (response[0].user.length > 1) {
+        if (response[0].user[0]._id !== mongoose.Types.ObjectId(user)) {
+          response[0].animalUrl = response[0].user[0].animalUrl;
+        } else if (response[0].user[1]._id !== mongoose.Types.ObjectId(user)) {
+          response[0].animalUrl = response[0].user[1].animalUrl;
+        }
         response[0].animalUrl = response[0].user[0].animalUrl;
-      } else if (response[0].user[1]._id !== mongoose.Types.ObjectId(user)) {
-        response[0].animalUrl = response[0].user[1].animalUrl;
       }
-      response[0].animalUrl = response[0].user[0].animalUrl;
     }
     if (
       walletName == "" ||
       currency == "" ||
       startingDate == "" ||
-      savingPlan == ""
+      savingPlan == "" ||
+      monthlyIncome == "" ||
+      monthlySpending == ""
     ) {
       res.render("wallet/createWallet.hbs", {
         response,
@@ -157,57 +169,42 @@ router.post("/create", async (req, res, next) => {
         error:
           "Unfortunately you can only have three Wallets at a time. Please delete one Wallet before creating a new one.",
       });
-    } else {
-      if (monthlyIncome == "" && monthlySpending == "") {
-        return Wallet.create({
-          walletName,
-          currency,
-          startingDate,
-          savingPlan,
-          shared,
-          user: sharedUserId,
-        }).then(() => {
-          res.redirect("/profile");
-        });
-      } else if (monthlyIncome == "") {
-        return Wallet.create({
-          walletName,
-          currency,
-          startingDate,
-          savingPlan,
-          shared,
-          user: sharedUserId,
-          monthlySpending,
-        }).then(() => {
-          res.redirect("/profile");
-        });
-      } else if (monthlySpending == "") {
-        return Wallet.create({
-          walletName,
-          currency,
-          startingDate,
-          savingPlan,
-          shared,
-          user: sharedUserId,
-          monthlySpending,
-        }).then(() => {
-          res.redirect("/profile");
-        });
-      } else {
-        return Wallet.create({
-          walletName,
-          currency,
-          startingDate,
-          savingPlan,
-          monthlyIncome,
-          monthlySpending,
-          shared,
-          user: sharedUserId,
-        }).then(() => {
-          res.redirect("/profile");
-        });
-      }
+      return;
     }
+
+    let wallet = await Wallet.create({
+      walletName,
+      currency,
+      startingDate,
+      savingPlan,
+      monthlyIncome,
+      monthlySpending,
+      shared,
+      user: sharedUserId,
+    });
+
+    const monthlyIncomeAmount = wallet.monthlyIncome;
+    const monthlySpendingAmount = wallet.monthlySpending;
+    const monthlyIncomeDate = wallet.startingDate;
+    const monthlySpendingDate = wallet.startingDate;
+    const walletId = wallet._id;
+
+    await WalletMovement.create({
+      kind: "Monthly Income",
+      amount: monthlyIncomeAmount,
+      category: "Income",
+      date: monthlyIncomeDate,
+      wallet: walletId,
+    });
+    await WalletMovement.create({
+      kind: "Monthly Spending",
+      amount: monthlySpendingAmount,
+      category: "Spending",
+      date: monthlySpendingDate,
+      wallet: walletId,
+    });
+
+    res.redirect("/profile");
   } catch (err) {
     next(err);
   }
@@ -261,11 +258,7 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
     let month = newDate.getMonth() + 1;
     let year = newDate.getFullYear();
     newDate = month + "/" + year;
-    let monthlyBalance =
-      Number(newWallet.monthlyIncome).toFixed(2) -
-      Number(newWallet.monthlySpending).toFixed(2);
-    let balance = Number(getBalance(response)).toFixed(2) + monthlyBalance;
-    balance = Number(balance).toFixed(2);
+    let balance = Number(getBalance(response)).toFixed(2);
     let saving = getSaving(response);
     let chartLabels = [
       "Transportation",
@@ -425,11 +418,7 @@ router.post("/:walletId", async (req, res, next) => {
         let month = newDate.getMonth() + 1;
         let year = newDate.getFullYear();
         newDate = month + "/" + year;
-        let monthlyBalance =
-          Number(newWallet.monthlyIncome).toFixed(2) -
-          Number(newWallet.monthlySpending).toFixed(2);
-        let balance = Number(getBalance(response)).toFixed(2) + monthlyBalance;
-        balance = Number(balance).toFixed(2);
+        let balance = Number(getBalance(response)).toFixed(2);
         let saving = getSaving(response);
         let chartLabels = [
           "Transportation",
