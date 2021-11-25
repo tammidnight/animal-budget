@@ -1,6 +1,5 @@
 {{> navbar response}}
 
-
 <div class="settingsPic" id="mainPic">
 <img src="{{user.animalUrl}}" class="figure-img img-fluid rounded" alt="The user's profile pic">
   <figcaption class="figure-caption">Click on the animals to change me! </figcaption>
@@ -8,7 +7,7 @@
 
 
 <form action="/profile/settings" method="POST">
-
+<div>
 <div class="animalInput alltheanimals">
               
             <label>
@@ -155,7 +154,7 @@
   sunt in culpa qui officia deserunt mollit anim id est laborum."
 </p>
 </div>
-
+</div>
 
 <div class="settingsIntro">
 <p> Welcome {{myUserInfo.username}}, you can change your personal info here:
@@ -179,8 +178,9 @@
   <br>
   <button>Submit</button>
 </ul>
-</form>
 </div>
+</form>
+
 
 <div class="settingsDelete">
 <button class="delete firstDelete">Delete</button>
@@ -197,5 +197,6 @@
 {{#if error}}
    <p class="error">Message: {{error}}</p>
 {{/if}}
+
 
 <script src="/js/facts.js"></script>

@@ -135,6 +135,7 @@ footer > p {
 
 /*Settings*/
 
+
 .settingsPic{
   align-items: flex-start;
   display: flex;
@@ -151,20 +152,20 @@ footer > p {
   width: 18rem;
 
 }
-/
+
 .funAnimalFact{
   display: flex;
   align-items: flex-start;
-  margin-left: 20rem;
-  margin-top: 1000rem;
+  margin-left: 7rem;
+  margin-top: 80;
   flex-wrap: wrap;
-  width: 10rem;} 
+  width: 30rem;} 
 
 .settingsIntro{
   align-items: flex-start;
   display: flex;
   margin-left: 60rem;
-  margin-top: -25rem;
+  margin-top: -30rem;
 }
 
 .changeInfo{
@@ -177,7 +178,7 @@ footer > p {
 .settingsDelete{
   align-items: flex-start;
   display: flex;
-  margin-top: -2rem; 
+  margin-top: 0rem; 
   margin-left: 68.4rem;
 }
 
@@ -185,7 +186,7 @@ footer > p {
   align-items: flex-start;
   display: flex;
   flex-wrap: wrap;
-  margin-top: 10;
+  margin-top: -10;
   margin-left: -2rem;
   width: 10rem;
 
