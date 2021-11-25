@@ -563,7 +563,7 @@ ul {
   align-self: center;
 }
 
-#category,
+#categoryFilter,
 #date,
 #amount {
   margin-right: 2rem;
@@ -580,4 +580,20 @@ ul {
 
 #backToWallet {
   margin: 1rem 2rem;
+}
+
+/* dark mode */
+
+#your-darkmode-button-id {
+  background-color: darkgray;
+  margin-left: 2rem;
+  position: absolute;
+  bottom: 3rem;
+  right: 2rem;
+}
+
+input,
+select {
+  background-color: whitesmoke;
+  color: black;
 }
