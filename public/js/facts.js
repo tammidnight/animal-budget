@@ -95,7 +95,7 @@ const div = document.querySelector("#animalText");
   }
   if (penguin.checked) {
     div.innerHTML =
-      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"A Penguin’s black and white plumage serves as camouflage while swimming. The black plumage on their back is hard to see from above, whilethe white plumage on their front looks like the sun reflecting off the surface  of the water when seen from below. Also, they have very fast metabolisms, so they poop every 20 min!"</p></div>';
+      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"A Penguin’s black and white plumage serves as camouflage while swimming. The black plumage on their back is hard to see from above, whilethe white plumage on their front looks like the sun reflecting off the surface  of the water when seen from below. Also, they have very fast metabolisms, so they poop every 20 mins!"</p></div>';
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/penguin.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   }
@@ -133,7 +133,7 @@ const div = document.querySelector("#animalText");
 
   cow.addEventListener("click", () => {
     div.innerHTML =
-      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Cows spend around 40% of the time eating, which is normal since they consume around 45kg of food per day. They’re also very sociable and they even have best friends, with whom we suppose they share some of that huge amount of food. Otherwise it would be just rude. "</p></div>';
+      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Cows spend around 40% of the time eating, which is normal since they consume around 45kg of food per day. They’re also very sociable and they even have best friends, with whom we suppose they share some of that huge amount of food. Otherwise, it would be just rude. "</p></div>';
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/cow.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   });
@@ -189,14 +189,14 @@ const div = document.querySelector("#animalText");
 
   panda.addEventListener("click", () => {
     div.innerHTML =
-      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Giant pandas spend 10-16 hours a day feeding, mainly on bamboo. That’s why their throat has a special lining to protect it from  splinters. However bamboo doesn’t provide them with enough calories to accumulate fat and they don’t hibernate. That’s also the reason they don’t  usually compete with one another and they’re loners, they do not have the energy (or are they just lazy?)."</p></div>';
+      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Giant pandas spend 10-16 hours a day feeding, mainly on bamboo. That’s why their throat has a special lining to protect it from  splinters. However, bamboo doesn’t provide them with enough calories to accumulate fat and they don’t hibernate. That’s also the reason they don’t  usually compete with one another and they’re loners, they do not have the energy (or are they just lazy?)."</p></div>';
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/panda.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   });
 
   parrot.addEventListener("click", () => {
     div.innerHTML =
-      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>" Parrots are incredible romantic and once they mate they generally stay together even outside of the breeding season. It’s specially notable since they’re the only birds that eat with their feet. They can learn pretty much any sound if they don’t repeat one it’s because they don’t want to."</p></div>';
+      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>" Parrots are incredibly romantic and once they mate, they generally stay together even outside of the breeding season. It’s especially notable since they’re the only birds that eat with their feet. They can learn pretty much any sound if they don’t repeat one, it’s because they don’t want to."</p></div>';
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/parrot.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   });
@@ -217,7 +217,7 @@ const div = document.querySelector("#animalText");
 
   walrus.addEventListener("click", () => {
     div.innerHTML =
-      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"  Walrus are called the kings of the artic due to the fact that they can weight up to 1.5 tones, the weight of a small car!  They’re very social animals and the mostly use their tusks to for cutting through ice and getting out of the water, although they will use them against one another for protection or during mating season."</p></div>';
+      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"  Walrus are called the kings of the Arctic due to the fact that they can weight up to 1.5 tones, the weight of a small car!  They’re very social animals and they mostly use their tusks to for cutting through ice and getting out of the water, although they will use them against one another for protection or during mating season."</p></div>';
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/walrus.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   });
