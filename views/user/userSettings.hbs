@@ -14,132 +14,84 @@
 <form action="/profile/settings" method="POST">
 <div class="animalPic">
             <label>
-              <input type="radio" name="animalUrl" value="/images/bear.png"
-              {{#if user.bearChecked}}
-              checked
-              {{/if}}/>
-              <img src="/images/bear.png" width="35" />
+              <input type="radio" name="animalUrl" value="/images/bear.png" />
+              <img src="/images/bear.png" width="44" />
             </label>
             <label>
-              <input type="radio" name="animalUrl" value="/images/cow.png"
-              {{#if user.cowChecked}}
-              checked
-              {{/if}}/>
-              <img src="/images/cow.png" width="35" />
+              <input type="radio" name="animalUrl" value="/images/cow.png" />
+              <img src="/images/cow.png" width="44" />
             </label>
             <label>
               <input
                 type="radio"
                 name="animalUrl"
                 value="/images/crocodile.png"
-                {{#if user.crocodileChecked}}
-                checked
-                {{/if}}
               />
-              <img src="/images/crocodile.png" width="35" />
+              <img src="/images/crocodile.png" width="44" />
             </label>
             <label>
-              <input type="radio" name="animalUrl" value="/images/dog.png"
-              {{#if user.dogChecked}}
-              checked
-              {{/if}}/>
-              <img src="/images/dog.png" width="35" />
+              <input type="radio" name="animalUrl" value="/images/dog.png" />
+              <img src="/images/dog.png" width="44" />
             </label>
             <label>
-              <input type="radio" name="animalUrl" value="/images/duck.png"
-              {{#if user.duckChecked}}
-              checked
-              {{/if}}/>
-              <img src="/images/duck.png" width="35" />
+              <input type="radio" name="animalUrl" value="/images/duck.png" />
+              <img src="/images/duck.png" width="44" />
             </label>
             <label>
               <input
                 type="radio"
                 name="animalUrl"
                 value="/images/elephant.png"
-                {{#if user.elephantChecked}}
-                checked
-                {{/if}}
               />
-              <img src="/images/elephant.png" width="35" />
+              <img src="/images/elephant.png" width="44" />
             </label>
             <label>
-              <input type="radio" name="animalUrl" value="/images/monkey.png"
-              {{#if user.monkeyChecked}}
-              checked
-              {{/if}}/>
-              <img src="/images/monkey.png" width="35" />
+              <input type="radio" name="animalUrl" value="/images/monkey.png" />
+              <img src="/images/monkey.png" width="44" />
             </label>
             <label>
               <input
                 type="radio"
                 name="animalUrl"
                 value="/images/narwhale.png"
-                {{#if user.narwhaleChecked}}
-                checked
-                {{/if}}
               />
-              <img src="/images/narwhale.png" width="35" />
+              <img src="/images/narwhale.png" width="44" />
             </label>
             <label>
-              <input type="radio" name="animalUrl" value="/images/owl.png"
-              {{#if user.owlChecked}}
-              checked
-              {{/if}}/>
-              <img src="/images/owl.png" width="35" />
+              <input type="radio" name="animalUrl" value="/images/owl.png" />
+              <img src="/images/owl.png" width="44" />
             </label>
             <label>
-              <input type="radio" name="animalUrl" value="/images/panda.png"
-              {{#if user.pandaChecked}}
-              checked
-              {{/if}}/>
-              <img src="/images/panda.png" width="35" />
+              <input type="radio" name="animalUrl" value="/images/panda.png" />
+              <img src="/images/panda.png" width="44" />
             </label>
             <label>
-              <input type="radio" name="animalUrl" value="/images/parrot.png"
-              {{#if user.parrotChecked}}
-              checked
-              {{/if}}/>
-              <img src="/images/parrot.png" width="35" />
+              <input type="radio" name="animalUrl" value="/images/parrot.png" />
+              <img src="/images/parrot.png" width="44" />
             </label>
             <label>
               <input
                 type="radio"
                 name="animalUrl"
                 value="/images/penguin.png"
-                {{#if user.penguinChecked}}
-                checked
-                {{/if}}
               />
-              <img src="/images/penguin.png" width="35" />
+              <img src="/images/penguin.png" width="44" />
             </label>
             <label>
-              <input type="radio" name="animalUrl" value="/images/pig.png"
-              {{#if user.pigChecked}}
-              checked
-              {{/if}}/>
-              <img src="/images/pig.png" width="35" />
+              <input type="radio" name="animalUrl" value="/images/pig.png" />
+              <img src="/images/pig.png" width="44" />
             </label>
             <label>
-              <input type="radio" name="animalUrl" value="/images/walrus.png"
-              {{#if user.walrusChecked}}
-              checked
-              {{/if}}/>
-              <img src="/images/walrus.png" width="35" />
+              <input type="radio" name="animalUrl" value="/images/walrus.png" />
+              <img src="/images/walrus.png" width="44" />
             </label>
             <label>
-              <input type="radio" name="animalUrl" value="/images/whale.png"
-              {{#if user.whaleChecked}}
-              checked
-              {{/if}}/>
-              <img src="/images/whale.png" width="35" />
+              <input type="radio" name="animalUrl" value="/images/whale.png" />
+              <img src="/images/whale.png" width="44" />
             </label>
             <label>
-              <input type="radio" name="animalUrl" value="/images/zebra.png"
-              {{#if user.zebraChecked}}
-              checked
-              {{/if}}/>
-              <img src="/images/zebra.png" width="35" />
+              <input type="radio" name="animalUrl" value="/images/zebra.png" />
+              <img src="/images/zebra.png" width="44" />
             </label>
           </div>
           <div class="animalFacts">
@@ -156,13 +108,13 @@
 <div class="changeInfo">
 <ul>
   <li><label>Name</label>  <br>
-  <input name="username" type="text"  placeholder="Enter your username" value="{{user.username}}" size="30"></li>
+  <input name="username" type="text"  placeholder="Enter your username" value="{{response.username}}" size="30"></li>
   <li><label>First name</label>  <br>
-  <input name="firstName" type="text"  placeholder="Enter your First name" value="{{user.firstName}}" size="30"></li>
+  <input name="firstName" type="text"  placeholder="Enter your First name" value="{{response.firstName}}" size="30"></li>
   <li><label>Last name</label>  <br>
-  <input name="lastName" type="text"  placeholder="Enter your Last name" value="{{user.lastName}}" size="30" ></li>
+  <input name="lastName" type="text"  placeholder="Enter your Last name" value="{{response.lastName}}" size="30" ></li>
   <li><label>Email</label>  <br>
-  <input name="email" type="email"  placeholder="Enter your email" value="{{user.email}}" size="30"></li>
+  <input name="email" type="email"  placeholder="Enter your email" value="{{response.email}}" size="30"></li>
   <label>Password</label>  <br>
   <input name="password" type="password"  placeholder="Enter your Password" size="30"></li>
   <li><label> New Password</label>  <br>
@@ -174,16 +126,14 @@
 </div>
 
 <div class="settingsDelete">
-  
 <button class="delete firstDelete">Delete</button>
-
-    <div class="confirmDeleting">
+  <div class="confirmDeleting">
       <p>Are you sure you want to delete your account?</p>
       <form action="/profile/delete" method="POST">
         <button class="delete">Delete</button>
      </form>
      <button class="cancel">Cancel</button>
-    </div>
+    </div>  
 </div>
 
 {{#if error}}
