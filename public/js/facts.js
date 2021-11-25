@@ -228,3 +228,4 @@ window.addEventListener("load", () => {
       '<div class="settingsPic" id="mainPic"><img src="/images/zebra.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></figure></div>';
   });
 });
+test;
