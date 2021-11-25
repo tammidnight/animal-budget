@@ -236,6 +236,7 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
     let movementIncomeArr = [];
     let movementSpendingArr = [];
     let movementArr = [];
+    navWallet[0].animalUrl = myUserInfo.animalUrl;
 
     monthly.forEach((elem) => {
       let month = elem.date.getMonth() + 1;
@@ -331,10 +332,8 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
             let username = "";
             if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
               username = newWallet.user[1];
-              navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
             } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
               username = newWallet.user[0];
-              navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
             }
 
             res.render("wallet/wallet.hbs", {
@@ -344,7 +343,6 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
               username,
             });
           }
-          navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
           res.render("wallet/wallet.hbs", { newWallet, newDate, navWallet });
         });
     }
@@ -449,10 +447,8 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
       let username = "";
       if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
         username = newWallet.user[1];
-        navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
       } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
         username = newWallet.user[0];
-        navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
       }
 
       res.render("wallet/wallet.hbs", {
@@ -470,8 +466,6 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
         reminder,
       });
     }
-
-    navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
 
     res.render("wallet/wallet.hbs", {
       response,
@@ -516,17 +510,17 @@ router.post("/:walletId", async (req, res, next) => {
               let month = newDate.getMonth() + 1;
               let year = newDate.getFullYear();
               newDate = month + "/" + year;
+              let navWallet = wallet;
+              navWallet[0].animalUrl = myUserInfo.animalUrl;
 
               if (newWallet.user.length > 1) {
                 let username = "";
                 if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
                   username = newWallet.user[1];
-                  navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
                 } else if (
                   newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)
                 ) {
                   username = newWallet.user[0];
-                  navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
                 }
                 res.render("wallet/wallet.hbs", {
                   navWallet,
@@ -536,9 +530,9 @@ router.post("/:walletId", async (req, res, next) => {
                   error: "Please enter all mandatory fields",
                 });
               }
-              navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
               res.render("wallet/wallet.hbs", {
                 newWallet,
+                navWallet,
                 newDate,
                 navWallet,
                 error: "Please enter all mandatory fields",
@@ -546,6 +540,8 @@ router.post("/:walletId", async (req, res, next) => {
             });
         }
         let newWallet = response[0].wallet;
+        let navWallet = response;
+        navWallet[0].animalUrl = myUserInfo.animalUrl;
         let newDate = new Date();
         let month = newDate.getMonth() + 1;
         let year = newDate.getFullYear();
@@ -613,10 +609,8 @@ router.post("/:walletId", async (req, res, next) => {
           let username = "";
           if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
             username = newWallet.user[1];
-            navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
           } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
             username = newWallet.user[0];
-            navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
           }
           res.render("wallet/wallet.hbs", {
             response,
@@ -633,10 +627,11 @@ router.post("/:walletId", async (req, res, next) => {
             error: "Please enter all mandatory fields",
           });
         }
-        navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
+
         res.render("wallet/wallet.hbs", {
           response,
           newWallet,
+          navWallet,
           newDate,
           balance,
           saving,
@@ -686,15 +681,14 @@ router.post("/:walletId", async (req, res, next) => {
           let month = newDate.getMonth() + 1;
           let year = newDate.getFullYear();
           newDate = month + "/" + year;
+          navWallet[0].animalUrl = myUserInfo.animalUrl;
 
           if (newWallet.user.length > 1) {
             let username = "";
             if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
               username = newWallet.user[1];
-              navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
             } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
               username = newWallet.user[0];
-              navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
             }
 
             res.render("wallet/wallet.hbs", {
@@ -704,10 +698,10 @@ router.post("/:walletId", async (req, res, next) => {
               username,
             });
           }
-          navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
           res.render("wallet/wallet.hbs", { newWallet, newDate, navWallet });
         });
     }
+
     let newWallet = response[0].wallet;
     let newDate = new Date();
     let month = newDate.getMonth() + 1;
@@ -809,10 +803,8 @@ router.post("/:walletId", async (req, res, next) => {
       let username = "";
       if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
         username = newWallet.user[1];
-        navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
       } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
         username = newWallet.user[0];
-        navWallet[0].animalUrl = navWallet[0].user[1].animalUrl;
       }
       res.render("wallet/wallet.hbs", {
         response,
@@ -829,8 +821,6 @@ router.post("/:walletId", async (req, res, next) => {
         reminder,
       });
     }
-
-    navWallet[0].animalUrl = navWallet[0].user[0].animalUrl;
 
     res.render("wallet/wallet.hbs", {
       response,
@@ -908,26 +898,7 @@ router.get("/:walletId/edit", checkLogIn, async (req, res, next) => {
       user: mongoose.Types.ObjectId(_id),
     }).populate("user");
 
-    if (wallet[0].length == 0) {
-      if (wallet[0].user.length > 1) {
-        if (wallet[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
-          wallet[0].animalUrl = wallet[0].user[0].animalUrl;
-        } else if (wallet[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
-          wallet[0].animalUrl = wallet[0].user[1].animalUrl;
-        }
-        wallet[0].animalUrl = wallet[0].user[0].animalUrl;
-        res.render("wallet/editWallet.hbs", { response });
-        return;
-      }
-    }
-    if (wallet[0].user.length > 1) {
-      if (wallet[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
-        wallet[0].animalUrl = wallet[0].user[0].animalUrl;
-      } else if (wallet[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
-        wallet[0].animalUrl = wallet[0].user[1].animalUrl;
-      }
-      wallet[0].animalUrl = wallet[0].user[0].animalUrl;
-    }
+    wallet[0].animalUrl = myUserInfo.animalUrl;
 
     res.render("wallet/editWallet.hbs", {
       response,
@@ -995,14 +966,7 @@ router.post("/:walletId/edit", async (req, res, next) => {
       user: mongoose.Types.ObjectId(_id),
     }).populate("user");
 
-    if (wallet[0].user.length > 1) {
-      if (wallet[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
-        wallet[0].animalUrl = wallet[0].user[0].animalUrl;
-      } else if (wallet[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
-        wallet[0].animalUrl = wallet[0].user[1].animalUrl;
-      }
-    }
-    wallet[0].animalUrl = wallet[0].user[0].animalUrl;
+    wallet[0].animalUrl = myUserInfo.animalUrl;
 
     if (
       walletName == "" ||
