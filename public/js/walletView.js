@@ -1,12 +1,6 @@
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-    console.log("animal-budget JS imported successfully!");
-  },
-  false
-);
-
 const update = document.querySelectorAll(".update");
+const kind = document.querySelector("#movement");
+const category = document.querySelector("#category");
 
 update.forEach((elem) => {
   elem.addEventListener("dblclick", (e) => {
@@ -45,46 +39,41 @@ update.forEach((elem) => {
       input.setAttribute("step", "0.01");
       elem.appendChild(input);
     } else if (e.target.className == "update category") {
-      elem.innerText = "";
-      const select = document.createElement("select");
-      const choose = document.createElement("option");
-      choose.setAttribute("value", "choose");
-      choose.innerText = "Please choose one:";
-      select.appendChild(choose);
-      const income = document.createElement("option");
-      income.setAttribute("value", "Income");
-      income.innerText = "Income";
-      select.appendChild(income);
-      const saving = document.createElement("option");
-      saving.setAttribute("value", "Saving");
-      saving.innerText = "Saving";
-      select.appendChild(saving);
-      const transportation = document.createElement("option");
-      transportation.setAttribute("value", "Transportation");
-      transportation.innerText = "Transportation";
-      select.appendChild(transportation);
-      const food = document.createElement("option");
-      food.setAttribute("value", "Food");
-      food.innerText = "Food";
-      select.appendChild(food);
-      const pet = document.createElement("option");
-      pet.setAttribute("value", "Pet");
-      pet.innerText = "Pet";
-      select.appendChild(pet);
-      const leisure = document.createElement("option");
-      leisure.setAttribute("value", "Leisure");
-      leisure.innerText = "Leisure";
-      select.appendChild(leisure);
-      const present = document.createElement("option");
-      present.setAttribute("value", "Present");
-      present.innerText = "Present";
-      select.appendChild(present);
-      const other = document.createElement("option");
-      other.setAttribute("value", "Other");
-      other.innerText = "Other";
-      select.appendChild(other);
-      select.setAttribute("name", "category");
-      elem.appendChild(select);
+      const parent = e.target.parentElement;
+      if (parent.children[0].innerText === "Spending") {
+        elem.innerText = "";
+        const select = document.createElement("select");
+        const choose = document.createElement("option");
+        choose.setAttribute("value", "choose");
+        choose.innerText = "Please choose one:";
+        select.appendChild(choose);
+        const transportation = document.createElement("option");
+        transportation.setAttribute("value", "Transportation");
+        transportation.innerText = "Transportation";
+        select.appendChild(transportation);
+        const food = document.createElement("option");
+        food.setAttribute("value", "Food");
+        food.innerText = "Food";
+        select.appendChild(food);
+        const pet = document.createElement("option");
+        pet.setAttribute("value", "Pet");
+        pet.innerText = "Pet";
+        select.appendChild(pet);
+        const leisure = document.createElement("option");
+        leisure.setAttribute("value", "Leisure");
+        leisure.innerText = "Leisure";
+        select.appendChild(leisure);
+        const present = document.createElement("option");
+        present.setAttribute("value", "Present");
+        present.innerText = "Present";
+        select.appendChild(present);
+        const other = document.createElement("option");
+        other.setAttribute("value", "Other");
+        other.innerText = "Other";
+        select.appendChild(other);
+        select.setAttribute("name", "category");
+        elem.appendChild(select);
+      }
     } else if (e.target.className == "update date") {
       let data = e.target.innerText;
       const day = data.slice(0, 2);
@@ -155,4 +144,17 @@ update.forEach((elem) => {
       });
     }
   });
+});
+
+category.addEventListener("click", (e) => {
+  if (kind.value === "Income") {
+    category.innerHTML =
+      '<select id="category" name="category" class="movementInputField"> <option value="Income">Income</option> </select>';
+  } else if (kind.value === "Saving" || kind.value === "Saving Spending") {
+    category.innerHTML =
+      '<select id="category" name="category" class="movementInputField"> <option value="Saving">Saving</option> </select>';
+  } else if (kind.value === "Spending") {
+    category.innerHTML =
+      ' <select id="category" name="category" class="movementInputField"><option value="Transportation">Transportation</option><option value="Food">Food</option><option value="Pet">Pet</option><option value="Leisure">Leisure</option><option value="Present">Present</option><option value="Other">Other</option></select>';
+  }
 });
