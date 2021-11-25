@@ -437,11 +437,11 @@ ul {
 }
 
 #balance p {
-  width: 50%;
+  width: 40%;
 }
 
 #balance h4 {
-  width: 20%;
+  width: 22.75%;
   margin: 1rem 2rem;
 }
 
@@ -518,5 +518,66 @@ ul {
   border: 2px solid #99c0b2;
   box-sizing: border-box;
   text-align: center;
-  width: 100%;
+}
+
+/* Wallet filter */
+
+#walletFilterForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
+
+#walletFilterDetails {
+  display: flex;
+  flex-direction: row;
+}
+
+#walletFilterTableDiv {
+  width: 90%;
+  height: 50%;
+  margin: 1rem 2rem;
+  overflow: scroll;
+}
+
+#walletFilter {
+  display: flex;
+  flex-direction: row;
+  margin: 1rem 2rem;
+}
+
+#walletFilterCategory {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 20rem;
+}
+
+.categoryInput {
+  margin: 0.25rem 0.5rem;
+}
+
+#submitBtn {
+  height: min-content;
+  align-self: center;
+}
+
+#category,
+#date,
+#amount {
+  margin-right: 2rem;
+}
+
+#startingDate,
+#startingAmount {
+  margin-bottom: 1rem;
+}
+
+.labeling {
+  width: 40%;
+}
+
+#backToWallet {
+  margin: 1rem 2rem;
 }
