@@ -4,7 +4,7 @@
   <div id="walletHeader">
     <h1>{{newWallet.walletName}}</h1>
     {{#if username}}
-    <h1>Shared Wallet with {{username.username}}</h1>
+    <h1>Shared Wallet with {{username}}</h1>
     {{/if}}
   </div>
 
@@ -96,11 +96,11 @@
 
 
   <div id="walletBtns">
-    <form action="/{{newWallet._id}}/edit" method="GET">
+    <form action="/{{newWallet._id}}/edit" method="GET" class="walletBtnsClass">
       <button>Edit Wallet</button>
     </form>
 
-    <form action="/{{newWallet._id}}/filter" method="GET">
+    <form action="/{{newWallet._id}}/filter" method="GET" class="walletBtnsClass">
       <button>Filter History</button>
     </form>
 

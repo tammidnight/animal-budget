@@ -1,9 +1,9 @@
 {{> navbar navWallet}}
 
  <div id="walletHeader">
-    <h1>{{wallet.walletName}}</h1>
+    <h1>{{newWallet.walletName}}</h1>
     {{#if username}}
-        <h1>Shared Wallet with {{username.username}}</h1>
+        <h1>Shared Wallet with {{username}}</h1>
     {{/if}}
 </div>
 
@@ -11,10 +11,115 @@
     <p class="error">Message: {{error}}</p>
 {{/if}}
 
-<div></div>
+<div id="walletFilterForm">
+    <form action="/{{newWallet._id}}/filter" method="POST" id="walletFilter">
+    <div id="categoryFilter">
+        <p>Category</p>
+        <div id="walletFilterCategory">
+            <div class="categoryInput">
+                <input type="checkbox" id="income" name="income">
+                <label for="income">Income</label>
+            </div>
 
-<div>
-    <div id="walletTableDiv">
+            <div class="categoryInput">
+                <input type="checkbox" id="spending" name="spending">
+                <label for="spending">Spending</label>
+            </div>
+
+            <div class="categoryInput">
+                <input type="checkbox" id="saving" name="saving">
+                <label for="saving">Saving</label>
+            </div>
+
+             <div class="categoryInput">
+                <input type="checkbox" id="savingSpending" name="savingSpending">
+                <label for="savingSpending">Saving Spending</label>
+            </div>
+
+            <div class="categoryInput">
+                <input type="checkbox" id="transportation" name="transportation">
+                <label for="transportation">Transportation</label>
+            </div>
+
+            <div class="categoryInput">
+                <input type="checkbox" id="food" name="food">
+                <label for="food">Food</label>
+            </div>
+
+            <div class="categoryInput">
+                <input type="checkbox" id="pet" name="pet">
+                <label for="pet">Pet</label>
+            </div>
+
+            <div class="categoryInput">
+                <input type="checkbox" id="leisure" name="leisure">
+                <label for="leisure">Leisure</label>
+            </div>
+
+            <div class="categoryInput">
+                <input type="checkbox" id="present" name="present">
+                <label for="present">Present</label>
+            </div>
+
+            <div class="categoryInput">
+                <input type="checkbox" id="other" name="other">
+                <label for="other">Other</label>
+            </div>
+        </div>
+    </div>
+
+    <div id="date">
+        <p>Date</p>
+
+        <div>
+            <label for="startingDate" class="labeling">Starting Date</label>
+            <input
+            type="date"
+            name="startingDate"
+            id="startingDate"
+            class="walletInputField"
+            />
+            <br>
+            <label for="endingDate" class="labeling">Ending Date</label>
+             <input
+            type="date"
+            name="endingDate"
+            id="endingDate"
+            class="walletInputField"
+            />
+        </div>
+    </div>
+
+    <div id="amount">
+        <p>Amount</p>
+
+        <div>
+            <label for="startingAmount" class="labeling">Starting Amount</label>
+            <input
+            type="number"
+            name="startingAmount"
+            id="startingAmount"
+            class="walletInputField"
+            step="0.01"
+            />
+            <br>
+            <label for="endingAmout" class="labeling">Ending Amount</label>
+             <input
+            type="number"
+            name="endingAmount"
+            id="endingAmount"
+            class="walletInputField"
+            step="0.01"
+            />
+        </div>
+    </div>
+
+    <button id="submitBtn">Submit</button>
+    
+    </form>
+</div>
+
+    <div id="walletFilterTableDiv">
         <table id="walletTable">
             <tr>
                 <th>Movement</th>
@@ -23,26 +128,6 @@
                 <th>Amount</th>
                 <th>Currency</th>
             </tr>
-
-            {{#if wallet.monthlyIncome}}
-                <tr>
-                    <td>Monthly Income</td>
-                    <td>Monthly Income</td>
-                    <td>01/{{newDate}}</td>
-                    <td>{{wallet.monthlyIncome}}</td>
-                    <td>{{wallet.currency}}</td>
-                </tr>
-            {{/if}}
-
-            {{#if wallet.monthlySpending}}
-                <tr>
-                    <td>Monthly Spending</td>
-                    <td>Monthly Spending</td>
-                    <td>01/{{newDate}}</td>
-                    <td>{{wallet.monthlySpending}}</td>
-                    <td>{{wallet.currency}}</td>
-                </tr>
-            {{/if}}
             
             {{#each response}}
                 <tr class="{{this._id}}">
@@ -54,78 +139,8 @@
                 </tr>
             {{/each}}
         </table>
-    </div>
+     </div>
 
-
-    <div>
-        <div class="chart">
-            <h3>Pie Chart of Spendings</h3>
-            <canvas id="myChart" width="200" height="200"></canvas>
-        </div>
-        <div class="chart">
-            <h3>Bar Chart of status</h3>
-            <canvas id="myChartTwo" width="200" height="200"></canvas>
-        </div>
-    </div>
-</div>
-
-<script>
-const ctx = document.getElementById('myChart').getContext('2d');
-const ctxTwo = document.getElementById('myChartTwo').getContext('2d');
-
-    const myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: {{{chartLabels}}},
-            datasets: [{
-                label: 'Spendings',
-                data: {{{chartData}}},
-                 backgroundColor: [
-                    '#99122d',
-                    '#00613e',
-                    '#99c0b2',
-                    '#cc8996',
-                    '#a9a9a9',
-                    '#d4d4d4'
-                ],
-                hoverOffset: 1
-            }]
-        },
-        options: {
-          responsive: true, 
-          maintainAspectRatio: false,
-          aspectRatio: 1
-        }
-    });
-
-    const myChartTwo = new Chart(ctxTwo, {
-        type: 'bar',
-        data: {
-            labels: {{{chartLabelsTwo}}},
-            datasets: [{
-                label: 'Current status',
-                data: {{{chartDataTwo}}},
-                fill: false,
-                backgroundColor: [
-                  '#99c0b2',
-                  '#cc8996',
-                ],
-                  borderColor: [
-                  '#00613e',
-                  '#99122d',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-      });
-</script>
+     <form action="/{{newWallet._id}}" method="GET" class="walletBtnsClass">
+      <button id="backToWallet">Back to the Wallet</button>
+    </form>

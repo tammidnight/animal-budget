@@ -21,38 +21,30 @@ footer {
   background-color: #99c0b2;
   border: 1px solid #00613e;
 }
-
 .navbar {
   padding: 0;
 }
-
 .navbar-brand {
   margin-bottom: 0;
 }
-
 .navbar-collapse {
   justify-content: flex-end;
 }
-
 .navbar-nav {
   flex-direction: row;
 }
-
 .dropdown {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   padding-right: 75px;
 }
-
 .nav-link {
   padding: 0;
 }
-
 .dropdown-toggle {
   padding-top: 20;
 }
-
 .nav-link {
   text-decoration: none;
   color: black;
@@ -166,59 +158,60 @@ footer > p {
 }
 
 /*Settings*/
+
 .settingsPic {
+  align-items: flex-start;
   display: flex;
-  align-items: center;
-  margin-top: 3rem;
-  margin-left: 16rem;
+  margin-left: 5rem;
+  margin-top: 2rem;
+}
+
+.alltheanimals {
+  align-items: flex-start;
+  display: flex;
+  margin-left: 7rem;
+  margin-top: 0rem;
+  flex-wrap: wrap;
+  width: 18rem;
+}
+
+.funAnimalFact {
+  display: flex;
+  align-items: flex-start;
+  margin-left: 7rem;
+  margin-top: 80;
+  flex-wrap: wrap;
+  width: 30rem;
 }
 
 .settingsIntro {
+  align-items: flex-start;
   display: flex;
-  justify-content: space-around;
-  align-content: flex-start;
-  align-items: center;
-  margin-left: 50rem;
-  margin-top: -3.5rem;
-  margin-bottom: 1rem;
+  margin-left: 60rem;
+  margin-top: -30rem;
 }
 
 .changeInfo {
-  position: relative;
-  margin: 0;
-  right: -25rem;
-  top: -21rem;
+  align-items: flex-start;
+  display: flex;
+  margin-top: 0rem;
+  margin-left: 60rem;
 }
 
 .settingsDelete {
+  align-items: flex-start;
   display: flex;
-  align-items: center;
-  margin-top: -20rem;
-  margin-left: 71.5rem;
-}
-
-.animalFacts {
-  margin-bottom: 2rem;
-  margin-left: 10em;
-  margin-top: 1rem;
-  font-style: italic;
-}
-
-.animalPic {
-  display: flex;
-  margin-left: 15rem;
-  top: -300rem;
-  flex-wrap: wrap;
-  width: 22rem;
+  margin-top: 0rem;
+  margin-left: 68.4rem;
 }
 
 .confirmDeleting {
+  align-items: flex-start;
   display: flex;
-  margin-left: -9rem;
-  top: -300rem;
   flex-wrap: wrap;
-  justify-content: space-around;
-  width: 22rem;
+  margin-top: -10;
+  margin-left: -2rem;
+  width: 10rem;
 }
 
 /*Profile*/
@@ -263,21 +256,16 @@ ul {
   border-radius: 1rem;
 }
 
-.cardImg {
-  margin: 5rem 0.2em;
-}
-
 /* 404 and 500*/
 .errorPage {
   font-family: "Catamaran", sans-serif;
   text-align: left;
   display: flex;
   background-image: url(../images/tv.jpg);
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 100%;
-  height: 80%;
+  background-position: bottom 0.3rem right -13rem;
+  background-size: 100% 100%;
+  width: 72%;
+  height: 85%;
   margin-top: 36px;
   margin-left: 36px;
 }
@@ -427,9 +415,21 @@ ul {
 #walletHeader h1,
 .chart,
 #newMovement,
-#walletTableDiv,
-#balance h4 {
+#walletTableDiv {
   width: 45%;
+  margin: 1rem 2rem;
+}
+
+#balance {
+  height: 5%;
+}
+
+#balance p {
+  width: 40%;
+}
+
+#balance h4 {
+  width: 22.75%;
   margin: 1rem 2rem;
 }
 
@@ -480,18 +480,108 @@ ul {
 }
 
 #walletBtns {
-  width: 80%;
+  width: 100%;
   height: 5%;
   margin: 1rem 2rem;
 }
 
-.walletDeleting {
+#walletDeleting {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  flex-wrap: nowrap;
+}
+
+.walletBtnsClass,
+.firstDelete,
+#walletDeleting {
+  width: 30%;
+}
+
+.firstDelete {
   width: auto;
 }
 
-.walletDeletingH {
-  margin: 1rem;
+/* Display reminder */
+.reminder {
+  border: 2px solid #99c0b2;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Wallet filter */
+
+#walletFilterForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
+
+#walletFilterDetails {
+  display: flex;
+  flex-direction: row;
+}
+
+#walletFilterTableDiv {
+  width: 90%;
+  height: 50%;
+  margin: 1rem 2rem;
+  overflow: scroll;
+}
+
+#walletFilter {
+  display: flex;
+  flex-direction: row;
+  margin: 1rem 2rem;
+}
+
+#walletFilterCategory {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 20rem;
+}
+
+.categoryInput {
+  margin: 0.25rem 0.5rem;
+}
+
+#submitBtn {
+  height: min-content;
+  align-self: center;
+}
+
+#categoryFilter,
+#date,
+#amount {
+  margin-right: 2rem;
+}
+
+#startingDate,
+#startingAmount {
+  margin-bottom: 1rem;
+}
+
+.labeling {
+  width: 40%;
+}
+
+#backToWallet {
+  margin: 1rem 2rem;
+}
+
+/* dark mode */
+
+#your-darkmode-button-id {
+  background-color: darkgray;
+  margin-left: 2rem;
+  position: absolute;
+  bottom: 3rem;
+  right: 2rem;
+}
+
+input,
+select {
+  background-color: whitesmoke;
+  color: black;
 }
