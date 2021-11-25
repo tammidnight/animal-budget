@@ -302,7 +302,7 @@ router.get("/profile/settings", checkLogIn, (req, res, next) => {
           response[0].animalUrl = response[0].user[1].animalUrl;
         }
       } else {
-        response[0].animalUrl = responseOne.user[0].animalUrl;
+        response[0].animalUrl = response[0].user[0].animalUrl;
       }
 
       res.render("user/userSettings.hbs", { user, response });
