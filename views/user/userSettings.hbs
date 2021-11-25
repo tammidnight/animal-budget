@@ -5,26 +5,23 @@
   <figcaption class="figure-caption">Click on the animals to change me! </figcaption>
 </div>
 
-<div class="settingsIntro">
-  <p>
-    Welcome {{myUserInfo.username}}, you can change your personal info here:
-  </p>
-</div>
 
 <form action="/profile/settings" method="POST">
-<div class="animalInput">
+<div>
+<div class="animalInput alltheanimals">
+              
             <label>
-              <input type="radio" name="animalUrl" value="/images/bear.png" id="bear"
+              <input id='bear' type="radio" name="animalUrl" value="/images/bear.png" 
               {{#if user.bearChecked}}
               checked
-              {{/if}}/>
+              {{/if}} />
               <img src="/images/bear.png" width="35" />
             </label>
             <label>
               <input type="radio" name="animalUrl" value="/images/cow.png" id="cow"
               {{#if user.cowChecked}}
               checked
-              {{/if}}/>
+              {{/if}} />
               <img src="/images/cow.png" width="35" />
             </label>
             <label>
@@ -145,9 +142,9 @@
               {{/if}}/>
               <img src="/images/zebra.png" width="35" />
             </label>
-          </div>
+</div>
 
-          <div class="animalFacts" id="animalText">
+  <div class="funAnimalFact" id="animalText">
   <h2>Fun animal Fact!</h2>
   <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod <br>
   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, <br>
@@ -157,6 +154,13 @@
   sunt in culpa qui officia deserunt mollit anim id est laborum."
 </p>
 </div>
+</div>
+
+<div class="settingsIntro">
+<p> Welcome {{myUserInfo.username}}, you can change your personal info here:
+</p>
+</div>
+
 <div class="changeInfo">
 <ul>
   <li><label>Name</label>  <br>
@@ -174,8 +178,9 @@
   <br>
   <button>Submit</button>
 </ul>
-</form>
 </div>
+</form>
+
 
 <div class="settingsDelete">
 <button class="delete firstDelete">Delete</button>
@@ -188,8 +193,10 @@
     </div>  
 </div>
 
+
 {{#if error}}
    <p class="error">Message: {{error}}</p>
 {{/if}}
+
 
 <script src="/js/facts.js"></script>
