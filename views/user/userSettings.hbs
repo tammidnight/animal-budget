@@ -1,30 +1,28 @@
 {{> navbar response}}
 
+
 <div class="settingsPic" id="mainPic">
 <img src="{{user.animalUrl}}" class="figure-img img-fluid rounded" alt="The user's profile pic">
   <figcaption class="figure-caption">Click on the animals to change me! </figcaption>
-</figure>
 </div>
 
-<div class="settingsIntro">
-<p> Welcome {{myUserInfo.username}}, you can change your personal info here:
-</p>
-</div>
 
 <form action="/profile/settings" method="POST">
-<div class="animalInput">
+
+<div class="animalInput alltheanimals">
+              
             <label>
-              <input type="radio" name="animalUrl" value="/images/bear.png" id="bear"
+              <input id='bear' type="radio" name="animalUrl" value="/images/bear.png" 
               {{#if user.bearChecked}}
               checked
-              {{/if}}/>
+              {{/if}} />
               <img src="/images/bear.png" width="35" />
             </label>
             <label>
               <input type="radio" name="animalUrl" value="/images/cow.png" id="cow"
               {{#if user.cowChecked}}
               checked
-              {{/if}}/>
+              {{/if}} />
               <img src="/images/cow.png" width="35" />
             </label>
             <label>
@@ -145,9 +143,9 @@
               {{/if}}/>
               <img src="/images/zebra.png" width="35" />
             </label>
-          </div>
+</div>
 
-          <div class="animalFacts" id="animalText">
+  <div class="funAnimalFact" id="animalText">
   <h2>Fun animal Fact!</h2>
   <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod <br>
   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, <br>
@@ -157,6 +155,13 @@
   sunt in culpa qui officia deserunt mollit anim id est laborum."
 </p>
 </div>
+
+
+<div class="settingsIntro">
+<p> Welcome {{myUserInfo.username}}, you can change your personal info here:
+</p>
+</div>
+
 <div class="changeInfo">
 <ul>
   <li><label>Name</label>  <br>
@@ -187,6 +192,7 @@
      <button class="cancel">Cancel</button>
     </div>  
 </div>
+
 
 {{#if error}}
    <p class="error">Message: {{error}}</p>
