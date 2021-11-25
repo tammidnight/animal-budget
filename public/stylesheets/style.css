@@ -174,11 +174,21 @@ footer > p {
 
 .animalPic {
   display: flex;
-  margin-left: 11.5rem;
+  margin-left: 15rem;
   top: -300rem;
   flex-wrap: wrap;
   width: 22rem;
 }
+
+.confirmDeleting{
+  display: flex;
+  margin-left: -9rem;
+  top: -300rem;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 22rem;
+}
+
 
 /*Profile*/
 .containerProfile {
