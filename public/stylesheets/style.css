@@ -199,10 +199,12 @@ footer > p {
 }
 
 .settingsDelete {
-  align-items: flex-start;
-  display: flex;
   margin-top: 0rem;
-  margin-left: 68.4rem;
+}
+
+.firstDeleteBtn {
+  position: relative;
+  right: -67.5rem;
 }
 
 .confirmDeleting {

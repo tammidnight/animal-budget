@@ -1,38 +1,35 @@
-
 window.addEventListener("DOMContentLoaded", () => {
   const bear = document.querySelector("#bear");
-const cow = document.querySelector("#cow");
-const crocodile = document.querySelector("#crocodile");
-const dog = document.querySelector("#dog");
-const duck = document.querySelector("#duck");
-const elephant = document.querySelector("#elephant");
-const monkey = document.querySelector("#monkey");
-const narwhale = document.querySelector("#narwhale");
-const panda = document.querySelector("#panda");
-const parrot = document.querySelector("#parrot");
-const penguin = document.querySelector("#penguin");
-const walrus = document.querySelector("#walrus");
-const whale = document.querySelector("#whale");
-const zebra = document.querySelector("#zebra");
-const pig = document.querySelector("#pig");
-const owl = document.querySelector("#owl");
+  const cow = document.querySelector("#cow");
+  const crocodile = document.querySelector("#crocodile");
+  const dog = document.querySelector("#dog");
+  const duck = document.querySelector("#duck");
+  const elephant = document.querySelector("#elephant");
+  const monkey = document.querySelector("#monkey");
+  const narwhale = document.querySelector("#narwhale");
+  const panda = document.querySelector("#panda");
+  const parrot = document.querySelector("#parrot");
+  const penguin = document.querySelector("#penguin");
+  const walrus = document.querySelector("#walrus");
+  const whale = document.querySelector("#whale");
+  const zebra = document.querySelector("#zebra");
+  const pig = document.querySelector("#pig");
+  const owl = document.querySelector("#owl");
 
-const profilePic = document.querySelector("#mainPic");
-const div = document.querySelector("#animalText");
+  const profilePic = document.querySelector("#mainPic");
+  const div = document.querySelector("#animalText");
 
   if (bear.checked) {
-    console.log('Holaaaaaaa Maria Tamara')
     div.innerHTML = `<div class="animalFacts" id="animalText">
           <h2>"Fun animal Fact"</h2>
        <p>"Surprisingly black bears are not always black. We feel sort of cheated and we think that they should change their names, but we won’t be pushing the matter further as they’re extremely good climbers, fast runners and great swimmers, so they are able to hunt us down in every possible scenario."</p></div>`;
 
-    profilePic.innerHTML =`<div class="settingsPic" id="mainPic">
+    profilePic.innerHTML = `<div class="settingsPic" id="mainPic">
     <img src="/images/bear.png" class="figure-img img-fluid rounded" alt="The users profile pic">
     <figcaption class="figure-caption">Click on the animals to change me! </figcaption>
    </div>`;
   }
-  console.log('Holaaaaaaa Maria Tamara outside')
-  
+
   if (cow.checked) {
     div.innerHTML =
       '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Cows spend around 40% of the time eating, which is normal since they consume around 45kg of food per day. They’re also very sociable and they even have best friends, with whom we suppose they share some of that huge amount of food. Otherwise it would be just rude. "</p></div>';
@@ -235,5 +232,4 @@ const div = document.querySelector("#animalText");
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/zebra.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   });
-  
 });
