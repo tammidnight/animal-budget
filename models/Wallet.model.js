@@ -20,9 +20,11 @@ const walletSchema = new Schema({
   },
   monthlyIncome: {
     type: Schema.Types.Decimal128,
+    required: true,
   },
   monthlySpending: {
     type: Schema.Types.Decimal128,
+    required: true,
   },
   balance: {
     type: Schema.Types.Decimal128,
