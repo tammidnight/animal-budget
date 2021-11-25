@@ -15,12 +15,36 @@ button {
   background-color: #99122d;
 }
 
+/* navbar */
 nav,
 footer {
   background-color: #99c0b2;
   border: 1px solid #00613e;
 }
-
+.navbar {
+  padding: 0;
+}
+.navbar-brand {
+  margin-bottom: 0;
+}
+.navbar-collapse {
+  justify-content: flex-end;
+}
+.navbar-nav {
+  flex-direction: row;
+}
+.dropdown {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 75px;
+}
+.nav-link {
+  padding: 0;
+}
+.dropdown-toggle {
+  padding-top: 20;
+}
 .nav-link {
   text-decoration: none;
   color: black;
@@ -135,61 +159,59 @@ footer > p {
 
 /*Settings*/
 
-
-.settingsPic{
+.settingsPic {
   align-items: flex-start;
   display: flex;
   margin-left: 5rem;
   margin-top: 2rem;
 }
 
-.alltheanimals{
+.alltheanimals {
   align-items: flex-start;
   display: flex;
   margin-left: 7rem;
   margin-top: 0rem;
   flex-wrap: wrap;
   width: 18rem;
-
 }
 
-.funAnimalFact{
+.funAnimalFact {
   display: flex;
   align-items: flex-start;
   margin-left: 7rem;
   margin-top: 80;
   flex-wrap: wrap;
-  width: 30rem;} 
+  width: 30rem;
+}
 
-.settingsIntro{
+.settingsIntro {
   align-items: flex-start;
   display: flex;
   margin-left: 60rem;
   margin-top: -30rem;
 }
 
-.changeInfo{
+.changeInfo {
   align-items: flex-start;
-	display: flex;
+  display: flex;
   margin-top: 0rem;
   margin-left: 60rem;
 }
 
-.settingsDelete{
+.settingsDelete {
   align-items: flex-start;
   display: flex;
-  margin-top: 0rem; 
+  margin-top: 0rem;
   margin-left: 68.4rem;
 }
 
-.confirmDeleting{
+.confirmDeleting {
   align-items: flex-start;
   display: flex;
   flex-wrap: wrap;
   margin-top: -10;
   margin-left: -2rem;
   width: 10rem;
-
 }
 
 /*Profile*/
