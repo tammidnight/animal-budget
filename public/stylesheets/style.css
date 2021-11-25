@@ -15,6 +15,7 @@ button {
   background-color: #99122d;
 }
 
+/* navbar */
 nav,
 footer {
   background-color: #99c0b2;
@@ -163,7 +164,7 @@ footer > p {
   align-items: center;
   margin-top: -20rem;
   margin-left: 71.5rem;
-}  
+}
 
 .animalFacts {
   margin-bottom: 2rem;
@@ -180,7 +181,11 @@ footer > p {
   width: 22rem;
 }
 
+<<<<<<< HEAD
 /* .confirmDeleting{
+=======
+.confirmDeleting {
+>>>>>>> af6d12991b0cb6dbdd29abd9920bb66ffcd77b37
   display: flex;
   margin-left: -9rem;
   top: -300rem;
@@ -188,7 +193,6 @@ footer > p {
   justify-content: space-around;
   width: 22rem;
 } */
-
 
 
 /*Profile*/
@@ -239,10 +243,11 @@ ul {
   text-align: left;
   display: flex;
   background-image: url(../images/tv.jpg);
-  background-position: bottom 0.3rem right -13rem;
-  background-size: 100% 100%;
-  width: 72%;
-  height: 85%;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 80%;
   margin-top: 36px;
   margin-left: 36px;
 }
