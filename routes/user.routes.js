@@ -211,13 +211,23 @@ router.get("/profile", checkLogIn, (req, res, next) => {
         }
       }
 
+      if (responseOne.user.length > 1) {
+        if (responseOne.user[0]._id !== mongoose.Types.ObjectId(_id)) {
+          response[0].animalUrl = responseOne.user[0].animalUrl;
+        } else if (responseOne.user[1]._id !== mongoose.Types.ObjectId(_id)) {
+          response[0].animalUrl = responseOne.user[1].animalUrl;
+        }
+      } else {
+        response[0].animalUrl = responseOne.user[0].animalUrl;
+      }
+
       let chartLabels = ["Balance", "Saving"];
 
       chartDataOne = JSON.stringify(chartDataOne);
       chartDataTwo = JSON.stringify(chartDataTwo);
       chartDataThree = JSON.stringify(chartDataThree);
       chartLabels = JSON.stringify(chartLabels);
-
+      console.log(response);
       res.render("user/userProfile.hbs", {
         user,
         response,
@@ -285,6 +295,16 @@ router.get("/profile/settings", checkLogIn, (req, res, next) => {
         user.zebraChecked = true;
       }
 
+      if (response[0].user.length > 1) {
+        if (response[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
+          response[0].animalUrl = response[0].user[0].animalUrl;
+        } else if (response[0].user[1]._id !== mongoose.Types.ObjectId(_id)) {
+          response[0].animalUrl = response[0].user[1].animalUrl;
+        }
+      } else {
+        response[0].animalUrl = responseOne.user[0].animalUrl;
+      }
+
       res.render("user/userSettings.hbs", { user, response });
     })
     .catch((err) => {
@@ -329,21 +349,81 @@ router.post("/profile/settings", (req, res, next) => {
             res.redirect("/profile");
           });
         } else {
-          res.render("userSettings.hbs", { error: "Password not matching" });
-          return;
+          return Wallet.find({ user: mongoose.Types.ObjectId(_id) })
+            .populate("user")
+            .then((response) => {
+              let user = {};
+              if (response[0].user[0]._id == _id) {
+                user = response[0].user[0];
+              } else if (response[0].user[1]._id == _id) {
+                user = response[0].user[1];
+              }
+
+              if (user.animalUrl == "/images/bear.png") {
+                user.bearChecked = true;
+              } else if (user.animalUrl == "/images/cow.png") {
+                user.cowChecked = true;
+              } else if (user.animalUrl == "/images/crocodile.png") {
+                user.crocodileChecked = true;
+              } else if (user.animalUrl == "/images/dog.png") {
+                user.dogChecked = true;
+              } else if (user.animalUrl == "/images/duck.png") {
+                user.duckChecked = true;
+              } else if (user.animalUrl == "/images/elephant.png") {
+                user.elephantChecked = true;
+              } else if (user.animalUrl == "/images/monkey.png") {
+                user.monkeyChecked = true;
+              } else if (user.animalUrl == "/images/narwhale.png") {
+                user.narwhaleChecked = true;
+              } else if (user.animalUrl == "/images/owl.png") {
+                user.owlChecked = true;
+              } else if (user.animalUrl == "/images/panda.png") {
+                user.pandaChecked = true;
+              } else if (user.animalUrl == "/images/parrot.png") {
+                user.parrotChecked = true;
+              } else if (user.animalUrl == "/images/penguin.png") {
+                user.penguinChecked = true;
+              } else if (user.animalUrl == "/images/pig.png") {
+                user.pigChecked = true;
+              } else if (user.animalUrl == "/images/walrus.png") {
+                user.walrusChecked = true;
+              } else if (user.animalUrl == "/images/whale.png") {
+                user.whaleChecked = true;
+              } else if (user.animalUrl == "/images/zebra.png") {
+                user.zebraChecked = true;
+              }
+
+              if (response[0].user.length > 1) {
+                if (response[0].user[0]._id !== mongoose.Types.ObjectId(_id)) {
+                  response[0].animalUrl = response[0].user[0].animalUrl;
+                } else if (
+                  response[0].user[1]._id !== mongoose.Types.ObjectId(_id)
+                ) {
+                  response[0].animalUrl = response[0].user[1].animalUrl;
+                }
+              } else {
+                response[0].animalUrl = responseOne.user[0].animalUrl;
+              }
+
+              res.render("user/userSettings.hbs", {
+                user,
+                response,
+                error: "Password not matching",
+              });
+              return;
+            });
         }
       }
     })
     .catch((err) => {
       if (err.code == 11000) {
-        res.render("userSettings.hbs", {
+        res.render("user/userSettings.hbs", {
           error: "Username is taken, please choose another one",
         });
       }
       next(err);
     });
 });
-
 
 // POST /profile/delete
 router.post("/profile/delete", (req, res, next) => {
