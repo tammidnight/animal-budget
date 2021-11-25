@@ -5,9 +5,9 @@ const sharedUser = document.querySelector(".sharedWalletTrue");
 window.addEventListener("load", () => {
   if (sharedTrue.checked) {
     sharedUser.style.display = "flex";
+  } else {
+    sharedUser.style.display = "none";
   }
-
-  sharedUser.style.display = "none";
 
   sharedTrue.addEventListener("click", () => {
     sharedUser.style.display = "flex";
