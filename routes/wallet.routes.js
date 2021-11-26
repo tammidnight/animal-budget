@@ -116,7 +116,9 @@ router.post("/create", async (req, res, next) => {
     sharedWalletUser,
   } = req.body;
 
-  let user = req.session.myProperty._id;
+  let myUserInfo = req.session.myProperty;
+  let user = myUserInfo._id;
+
   user = mongoose.Types.ObjectId(user);
   let sharedUserId = [user];
 
@@ -132,7 +134,8 @@ router.post("/create", async (req, res, next) => {
       sharedUserId = [user, sharedUser[0]._id];
     }
     let response = await Wallet.find({ user }).populate("user");
-    response[0].animalUrl = req.session.myProperty.animalUrl;
+    //response[0].animalUrl = myUserInfo.animalUrl;
+    console.log(user);
 
     if (
       walletName == "" ||
@@ -215,7 +218,7 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
     let newWallet = [];
 
     if (navWallet.length == 1) {
-      newWallet = navWallet;
+      newWallet = navWallet[0];
     } else if (navWallet.length == 2) {
       if (navWallet[0]._id == walletId) {
         newWallet = navWallet[0];
@@ -337,7 +340,7 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
       let year = newDate.getFullYear();
       newDate = month + "/" + year;
 
-      if (newWallet.user.length > 1) {
+      if (newWallet[0].user.length > 1) {
         if (newWallet.user[0]._id !== mongoose.Types.ObjectId(_id)) {
           username = newWallet.user[1].username;
         } else if (newWallet.user[1]._id !== mongoose.Types.ObjectId(_id)) {
@@ -418,7 +421,6 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
     chartLabelsTwo = JSON.stringify(chartLabelsTwo);
     chartDataTwo = JSON.stringify(chartDataTwo);
 
-    console.log(newWallet);
     if (newWallet.savingPlan == "Gold") {
       let percent = newWallet.monthlyIncome * 0.6;
       let monthlySaving = newWallet.monthlyIncome - percent;
