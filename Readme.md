@@ -116,7 +116,7 @@ Have a track of your finances.
 
 ## Backlog
 
-- [ ] Dark mode
+- [x] Dark mode
 - [x] Shared wallet
 - [x] Reminders
 - [ ] Achievments
@@ -127,16 +127,16 @@ Have a track of your finances.
 
 ## Links
 
-[Trello Link]
+[Trello Link] (https://trello.com/b/PIQNOwmb/animal-budget)
 
 ### Git
 
-[Repository Link]
+[Repository Link] (https://github.com/tammidnight/animal-budget)
 
-[Deploy Link]
+[Deploy Link] (https://animal-budget.herokuapp.com/)
 
 <br>
 
 ### Slides
 
-[Google Slides Link]
+[Google Slides Link] (https://docs.google.com/presentation/d/1Bvuzj7so1ysJInGgAg6ZXOGJ1ev-oLHKWDwAOrciiEk/edit#slide=id.g10463e93e9c_0_5)
