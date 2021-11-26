@@ -21,10 +21,9 @@ const profilePic = document.querySelector("#mainPic");
 const div = document.querySelector("#animalText");
 
   if (bear.checked) {
-    console.log('Holaaaaaaa Maria Tamara')
     div.innerHTML = `<div class="animalFacts" id="animalText">
           <h2>"Fun animal Fact"</h2>
-       <p>"Surprisingly black bears are not always black. We feel sort of cheated and we think that they should change their names, but we won’t be pushing the matter further as they’re extremely good climbers, fast runners and great swimmers, so they are able to hunt us down in every possible scenario."</p></div>`;
+       <p>"Surprisingly, black bears are not always black. We feel sort of cheated and we think that they should change their names, but we won’t be pushing the matter further as they’re extremely good climbers, fast runners and great swimmers, so they are able to hunt us down in every possible scenario."</p></div>`;
 
     profilePic.innerHTML =`<div class="settingsPic" id="mainPic">
     <img src="/images/bear.png" class="figure-img img-fluid rounded" alt="The users profile pic">
@@ -65,13 +64,13 @@ const div = document.querySelector("#animalText");
   }
   if (monkey.checked) {
     div.innerHTML =
-      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Some monkeys enjoy a relaxing hot bath, so the link between humans are monkeys is clear and irrefutable. There are a lot of different species, and they are very different between them. Some monkeys live on the ground, while others live in trees. Different monkey species eat a varietyof foods, such as fruit, insects, flowers, leaves and reptiles. Groups of monkeys are known as a tribe, troop or mission."</p></div>';
+      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Some monkeys enjoy a relaxing hot bath, so the link between humans are monkeys is clear and irrefutable. There are a lot of different species, and they are very different between them. Some monkeys live on the ground, while others live in trees. Different monkey species eats a varietyof foods, such as fruit, insects, flowers, leaves and reptiles. Groups of monkeys are known as a tribe, troop or mission."</p></div>';
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/monkey.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   }
   if (narwhale.checked) {
     div.innerHTML =
-      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Narwhals are Canadian, 75% of them live in the Canadian artic for up to 50 years. They change colour with age, they’re specked blue-grey when born, blue-black as teens, specked grey as adults and old narwhals are almost all white. Generally speaking only male narwhals have a tusk. "</p></div>';
+      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Narwhals are Canadian, 75% of them live in the Canadian Arctic for up to 50 years. They change colour with age, they’re specked blue-grey when born, blue-black as teens, specked grey as adults and old narwhals are almost all white. Generally speaking, only male narwhals have a tusk. "</p></div>';
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/narwhale.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   }
@@ -140,7 +139,7 @@ const div = document.querySelector("#animalText");
 
   crocodile.addEventListener("click", () => {
     div.innerHTML =
-      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Crocodiles have the most sophisticated heart in the animal kingdom and they can choose the destination of the blood that flows throw it depending on what they need. They’re closely related to both dinosaurs and birds. It’s true, look it up If you don’t believe us."</p></div>';
+      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Crocodiles have the most sophisticated heart in the animal kingdom and they can choose the destination of the blood that flows through it depending on what they need. They’re closely related to both dinosaurs and birds. It’s true, look it up If you don’t believe us."</p></div>';
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/crocodile.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   });
@@ -154,7 +153,7 @@ const div = document.querySelector("#animalText");
 
   duck.addEventListener("click", () => {
     div.innerHTML =
-      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Ducks, so many ducks. There are more than 120 species of ducks. Most of them have waterproof feathers thanks to an intricate feather structure and a wax-like coating of every feather. They’re so waterproof that even when the duck dives underwater its downy underlayer of feathers stays completely dry. Their feet have no blood vessels nor nerves, meaning  that their feet do not feel the cold."</p></div>';
+      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Ducks, so many ducks. There are more than 120 species of ducks. Most of them have waterproof feathers thanks to an intricate feather structure and a wax-like coating of every feather. They’re so waterproof that even when the duck dives underwater its downy underlayer of feathers stays completely dry. Their feet have no blood vessels, nor nerves, meaning  that their feet do not feel the cold."</p></div>';
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/duck.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   });
@@ -231,7 +230,7 @@ const div = document.querySelector("#animalText");
 
   zebra.addEventListener("click", () => {
     div.innerHTML =
-      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Their stripes are as unique are humans’ fingerprints, and they serve as camouflage. They can stand six minutes after being born, walk 40 minutes after and are able to run an hour after birth. It totally puts us  humans to shame."</p></div>';
+      '<div class="animalFacts" id="animalText"><h2>"Fun animal Fact"</h2><p>"Their stripes are as unique are humans’ fingerprints, and they serve as camouflage. They can stand six minutes after being born, walk 40 minutes after and are able to run an hour after being born. It totally puts us humans to shame."</p></div>';
     profilePic.innerHTML =
       '<div class="settingsPic" id="mainPic"><img src="/images/zebra.png" class="figure-img img-fluid rounded" alt="The users profile pic"><figcaption class="figure-caption">Click on the animals to change me! </figcaption></div>';
   });
