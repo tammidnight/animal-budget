@@ -670,7 +670,7 @@ router.post("/:walletId", async (req, res, next) => {
     let newWallet = [];
 
     if (navWallet.length == 1) {
-      newWallet = navWallet;
+      newWallet = navWallet[0];
     } else if (navWallet.length == 2) {
       if (navWallet[0]._id == walletId) {
         newWallet = navWallet[0];
@@ -686,8 +686,6 @@ router.post("/:walletId", async (req, res, next) => {
         newWallet = navWallet[2];
       }
     }
-
-    newWallet = newWallet[0];
 
     let monthly = await WalletMovement.find({
       wallet: walletId,
