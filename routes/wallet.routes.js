@@ -232,8 +232,6 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
       }
     }
 
-    newWallet = newWallet[0];
-
     let monthly = await WalletMovement.find({
       $or: [
         { wallet: walletId, kind: "Monthly Income" },
@@ -420,6 +418,7 @@ router.get("/:walletId", checkLogIn, async (req, res, next) => {
     chartLabelsTwo = JSON.stringify(chartLabelsTwo);
     chartDataTwo = JSON.stringify(chartDataTwo);
 
+    console.log(newWallet);
     if (newWallet.savingPlan == "Gold") {
       let percent = newWallet.monthlyIncome * 0.6;
       let monthlySaving = newWallet.monthlyIncome - percent;
