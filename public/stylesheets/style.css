@@ -207,6 +207,11 @@ footer > p {
   right: -67.5rem;
 }
 
+.confirm {
+  position: relative;
+  right: -67.5rem;
+}
+
 .confirmDeleting {
   align-items: flex-start;
   display: flex;
