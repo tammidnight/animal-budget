@@ -40,7 +40,7 @@ const getBalance = (movement) => {
   movement.forEach((elem) => {
     if (elem.category == "Income") {
       balance = balance + Number(elem.amount);
-    } else if (elem.category == "Spending") {
+    } else if (elem.kind == "Spending") {
       balance = balance - Number(elem.amount);
     } else if (elem.category == "Saving") {
       balance = balance - Number(elem.amount);
